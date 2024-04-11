@@ -29,3 +29,7 @@
 [submodule "apps/guests"]
 	path = apps/guests
 	url = https://git.dkviet.com/khang.nguyen/guest.git
+
+[submodule "apps/files_zip"]
+	path = apps/files_zip
+	url = https://git.dkviet.com/vinhne/files_zip.git
