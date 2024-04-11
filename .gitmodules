@@ -25,3 +25,6 @@
 	path = apps/activity
 	url = https://git.dkviet.com/an.nguyen/activity.git
 
+[submodule "apps/guests"]
+	path = apps/guests
+	url = https://git.dkviet.com/khang.nguyen/guest.git
