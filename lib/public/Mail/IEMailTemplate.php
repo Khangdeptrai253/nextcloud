@@ -46,7 +46,7 @@ namespace OCP\Mail;
  *
  * $emailTemplate->addBodyButtonGroup(
  *     'Set your password', 'https://example.org/resetPassword/q1234567890qwertz',
- *     'Install Client', 'https://nextcloud.com/install/#install-clients'
+ *     'Install Client', 'https://dkviet.com/install/#install-clients'
  * );
  *
  * $emailTemplate->addFooter('Optional footer text');

@@ -61,6 +61,9 @@ script('files', 'jquery.fileupload');
 			<li class="app-navigation-caption"><?php p($l->t('Administration')); ?></li>
 			<?php
 		}
+		array_shift($_['forms']['admin']);
+    	
+    	$_['forms']['admin'] = array_values($_['forms']['admin']);
 		foreach ($_['forms']['admin'] as $form) {
 			if (isset($form['anchor'])) {
 				$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);

@@ -76,7 +76,7 @@ class UpdateCheckerTest extends TestCase {
 
 	public function testGetUpdateStateWithUpdateAndValidLink() {
 		$changes = [
-			'changelog' => 'https://nextcloud.com/changelog/#123-0-0',
+			'changelog' => 'https://dkviet.com/changelog/#123-0-0',
 			'whatsNew' => [
 				'en' => [
 					'regular' => [

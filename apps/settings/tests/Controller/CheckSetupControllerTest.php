@@ -863,7 +863,7 @@ class CheckSetupControllerTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://nextcloud.com/', [])
+			->with('https://dkviet.com/', [])
 			->will($this->throwException($exception));
 
 		$this->clientService->expects($this->once())
@@ -897,7 +897,7 @@ class CheckSetupControllerTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://nextcloud.com/', [])
+			->with('https://dkviet.com/', [])
 			->will($this->throwException($exception));
 
 		$this->clientService->expects($this->once())

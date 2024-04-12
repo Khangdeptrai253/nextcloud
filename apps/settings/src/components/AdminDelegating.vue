@@ -1,7 +1,7 @@
 <template>
 	<NcSettingsSection :title="t('settings', 'Administration privileges')"
 		:description="t('settings', 'Here you can decide which group can access certain sections of the administration settings.')"
-		:doc-url="authorizedSettingsDocLink">
+		>
 		<div class="setting-list">
 			<div v-for="setting in availableSettings" :key="setting.class">
 				<label :for="setting.id">{{ setting.sectionName }}</label>

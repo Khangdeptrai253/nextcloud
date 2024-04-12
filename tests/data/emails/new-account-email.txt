@@ -6,7 +6,7 @@ Your username is: abc
 
 
 Set your password: https://example.org/resetPassword/123
-Install Client: https://nextcloud.com/install/#install-clients
+Install Client: https://dkviet.com/install/#install-clients
 
 
 -- 

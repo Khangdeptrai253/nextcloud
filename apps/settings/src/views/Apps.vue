@@ -41,7 +41,7 @@
 					:to="{ name: 'apps-category', params: { category: 'disabled' } }"
 					icon="icon-category-disabled"
 					:title="$options.APPS_SECTION_ENUM.disabled" />
-				<NcAppNavigationItem v-if="updateCount > 0"
+				<!-- <NcAppNavigationItem v-if="updateCount > 0"
 					id="app-category-updates"
 					:to="{ name: 'apps-category', params: { category: 'updates' } }"
 					icon="icon-download"
@@ -49,24 +49,24 @@
 					<NcAppNavigationCounter slot="counter">
 						{{ updateCount }}
 					</NcAppNavigationCounter>
-				</NcAppNavigationItem>
-				<NcAppNavigationItem v-if="isSubscribed"
+				</NcAppNavigationItem> -->
+				<!-- <NcAppNavigationItem v-if="isSubscribed"
 					id="app-category-supported"
 					:to="{ name: 'apps-category', params: { category: 'supported' } }"
 					:name="$options.APPS_SECTION_ENUM.supported">
 					<template #icon>
 						<IconStarShooting :size="20" />
 					</template>
-				</NcAppNavigationItem>
-				<NcAppNavigationItem id="app-category-your-bundles"
+				</NcAppNavigationItem> -->
+				<!-- <NcAppNavigationItem id="app-category-your-bundles"
 					:to="{ name: 'apps-category', params: { category: 'app-bundles' } }"
 					icon="icon-category-app-bundles"
-					:title="$options.APPS_SECTION_ENUM['app-bundles']" />
+					:title="$options.APPS_SECTION_ENUM['app-bundles']" /> -->
 
 				<NcAppNavigationSpacer />
 
 				<!-- App store categories -->
-				<template v-if="settings.appstoreEnabled">
+				<!-- <template v-if="settings.appstoreEnabled">
 					<NcAppNavigationItem id="app-category-featured"
 						:to="{ name: 'apps-category', params: { category: 'featured' } }"
 						icon="icon-favorite"
@@ -80,11 +80,11 @@
 							params: { category: cat.ident },
 						}"
 						:title="cat.displayName" />
-				</template>
+				</template> -->
 
-				<NcAppNavigationItem id="app-developer-docs"
+				<!-- <NcAppNavigationItem id="app-developer-docs"
 					:title="t('settings', 'Developer documentation') + ' ↗'"
-					@click="openDeveloperDocumentation" />
+					@click="openDeveloperDocumentation" /> -->
 			</template>
 		</NcAppNavigation>
 

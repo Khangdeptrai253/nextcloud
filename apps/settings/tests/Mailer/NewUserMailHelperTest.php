@@ -101,7 +101,7 @@ class NewUserMailHelperTest extends TestCase {
 					case 'secret':
 						return 'MyInstanceWideSecret';
 					case 'customclient_desktop':
-						return 'https://nextcloud.com/install/#install-clients';
+						return 'https://dkviet.com/install/#install-clients';
 				}
 				return '';
 			});
@@ -304,7 +304,7 @@ class NewUserMailHelperTest extends TestCase {
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
 												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
+													<a href="https://dkviet.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
 												</td>
 											</tr>
 										</table>
@@ -367,7 +367,7 @@ Your username is: john
 
 
 Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToken
-Install Client: https://nextcloud.com/install/#install-clients
+Install Client: https://dkviet.com/install/#install-clients
 
 
 EOF;
@@ -540,7 +540,7 @@ EOF;
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
 												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
+													<a href="https://dkviet.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
 												</td>
 											</tr>
 										</table>
@@ -603,7 +603,7 @@ Your username is: john
 
 
 Go to TestCloud: https://example.com/
-Install Client: https://nextcloud.com/install/#install-clients
+Install Client: https://dkviet.com/install/#install-clients
 
 
 EOF;
@@ -765,7 +765,7 @@ EOF;
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
 												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
+													<a href="https://dkviet.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
 												</td>
 											</tr>
 										</table>
@@ -826,7 +826,7 @@ Welcome to your TestCloud account, you can add, protect, and share your data.
 
 
 Go to TestCloud: https://example.com/
-Install Client: https://nextcloud.com/install/#install-clients
+Install Client: https://dkviet.com/install/#install-clients
 
 
 EOF;
