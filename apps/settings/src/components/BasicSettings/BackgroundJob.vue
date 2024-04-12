@@ -21,9 +21,9 @@
 -->
 
 <template>
-	<NcSettingsSection :title="t('settings', 'Background jobs')"
+	<!-- <NcSettingsSection :title="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
-		:doc-url="backgroundJobsDocUrl">
+	>
 		<template v-if="lastCron !== 0">
 			<NcNoteCard v-if="oldExecution" type="error">
 				{{ t('settings', 'Last job execution ran {time}. Something seems wrong.', {time: relativeTime}) }}
@@ -80,7 +80,7 @@
 				linkend: '</a>',
 			}) }}
 		</em>
-	</NcSettingsSection>
+	</NcSettingsSection> -->
 </template>
 
 <script>

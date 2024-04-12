@@ -1,11 +1,11 @@
 <template>
 	<NcSettingsSection :title="$t('dav', 'Calendar server')"
-		:doc-url="userSyncCalendarsDocUrl">
+		>
 		<!-- Can use v-html as:
 			- $t passes the translated string through DOMPurify.sanitize,
 			- replacement strings are not user-controlled. -->
 		<!-- eslint-disable-next-line vue/no-v-html -->
-		<p class="settings-hint" v-html="hint" />
+		<!-- <p class="settings-hint" v-html="hint" /> -->
 		<p>
 			<NcCheckboxRadioSwitch id="caldavSendInvitations"
 				:checked.sync="sendInvitations"
@@ -17,7 +17,7 @@
 				- replacement strings are not user-controlled. -->
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<em v-html="sendInvitationsHelpText" />
-		</p>
+		<!-- </p>
 		<p>
 			<NcCheckboxRadioSwitch id="caldavGenerateBirthdayCalendar"
 				:checked.sync="generateBirthdayCalendar"
@@ -33,7 +33,7 @@
 				{{ $t('dav', 'Hence they will not be available immediately after enabling but will show up after some time.') }}
 			</em>
 		</p>
-		<p>
+		<p> -->
 			<NcCheckboxRadioSwitch id="caldavSendEventReminders"
 				:checked.sync="sendEventReminders"
 				type="switch">
@@ -44,10 +44,10 @@
 				- replacement strings are not user-controlled. -->
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<em v-html="sendEventRemindersHelpText" />
-			<br>
+			<!-- <br>
 			<em>
 				{{ $t('dav', 'Notifications are sent via background jobs, so these must occur often enough.') }}
-			</em>
+			</em> -->
 		</p>
 		<p class="indented">
 			<NcCheckboxRadioSwitch id="caldavSendEventRemindersToSharedGroupMembers"

@@ -378,8 +378,7 @@ var render = function render() {
   return _c("NcSettingsSection", {
     attrs: {
       title: _vm.t("settings", "Two-Factor Authentication"),
-      description: _vm.t("settings", "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system."),
-      "doc-url": _vm.twoFactorAdminDoc
+      description: _vm.t("settings", "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.")
     }
   }, [_vm.loading ? _c("p", [_c("span", {
     staticClass: "icon-loading-small two-factor-loading"
@@ -1180,4 +1179,4 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=settings-vue-settings-admin-security.js.map?v=3f15ebfeab5709ea0884
+//# sourceMappingURL=settings-vue-settings-admin-security.js.map?v=0fdf91b70b8951c5d833

@@ -4422,7 +4422,7 @@ __webpack_require__.r(__webpack_exports__);
       settings: ((_window$OCA = window.OCA) === null || _window$OCA === void 0 ? void 0 : (_window$OCA$Files = _window$OCA.Files) === null || _window$OCA$Files === void 0 ? void 0 : (_window$OCA$Files$Set = _window$OCA$Files.Settings) === null || _window$OCA$Files$Set === void 0 ? void 0 : _window$OCA$Files$Set.settings) || [],
       // Webdav infos
       webdavUrl: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_6__.generateRemoteUrl)('dav/files/' + encodeURIComponent((_getCurrentUser = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_7__.getCurrentUser)()) === null || _getCurrentUser === void 0 ? void 0 : _getCurrentUser.uid)),
-      webdavDocs: 'https://docs.nextcloud.com/server/stable/go.php?to=user-webdav',
+      webdavDocs: '#',
       appPasswordUrl: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_6__.generateUrl)('/settings/user/security#generate-app-token-section'),
       webdavUrlCopied: false
     };
@@ -8567,4 +8567,4 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=files-main.js.map?v=fa0d532746c0aa37f8d0
+//# sourceMappingURL=files-main.js.map?v=db50e7179ba85b6aa178
