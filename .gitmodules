@@ -49,3 +49,6 @@
 [submodule "apps/richdocuments"]
 	path = apps/richdocuments
 	url = https://git.dkviet.com/an.nguyen/richdocuments.git
+[submodule "apps/files_automatedtagging"]
+	path = apps/files_automatedtagging
+	url = https://git.dkviet.com/an.nguyen/files_automatedtagging.git
