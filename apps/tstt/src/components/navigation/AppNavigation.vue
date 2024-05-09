@@ -1,11 +1,10 @@
 <template>
-	<NcAppNavigation :class="{ 'icon-loading': loading }">
+	<NcAppNavigation>
 		<template #list>
-			<NcAppNavigationItem :title="t('deck', 'Asset Management')" :exact="true" to="/">
-			</NcAppNavigationItem>
-			<NcAppNavigationItem :title="t('deck', 'Author Management')" :exact="true" to="/author">
-			</NcAppNavigationItem>
-			<NcAppNavigationItem :title="t('deck', 'Owner Management')" :exact="true" to="/owner">
+			<NcAppNavigationItem :title="t('files', 'Asset classification')" :exact="true" to="/">
+				<template #icon>
+					<FolderOutline :size="20" />
+				</template>
 			</NcAppNavigationItem>
 		</template>
 	</NcAppNavigation>
@@ -14,24 +13,18 @@
 <script>
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import FolderOutline from 'vue-material-design-icons/FolderOutline.vue'
+
 export default {
 	name: 'AppNavigation',
 	components: {
+		FolderOutline,
 		NcAppNavigation,
 		NcAppNavigationItem,
 	},
-	data() {
-		return {
-			navigationItems: [
-				{ label: 'Asset Management', link: '/asset', icon: 'fas fa-file-alt' },
-				{ label: 'Author Management', link: '/author', icon: 'fas fa-clock' },
-				{ label: 'Owner Management', link: '/owner', icon: 'fas fa-heart' },
-
-			],
-		}
-	},
 }
 </script>
+
 <style scoped lang="scss">
 #app-settings-content {
 	p {

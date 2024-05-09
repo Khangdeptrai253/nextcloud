@@ -1,6 +1,6 @@
 [submodule "3rdparty"]
 	path = 3rdparty
-	url = https://github.com/nextcloud/3rdparty.git
+	url = https://git.dkviet.com/an.nguyen/3rdparty.git
 [submodule "app/viewer"]
 	path = app/viewer
 	url = https://git.dkviet.com/an.nguyen/viewer.git
@@ -54,4 +54,4 @@
 	url = https://git.dkviet.com/an.nguyen/files_automatedtagging.git
 [submodule "apps/duplicatefinder"]
 	path = apps/duplicatefinder
-	url = https://git.dkviet.com/khang.nguyen/duplicatefinder.git
+	url = https://git.dkviet.com/an.nguyen/duplicatefinder.git

@@ -51,10 +51,14 @@
 /apps/files_external/3rdparty/irodsphp/prods/tutorials
 /apps/files_external/3rdparty/irodsphp/prods/test*
 /apps/files_external/tests/config.*.php
+/apps/tstt/vendor
 
 # apps modules
 /apps/*/node_modules
-
+/apps/tstt/vendor
+/apps/tstt/js
+/apps/tstt/composer.lock
+/apps/tstt/package-lock.json
 
 # ignore themes except the example and the README
 /themes/*
@@ -127,6 +131,7 @@ nbproject
 
 # Node Modules
 /build/node_modules/
+/dist
 
 # nodejs
 /build/bin
@@ -165,7 +170,7 @@ tests/acceptance/vendor/
 composer.phar
 /lib/composer/bin
 /vendor-bin/**/vendor
-
+/lib/composer
 ./.htaccess
 core/js/mimetypelist.js
 

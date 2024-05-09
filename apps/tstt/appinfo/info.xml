@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>tstt</id>
+	<name>Tstt</name>
+	<summary>Tạo các tài sản trí tuệ để dễ dàng quản lý tài sản số</summary>
+	<description>
+		Ứng dụng cho phép người dùng tạo, quản lý các tài sản trí tuệ bao gồm:
+		Tên TSTT, Chủ sở hữu, Tác giả, Trạng thái, Version.
+		
+		Người dùng có thể gắn các TSTT cho các tài sản số để có thể quản lý dễ dàng hơn.
+	</description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author mail="info@dkviet.com" homepage="https://dkviet.com">DKViet</author>
+	<namespace>Tstt</namespace>
+	<category>customization</category>
+	<dependencies>
+		<nextcloud min-version="26" max-version="29"/>
+	</dependencies>
+	<navigations>
+		<navigation>
+			<id>tstt</id>
+			<name>Tstt</name>
+			<route>tstt.page.index</route>
+			<icon>app.svg</icon>
+			<type>link</type>
+		</navigation>
+	</navigations>
+</info>

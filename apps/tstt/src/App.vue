@@ -1,9 +1,10 @@
 <template>
-	<NcContent style="margin-top: 0;" app-name="tstt"
-		:class="{ 'nav-hidden': !navShown, 'sidebar-hidden': !sidebarRouterView }">
+	<NcContent style="margin-top: 0;" app-name="tstt">
 		<AppNavigation />
 		<NcAppContent>
-			<router-view></router-view>
+			<template>
+				<router-view />
+			</template>
 		</NcAppContent>
 	</NcContent>
 </template>
@@ -11,14 +12,13 @@
 <script>
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
 import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-
 import AppNavigation from './components/navigation/AppNavigation.vue'
 export default {
 	name: 'App',
 	components: {
 		NcAppContent,
 		AppNavigation,
-		NcContent
+		NcContent,
 	},
 
 }
