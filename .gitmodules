@@ -55,3 +55,9 @@
 [submodule "apps/duplicatefinder"]
 	path = apps/duplicatefinder
 	url = https://git.dkviet.com/an.nguyen/duplicatefinder.git
+[submodule "apps/sorts"]
+	path = apps/sorts
+	url = https://git.dkviet.com/an.nguyen/sorts.git
+[submodule "apps/workflow_script"]
+	path = apps/workflow_script
+	url = https://git.dkviet.com/an.nguyen/workflow_script.git
