@@ -84,7 +84,6 @@ export default {
 	},
 }
 </script>
-
 <style scoped>
 .modal-container {
 	position: fixed;

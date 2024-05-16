@@ -5,7 +5,12 @@
 				<FilterOutline :size="20" />
 			</template>
 		</NcButton>
+<<<<<<< HEAD
 		<div v-if="show" class="modal-container" @click="handleOutsideClick">
+=======
+
+		<div v-if="show" class="modal-container">
+>>>>>>> 754af851 ([1] Asset Management)
 			<div class="modal-content">
 				<div class="modal-header">
 					<p style="font-weight: 800;">
@@ -17,10 +22,15 @@
 						</template>
 					</NcButton>
 				</div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 754af851 ([1] Asset Management)
 				<template>
 					<div class="form-select">
 						<div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
 							<div>
+<<<<<<< HEAD
 								<label>{{ t('files', 'Author') }}</label>
 								<Multiselect v-model="selectedAuthors"
 									:selected-label="t('files', 'Selected')"
@@ -58,6 +68,27 @@
 									:multiple="true"
 									label="status"
 									track-by="id" />
+=======
+								<label>{{ t('files', 'Owner') }}</label>
+								<Multiselect v-model="selectedOwners" :selected-label="t('files', 'Selected')"
+									:select-label="t('files', 'Press enter to select')" :searchable="true"
+									:placeholder="t('files', 'Select option')" :options="ownerOptions" :multiple="true"
+									label="name" track-by="name" />
+							</div>
+							<div>
+								<label>{{ t('files', 'Author') }}</label>
+								<Multiselect v-model="selectedAuthors" :selected-label="t('files', 'Selected')"
+									:select-label="t('files', 'Press enter to select')" :searchable="true"
+									:placeholder="t('files', 'Select option')" :options="authorOptions" :multiple="true"
+									label="name" track-by="name" />
+							</div>
+							<div>
+								<label>{{ t('files', 'Status') }}</label>
+								<Multiselect v-model="selectedStatus" :selected-label="t('files', 'Selected')"
+									:select-label="t('files', 'Press enter to select')" :searchable="true"
+									:placeholder="t('files', 'Select option')" :options="statusOptions" :multiple="true"
+									label="name" track-by="name" />
+>>>>>>> 754af851 ([1] Asset Management)
 							</div>
 							<div style="display: flex; justify-content: end">
 								<NcButton type="primary" @click="applyFilter">
@@ -80,8 +111,15 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import FilterOutline from 'vue-material-design-icons/FilterOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import Multiselect from 'vue-multiselect'
+<<<<<<< HEAD
 import { mapMutations, mapState } from 'vuex'
 
+=======
+import { AssetApi } from '../../services/assetAPI.js'
+import { mapMutations, mapState } from 'vuex'
+
+const apiClient = new AssetApi()
+>>>>>>> 754af851 ([1] Asset Management)
 export default {
 	name: 'FilterModal',
 	components: {
@@ -93,10 +131,36 @@ export default {
 	data() {
 		return {
 			show: false,
+<<<<<<< HEAD
 		}
 	},
 	computed: {
 		...mapState(['selectedOwnerFilters', 'selectedStatusFilters', 'selectedAuthorFilters', 'authorData', 'ownerData', 'statusData']),
+=======
+			ownerOptions: [{ name: 'Owner 1', id: 1 },
+			{ name: 'Owner 2', id: 2 },
+			{ name: 'Owner 3', id: 3 },
+			{ name: 'Owner 4', id: 4 },
+			{ name: 'Owner 5', id: 5 },
+			{ name: 'Owner 6', id: 6 }],
+			authorOptions: [{ name: 'Author 1', id: 1 },
+			{ name: 'Author 2', id: 2 },
+			{ name: 'Author 3', id: 3 },
+			{ name: 'Author 4', id: 4 },
+			{ name: 'Author 5', id: 5 },
+			{ name: 'Author 6', id: 6 }],
+			statusOptions: [{ name: 'InActive', id: 1 },
+			{ name: 'Active', id: 2 },
+			{ name: 'Block', id: 3 },],
+		}
+	},
+
+	// async mounted() {
+	// 	await this.loadOptionsFromApi()
+	// },
+	computed: {
+		...mapState(['selectedOwnerFilters', 'selectedStatusFilters', 'selectedAuthorFilters']),
+>>>>>>> 754af851 ([1] Asset Management)
 		selectedOwners: {
 			get() {
 				return this.selectedOwnerFilters
@@ -130,6 +194,7 @@ export default {
 		hide() {
 			this.show = false
 		},
+<<<<<<< HEAD
 		handleOutsideClick(event) {
 			if (event.target.classList.contains('modal-container')) {
 				this.hide()
@@ -140,6 +205,15 @@ export default {
 		},
 		clearFilter() {
 			this.clearFilters()
+=======
+		applyFilter() {
+			this.hide()
+			// this.fetchData()
+		},
+		clearFilter() {
+			this.clearFilters()
+			// this.fetchData()
+>>>>>>> 754af851 ([1] Asset Management)
 		},
 	},
 }
@@ -152,19 +226,33 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100%;
+<<<<<<< HEAD
+=======
+	background-color: transparent;
+>>>>>>> 754af851 ([1] Asset Management)
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	z-index: 100000000000000000000;
+<<<<<<< HEAD
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+=======
+>>>>>>> 754af851 ([1] Asset Management)
 }
 
 .modal-content {
 	background-color: white;
+<<<<<<< HEAD
 	padding: 50px 100px;
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	width: 800px;
+=======
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	width: 600px;
+>>>>>>> 754af851 ([1] Asset Management)
 }
 
 .multiple-select-container {

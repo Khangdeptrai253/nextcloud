@@ -1,12 +1,7 @@
 <template>
-	<div class="row"
-		:class="{'disabled': loading.delete || loading.disable}"
-		:data-id="user.id">
-		<div class="avatar" :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}">
-			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				alt=""
-				width="32"
-				height="32"
+	<div class="row" :class="{ 'disabled': loading.delete || loading.disable }" :data-id="user.id">
+		<div class="avatar" :class="{ 'icon-loading-small': loading.delete || loading.disable || loading.wipe }">
+			<img v-if="!loading.delete && !loading.disable && !loading.wipe" alt="" width="32" height="32"
 				:src="generateAvatar(user.id, isDarkTheme)">
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
@@ -35,9 +30,7 @@
 		<div class="userQuota">
 			<div class="quota">
 				{{ userQuota }} ({{ usedSpace }})
-				<progress class="quota-user-progress"
-					:class="{'warn': usedQuota > 80}"
-					:value="usedQuota"
+				<progress class="quota-user-progress" :class="{ 'warn': usedQuota > 80 }" :value="usedQuota"
 					max="100" />
 			</div>
 		</div>
@@ -61,23 +54,18 @@
 		<div class="userActions">
 			<div v-if="canEdit && !loading.all" class="toggleUserActions">
 				<NcActions>
-					<NcActionButton icon="icon-rename"
-						:title="t('settings', 'Edit User')"
-						:aria-label="t('settings', 'Edit User')"
-						@click="toggleEdit" />
+					<NcActionButton icon="icon-rename" :title="t('settings', 'Edit User')"
+						:aria-label="t('settings', 'Edit User')" @click="toggleEdit" />
 				</NcActions>
 				<div class="userPopoverMenuWrapper">
-					<button v-click-outside="hideMenu"
-						class="icon-more"
-						:aria-expanded="openedMenu"
-						:aria-label="t('settings', 'Toggle user actions menu')"
-						@click.prevent="toggleMenu" />
+					<button v-click-outside="hideMenu" class="icon-more" :aria-expanded="openedMenu"
+						:aria-label="t('settings', 'Toggle user actions menu')" @click.prevent="toggleMenu" />
 					<div class="popovermenu" :class="{ 'open': openedMenu }">
 						<NcPopoverMenu :menu="userActions" />
 					</div>
 				</div>
 			</div>
-			<div class="feedback" :style="{opacity: feedbackMessage !== '' ? 1 : 0}">
+			<div class="feedback" :style="{ opacity: feedbackMessage !== '' ? 1 : 0 }">
 				<div class="icon-checkmark" />
 				{{ feedbackMessage }}
 			</div>
@@ -196,13 +184,14 @@ export default {
 </script>
 
 <style lang="scss">
-	.cellText {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+.cellText {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
-	.icon-more {
-		background-color: var(--color-main-background);
-		border: 0;
-	}
+
+.icon-more {
+	background-color: var(--color-main-background);
+	border: 0;
+}
 </style>

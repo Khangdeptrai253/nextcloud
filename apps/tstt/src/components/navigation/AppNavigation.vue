@@ -24,7 +24,10 @@ export default {
 	},
 }
 </script>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 754af851 ([1] Asset Management)
 <style scoped lang="scss">
 #app-settings-content {
 	p {

@@ -1,5 +1,6 @@
 <template lang="">
 	<div>
+<<<<<<< HEAD
 		<NcButton class="reposive-button"
 			type="secondary"
 			aria-label="Search"
@@ -55,6 +56,59 @@
 			</div>
 		</div>
 	</div>
+=======
+	<NcButton class="reposive-button" type="secondary" aria-label="Search" @click="showModal">
+	<template #icon>
+				<Magnify :size="20" />
+			</template>
+</NcButton>
+
+<div class="search-form">
+	<input v-model="searchQuery" type="search" @keypress.enter="submitSearch">
+	<NcButton v-if="searchQuery || selectedOwnerFilters.length || selectedStatusFilters.length" type="secondary"
+		aria-label="Clear Search" @click="clearSearchAndFilter">
+		<template #icon>
+				<Close :size="20" />
+			</template>
+	</NcButton>
+	<NcButton type="secondary" aria-label="Search" @click="submitSearch">
+		<template #icon>
+				<Magnify :size="20" />
+			</template>
+	</NcButton>
+</div>
+
+
+<div v-if="show" class="modal-container">
+	<div class="modal-content">
+		<div class="modal-header">
+			<p style="font-weight: 800;">
+				{{ t('files', 'Search') }}
+			</p>
+			<NcButton type="tertiary-no-background" @click="hide">
+				<template #icon>
+                            <Close :size="20" />
+                        </template>
+			</NcButton>
+		</div>
+
+		<template>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nameProp">{{ t('files', 'Name') }}</label>
+                            <input v-model="searchQuery" type="search" @keypress.enter="submitSearch">
+                        </div>
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <NcButton type="secondary" @click="hide">{{ t('files', 'Cancel') }}</NcButton>
+                        <NcButton type="primary" @click="submitSearch">{{ t('files', 'Search') }}</NcButton>
+                    </div>
+                </template>
+	</div>
+</div>
+</div>
+>>>>>>> 754af851 ([1] Asset Management)
 </template>
 
 <script>
@@ -76,6 +130,7 @@ export default {
 		}
 	},
 	computed: {
+<<<<<<< HEAD
 		...mapState(['selectedOwnerFilters', 'selectedStatusFilters', 'selectedAuthorFilters']),
 	},
 	methods: {
@@ -88,6 +143,20 @@ export default {
 		async clearSearchAndFilter() {
 			try {
 				this.searchQuery = null
+=======
+		...mapState(['selectedOwnerFilters', 'selectedStatusFilters']),
+	},
+	methods: {
+		...mapMutations(['setSearchQuery', 'clearSearchQuery']),
+		...mapActions(['fetchAssetData', 'clearAll']),
+		async submitSearch() {
+			this.setSearchQuery(this.searchQuery)
+			await this.fetchAssetData()
+		},
+		async clearSearchAndFilter() {
+			try {
+				this.searchQuery = ''
+>>>>>>> 754af851 ([1] Asset Management)
 				await this.clearAll()
 			} catch (error) {
 				this.error = 'Error searching data'
@@ -114,7 +183,11 @@ export default {
 
 .search-form input {
 	padding: 3px;
+<<<<<<< HEAD
 	width: 500px;
+=======
+	width: 300px;
+>>>>>>> 754af851 ([1] Asset Management)
 	margin-right: 5px;
 }
 

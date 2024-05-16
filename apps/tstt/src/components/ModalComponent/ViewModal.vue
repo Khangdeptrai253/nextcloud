@@ -4,6 +4,7 @@
 			<template #icon>
 				<EyeOutline :size="20" />
 			</template>
+<<<<<<< HEAD
 			{{ t('files','Details') }}
 		</NcButton>
 		<portal to="destination">
@@ -53,6 +54,56 @@
 </template>
 
 <script>
+=======
+{{t('files','Details')}}
+</NcButton>
+<portal to="destination">
+	<div v-if="show" class="modal-container">
+		<div class="modal-content">
+			<div class="modal-header" style="margin-bottom:5px">
+				<p>
+					{{ t('files', 'Details') }}
+				</p>
+				<div class="close-button">
+					<NcButton type="tertiary-no-background" @click="hide">
+						<template #icon>
+								<Close :size="20" />
+							</template>
+					</NcButton>
+				</div>
+			</div>
+
+			<template>
+					<table class="data-table">
+						<thead>
+							<tr>
+								<th>{{ t('files', 'Name') }}</th>
+								<th>{{ t('files', 'Owner') }}</th>
+								<th>{{ t('files', 'Status') }}</th>
+								<th>{{ t('files', 'Version') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="	max-width: 200px;
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: normal;">
+								<td>{{ item.nameProp }}</td>
+								<td>{{ item.owner }}</td>
+								<td>{{ item.status }}</td>
+								<td>{{ item.version }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</template>
+		</div>
+	</div>
+</portal>
+</div>
+</template>
+<script>
+
+>>>>>>> 754af851 ([1] Asset Management)
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
@@ -84,6 +135,7 @@ export default {
 		hide() {
 			this.show = false
 		},
+<<<<<<< HEAD
 		handleOutsideClick(event) {
 			if (event.target.classList.contains('modal-container')) {
 				this.hide()
@@ -93,6 +145,11 @@ export default {
 }
 </script>
 
+=======
+	},
+}
+</script>
+>>>>>>> 754af851 ([1] Asset Management)
 <style scoped>
 .modal-container {
 	position: fixed;
@@ -100,21 +157,36 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100%;
+<<<<<<< HEAD
+=======
+	background-color: transparent;
+>>>>>>> 754af851 ([1] Asset Management)
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	z-index: 100000000000;
+<<<<<<< HEAD
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+=======
+>>>>>>> 754af851 ([1] Asset Management)
 }
 
 .modal-content {
 	position: relative;
+<<<<<<< HEAD
 	background-color: #fefefe;
 	padding: 30px 40px;
 	border-radius: 15px;
 	border: 1px solid #888;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 	width: 55%; /* Could be more or less, depending on screen size */
+=======
+	background-color: white;
+	padding: 20px;
+	border-radius: 15px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	width: 600px;
+>>>>>>> 754af851 ([1] Asset Management)
 }
 
 .close-button {
