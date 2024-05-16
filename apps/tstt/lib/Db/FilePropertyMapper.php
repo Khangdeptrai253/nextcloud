@@ -56,29 +56,27 @@ class FilePropertyMapper extends QBMapper {
         return $this->findEntity($qb);
     }
 
-    public function getAllFileInFolder(array $fileinfo): array {
+    public function getAllFileInFolder(string $filepath, string $filename, string $uid): array {
         $qb = $this->db->getQueryBuilder();
         
-        if ($fileinfo['filepath'] === '/') {
-            $filePathParam = 'files' . $fileinfo['filepath'] . $fileinfo['filename'] . '%';
+        if ($filepath === '/') {
+            $filePathParam = 'files' . $filepath . $filename . '%';
         } else {
-            $filePathParam = 'files' . $fileinfo['filepath'] . '/' . $fileinfo['filename'] . '%';
+            $filePathParam = 'files' . $filepath . '/' . $filename . '%';
         }
 
         $qb->select('path', 'fileid', 'mimetype')
             ->from('filecache', 'f')
             ->leftJoin('f', 'mounts', 'm', $qb->expr()->eq('f.storage', 'm.storage_id'))
-            ->where($qb->expr()->eq('m.user_id', $qb->createNamedParameter($fileinfo['uid'])))
+            ->where($qb->expr()->eq('m.user_id', $qb->createNamedParameter($uid)))
             ->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($filePathParam)));
 
-        //$data = $this->execute;
-        $data = $qb->executeQuery()->fetch();
+        $data = $qb->executeQuery()->fetchAll();
         $data = array_filter($data, function ($value) {
-            return !isset($value->mimetype) || $value->mimetype != 2;
+            return !isset($value["mimetype"]) || $value["mimetype"] != 2;
         });
         $data = array_values($data);
-        print_r($data);
-        exit();
+
         return $data;
     }
 }

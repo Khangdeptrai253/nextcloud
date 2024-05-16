@@ -42,9 +42,9 @@ class FilePropertyController extends Controller {
      * @NoCSRFRequired
      * @return DataResponse
      */
-    public function getAllFileInFolder(array $fileinfo)
+    public function getAllFileInFolder(string $filepath, string $filename, string $uid)
     {
-        $fileProperty = $this->filePropertyService->getAllFileInFolder($fileinfo);
+        $fileProperty = $this->filePropertyService->getAllFileInFolder($filepath, $filename, $uid);
         
         return new DataResponse($fileProperty);
     }
