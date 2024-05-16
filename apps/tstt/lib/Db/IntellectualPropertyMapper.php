@@ -70,10 +70,10 @@ class IntellectualPropertyMapper extends QBMapper {
         return $intellectualProperty;
     }
 
-    public function isDelete(int $id) {
+    public function isDeleted(int $id) {
         $qb = $this->db->getQueryBuilder();
 
-        $qb->select($qb->createFunction('COUNT(id)'))
+        $qb->select('*')
             ->from($this->tableName)
             ->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
             ->andWhere(
@@ -83,7 +83,13 @@ class IntellectualPropertyMapper extends QBMapper {
                 )
             );
         
-        return (int) $qb->executeQuery()->fetchOne();
+        $result = $qb->executeQuery()->fetch();
+
+        if(isset($result['id'])){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private function initializeQueryBuilder($qb, $offset, $pageSize)
