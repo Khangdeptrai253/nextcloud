@@ -1,6 +1,7 @@
 <?php
 namespace OCA\Tstt\Db;
 
+use Doctrine\DBAL\Types\StatusEnum;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
