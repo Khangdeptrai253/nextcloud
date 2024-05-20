@@ -68,7 +68,7 @@ class Version1000Date20240610035119 extends SimpleMigrationStep {
         }
 
 		// Seeding of Intellectual Property
-        for($i = 0; $i < 10; $i++) {
+        for($i = 0; $i < 30; $i++) {
             $queryBuilder->insert('intellectual_property')
                 ->values([
                     'name_prop' => $queryBuilder->createNamedParameter('Tài sản trí tuệ bản quyền sở hữu trí tuệ số ' . ($i + 1)),
