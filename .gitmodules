@@ -7,3 +7,6 @@
 [submodule "apps/viewer"]
 	path = apps/viewer
 	url = https://git.dkviet.com/an.nguyen/viewer.git
+[submodule "apps/integration_google"]
+	path = apps/integration_google
+	url = https://git.dkviet.com/khang.nguyen/integration_google.git
