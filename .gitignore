@@ -36,6 +36,8 @@
 !/apps/systemtags
 !/apps/testing
 !/apps/admin_audit
+!/apps/viewer
+!/apps/deck
 !/apps/updatenotification
 !/apps/theming
 !/apps/twofactor_backupcodes
