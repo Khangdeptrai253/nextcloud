@@ -1,8 +1,8 @@
 <div class="section development-notice">
-	<p>
+	<!-- <p>
 		<a href="<?php p($_['reasons-use-nextcloud-pdf-link']); ?>" id="open-reasons-use-nextcloud-pdf" class="link-button icon-file" target="_blank"><?php p($l->t('Reasons to use Nextcloud in your organization'));?></a>
-	</p>
-	<p>
+	</p> -->
+	<!-- <p>
 		<?php print_unescaped(str_replace(
 			[
 				'{communityopen}',
@@ -18,7 +18,7 @@
 			],
 			$l->t('Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}.')
 		)); ?>
-	</p>
+	</p> -->
 
 	<p class="social-button">
 		<?php print_unescaped(str_replace(
@@ -46,11 +46,11 @@
 				image_path('core', 'mastodon.svg'),
 				image_path('core', 'rss.svg'),
 				image_path('core', 'mail.svg'),
-				'<a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/Nextclouders/">',
-				'<a target="_blank" rel="noreferrer noopener" href="https://twitter.com/nextclouders">',
-				'<a target="_blank" rel="noreferrer noopener" href="https://mastodon.xyz/@nextcloud">',
-				'<a target="_blank" rel="noreferrer noopener" href="https://nextcloud.com/news/">',
-				'<a target="_blank" rel="noreferrer noopener" href="https://newsletter.nextcloud.com/?p=subscribe&amp;id=1">',
+				'<a target="_blank" rel="noreferrer noopener" href="#">',
+				'<a target="_blank" rel="noreferrer noopener" href="#">',
+				'<a target="_blank" rel="noreferrer noopener" href="#">',
+				'<a target="_blank" rel="noreferrer noopener" href="#>',
+				'<a target="_blank" rel="noreferrer noopener" href="#">',
 				'</a>',
 				$l->t('Like our Facebook page'),
 				$l->t('Follow us on Twitter'),

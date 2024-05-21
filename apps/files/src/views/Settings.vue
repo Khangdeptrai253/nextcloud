@@ -60,7 +60,7 @@
 					<Clipboard :size="20" />
 				</template>
 			</NcInputField>
-			<em>
+			<!-- <em>
 				<a class="setting-link"
 					:href="webdavDocs"
 					target="_blank"
@@ -73,7 +73,7 @@
 				<a class="setting-link" :href="appPasswordUrl">
 					{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
 				</a>
-			</em>
+			</em> -->
 		</NcAppSettingsSection>
 	</NcAppSettingsDialog>
 </template>

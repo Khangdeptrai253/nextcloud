@@ -53,6 +53,9 @@ import UserMenuEntry from '../components/UserMenu/UserMenuEntry.vue'
 
 const settingsNavEntries = loadState('core', 'settingsNavEntries', [])
 
+
+console.log(settingsNavEntries)
+
 export default {
 	name: 'UserMenu',
 

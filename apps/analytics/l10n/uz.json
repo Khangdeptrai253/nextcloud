@@ -1,0 +1,27 @@
+{ "translations": {
+    "Saved" : "Saved",
+    "Delete" : "Delete",
+    "Loading" : "Loading",
+    "OK" : "OK",
+    "Cancel" : "Cancel",
+    "Add" : "Add",
+    "Delete folder" : "Delete folder",
+    "Download" : "Download",
+    "Do you want to create a new group folder?" : "Do you want to create a new group folder?",
+    "New" : "New",
+    "Share link" : "Share link",
+    "Search" : "Search",
+    "Total" : "Total",
+    "File" : "File",
+    "Yes" : "Yes",
+    "No" : "No",
+    "copy" : "copy",
+    "Password" : "Password",
+    "Favorites" : "Favorites",
+    "Settings" : "Settings",
+    "Name" : "Name",
+    "Open documentation" : "Hujjatlarni ochish",
+    "Update" : "Update",
+    "Unshare" : "Unshare"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

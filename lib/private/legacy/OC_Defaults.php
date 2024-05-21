@@ -59,20 +59,20 @@ class OC_Defaults {
 	public function __construct() {
 		$config = \OC::$server->getConfig();
 
-		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
-		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */
-		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
-		$this->defaultBaseUrl = 'https://nextcloud.com';
-		$this->defaultSyncClientUrl = $config->getSystemValue('customclient_desktop', 'https://nextcloud.com/install/#install-clients');
-		$this->defaultiOSClientUrl = $config->getSystemValue('customclient_ios', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
+		$this->defaultEntity = 'DKSwork'; /* e.g. company name, used for footers and copyright notices */
+		$this->defaultName = 'DKSwork'; /* short name, used when referring to the software */
+		$this->defaultTitle = 'DKSwork'; /* can be a longer name, for titles */
+		$this->defaultBaseUrl = 'https://DKSwork.com';
+		$this->defaultSyncClientUrl = $config->getSystemValue('customclient_desktop', 'https://DKSwork.com/install/#install-clients');
+		$this->defaultiOSClientUrl = $config->getSystemValue('customclient_ios', 'https://geo.itunes.apple.com/us/app/DKSwork/id1125420102?mt=8');
 		$this->defaultiTunesAppId = $config->getSystemValue('customclient_ios_appid', '1125420102');
-		$this->defaultAndroidClientUrl = $config->getSystemValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.nextcloud.client');
-		$this->defaultFDroidClientUrl = $config->getSystemValue('customclient_fdroid', 'https://f-droid.org/packages/com.nextcloud.client/');
-		$this->defaultDocBaseUrl = 'https://docs.nextcloud.com';
+		$this->defaultAndroidClientUrl = $config->getSystemValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.DKSwork.client');
+		$this->defaultFDroidClientUrl = $config->getSystemValue('customclient_fdroid', 'https://f-droid.org/packages/com.DKSwork.client/');
+		$this->defaultDocBaseUrl = 'https://docs.DKSwork.com';
 		$this->defaultDocVersion = \OC_Util::getVersion()[0]; // used to generate doc links
 		$this->defaultColorPrimary = '#0082c9';
 		$this->defaultTextColorPrimary = '#ffffff';
-		$this->defaultProductName = 'Nextcloud';
+		$this->defaultProductName = 'DKSwork';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {

@@ -264,7 +264,8 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 
 import userRow from './UserList/UserRow.vue'
-
+import { generateOcsUrl } from '@nextcloud/router'
+		
 const unlimitedQuota = {
 	id: 'none',
 	label: t('settings', 'Unlimited'),

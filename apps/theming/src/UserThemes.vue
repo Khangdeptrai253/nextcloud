@@ -26,8 +26,8 @@
 		<NcSettingsSection :title="t('theming', 'Appearance and accessibility')"
 			:limit-width="false"
 			class="theming">
-			<p v-html="description" />
-			<p v-html="descriptionDetail" />
+			<!-- <p v-html="description" />
+			<p v-html="descriptionDetail" /> -->
 
 			<div class="theming__preview-list">
 				<ItemPreview v-for="theme in themes"

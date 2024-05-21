@@ -1,3 +1,1433 @@
-/*! For license information please see dashboard-main.js.LICENSE.txt */
-(()=>{"use strict";var e,n={53226:(e,n,a)=>{var i=a(20144),s=a(79753),o=a(77958),r=a(79954),l=a(4820),d=a(10861),c=a.n(d),p=a(9980),u=a.n(p),A=a(70110),h=a.n(A),g=a(73229);const b={data(){return{isMobile:this._isMobile()}},beforeMount(){window.addEventListener("resize",this._onResize)},beforeDestroy(){window.removeEventListener("resize",this._onResize)},methods:{_onResize(){this.isMobile=this._isMobile()},_isMobile:()=>document.documentElement.clientWidth<768}};var m=a(15961),v=a(80419);const f={name:"ApiDashboardWidget",components:{NcAvatar:m.Xn,NcDashboardWidget:m.YJ,NcDashboardWidgetItem:m._2,NcEmptyContent:m.SL,NcButton:m.P2,CheckIcon:v.default},props:{widget:{type:[Object,void 0],default:void 0},data:{type:[Object,void 0],default:void 0},loading:{type:Boolean,required:!0}},computed:{items(){var t,e;return null!==(t=null===(e=this.data)||void 0===e?void 0:e.items)&&void 0!==t?t:[]},emptyContentMessage(){var t,e;return null!==(t=null===(e=this.data)||void 0===e?void 0:e.emptyContentMessage)&&void 0!==t?t:""},halfEmptyContentMessage(){var t,e;return null!==(t=null===(e=this.data)||void 0===e?void 0:e.halfEmptyContentMessage)&&void 0!==t?t:""},newButton(){var t,e;return null===(t=this.widget)||void 0===t||null===(e=t.buttons)||void 0===e?void 0:e.find((t=>"new"===t.type))},moreButton(){var t,e;return null===(t=this.widget)||void 0===t||null===(e=t.buttons)||void 0===e?void 0:e.find((t=>"more"===t.type))},setupButton(){var t,e;return null===(t=this.widget)||void 0===t||null===(e=t.buttons)||void 0===e?void 0:e.find((t=>"setup"===t.type))},showMoreLabel(){var t;return null===(t=this.moreButton)||void 0===t?void 0:t.text},showMoreUrl(){var t;return null===(t=this.moreButton)||void 0===t?void 0:t.link}}};var C=a(51900);const x=(0,C.Z)(f,(function(){var t=this,e=t._self._c;return e("NcDashboardWidget",{attrs:{items:t.items,"show-more-label":t.showMoreLabel,"show-more-url":t.showMoreUrl,loading:t.loading,"show-items-and-empty-content":!!t.halfEmptyContentMessage,"half-empty-content-message":t.halfEmptyContentMessage},scopedSlots:t._u([{key:"default",fn:function(n){let{item:a}=n;return[e("NcDashboardWidgetItem",{attrs:{"target-url":a.link,"overlay-icon-url":a.overlayIconUrl?a.overlayIconUrl:"","main-text":a.title,"sub-text":a.subtitle},scopedSlots:t._u([{key:"avatar",fn:function(){return[a.iconUrl?[e("NcAvatar",{attrs:{size:44,url:a.iconUrl}})]:t._e()]},proxy:!0}],null,!0)})]}},{key:"empty-content",fn:function(){return[0===t.items.length?e("NcEmptyContent",{attrs:{description:t.emptyContentMessage},scopedSlots:t._u([{key:"icon",fn:function(){return[t.emptyContentMessage?e("CheckIcon",{attrs:{size:65}}):t._e()]},proxy:!0},{key:"action",fn:function(){return[t.setupButton?e("NcButton",{attrs:{href:t.setupButton.link}},[t._v("\n\t\t\t\t\t"+t._s(t.setupButton.text)+"\n\t\t\t\t")]):t._e()]},proxy:!0}],null,!1,4172361897)}):t._e()]},proxy:!0}])})}),[],!1,null,"d91c9686",null).exports;var w=a(25108);const y=(0,r.j)("dashboard","panels"),k=(0,r.j)("dashboard","firstRun"),_={weather:{text:t("dashboard","Weather"),icon:"icon-weather-status"},status:{text:t("dashboard","Status"),icon:"icon-user-status-online"}},S={name:"DashboardApp",components:{ApiDashboardWidget:x,NcButton:c(),Draggable:u(),NcModal:h(),Pencil:g.default},mixins:[b],data(){var t,e;return{isAdmin:(0,o.ts)().isAdmin,timer:new Date,registeredStatus:[],callbacks:{},callbacksStatus:{},allCallbacksStatus:{},statusInfo:_,enabledStatuses:(0,r.j)("dashboard","statuses"),panels:y,firstRun:k,displayName:null===(t=(0,o.ts)())||void 0===t?void 0:t.displayName,uid:null===(e=(0,o.ts)())||void 0===e?void 0:e.uid,layout:(0,r.j)("dashboard","layout").filter((t=>y[t])),modal:!1,appStoreUrl:(0,s.generateUrl)("/settings/apps/dashboard"),statuses:{},apiWidgets:[],apiWidgetItems:{},loadingItems:!0}},computed:{greeting(){const e=this.timer.getHours();let n;n=e>=22||e<5?"night":e>=18?"evening":e>=12?"afternoon":"morning";const a={morning:{generic:t("dashboard","Good morning"),withName:t("dashboard","Good morning, {name}",{name:this.displayName},void 0,{escape:!1})},afternoon:{generic:t("dashboard","Good afternoon"),withName:t("dashboard","Good afternoon, {name}",{name:this.displayName},void 0,{escape:!1})},evening:{generic:t("dashboard","Good evening"),withName:t("dashboard","Good evening, {name}",{name:this.displayName},void 0,{escape:!1})},night:{generic:t("dashboard","Hello"),withName:t("dashboard","Hello, {name}",{name:this.displayName},void 0,{escape:!1})}};return{text:this.displayName&&this.uid!==this.displayName?a[n].withName:a[n].generic}},isActive(){return t=>this.layout.indexOf(t.id)>-1},isStatusActive(){return t=>!(t in this.enabledStatuses)||this.enabledStatuses[t]},sortedAllStatuses(){return Object.keys(this.allCallbacksStatus).slice().sort(this.sortStatuses)},sortedPanels(){return Object.values(this.panels).sort(((t,e)=>{const n=this.layout.indexOf(t.id),a=this.layout.indexOf(e.id);return-1===n||-1===a?a-n||t.id-e.id:n-a||t.id-e.id}))},sortedRegisteredStatus(){return this.registeredStatus.slice().sort(this.sortStatuses)}},watch:{callbacks(){this.rerenderPanels()},callbacksStatus(){for(const t in this.callbacksStatus){const e=this.$refs["status-"+t];this.statuses[t]&&this.statuses[t].mounted||(e?(this.callbacksStatus[t](e[0]),i.default.set(this.statuses,t,{mounted:!0})):w.error("Failed to register panel in the frontend as no backend data was provided for "+t))}}},async created(){await this.fetchApiWidgets();const t=Object.values(this.apiWidgets).filter((t=>this.isApiWidgetV2(t.id))).map((t=>t.id));await Promise.all(t.map((t=>this.fetchApiWidgetItems([t],!0))));for(const t of Object.values(this.apiWidgets))t.reload_interval>0&&setInterval((async()=>{await this.fetchApiWidgetItems([t.id],!0)}),1e3*t.reload_interval)},mounted(){this.updateSkipLink(),window.addEventListener("scroll",this.handleScroll),setInterval((()=>{this.timer=new Date}),3e4),this.firstRun&&window.addEventListener("scroll",this.disableFirstrunHint)},destroyed(){window.removeEventListener("scroll",this.handleScroll)},methods:{register(t,e){i.default.set(this.callbacks,t,e)},registerStatus(t,e){i.default.set(this.allCallbacksStatus,t,e),this.isStatusActive(t)&&(this.registeredStatus.push(t),this.$nextTick((()=>{i.default.set(this.callbacksStatus,t,e)})))},rerenderPanels(){for(const t in this.callbacks){if(this.isApiWidgetV2(this.panels[t].id))continue;const e=this.$refs[t];-1!==this.layout.indexOf(t)&&(this.panels[t]&&this.panels[t].mounted||(e?(this.callbacks[t](e[0],{widget:this.panels[t]}),i.default.set(this.panels[t],"mounted",!0)):w.error("Failed to register panel in the frontend as no backend data was provided for "+t)))}},saveLayout(){l.default.post((0,s.generateUrl)("/apps/dashboard/layout"),{layout:this.layout.join(",")})},saveStatuses(){l.default.post((0,s.generateUrl)("/apps/dashboard/statuses"),{statuses:JSON.stringify(this.enabledStatuses)})},showModal(){this.modal=!0,this.firstRun=!1},closeModal(){this.modal=!1},updateCheckbox(t,e){const n=this.layout.indexOf(t.id);!e&&n>-1?this.layout.splice(n,1):this.layout.push(t.id),i.default.set(this.panels[t.id],"mounted",!1),this.saveLayout(),this.$nextTick((()=>this.rerenderPanels()))},disableFirstrunHint(){window.removeEventListener("scroll",this.disableFirstrunHint),setTimeout((()=>{this.firstRun=!1}),1e3)},updateSkipLink(){document.getElementsByClassName("skip-navigation")[0].setAttribute("href","#app-dashboard")},updateStatusCheckbox(t,e){e?this.enableStatus(t):this.disableStatus(t)},enableStatus(t){this.enabledStatuses[t]=!0,this.registerStatus(t,this.allCallbacksStatus[t]),this.saveStatuses()},disableStatus(t){this.enabledStatuses[t]=!1;const e=this.registeredStatus.findIndex((e=>e===t));-1!==e&&(this.registeredStatus.splice(e,1),i.default.set(this.statuses,t,{mounted:!1}),this.$nextTick((()=>{i.default.delete(this.callbacksStatus,t)}))),this.saveStatuses()},sortStatuses(t,e){const n=t.toLowerCase(),a=e.toLowerCase();return n>a?1:n<a?-1:0},handleScroll(){window.scrollY>70?document.body.classList.add("dashboard--scrolled"):document.body.classList.remove("dashboard--scrolled")},async fetchApiWidgets(){const t=await l.default.get((0,s.generateOcsUrl)("/apps/dashboard/api/v1/widgets"));this.apiWidgets=t.data.ocs.data},async fetchApiWidgetItems(t){let e=arguments.length>1&&void 0!==arguments[1]&&arguments[1];try{const n=(0,s.generateOcsUrl)("/apps/dashboard/api/v2/widget-items"),a=new URLSearchParams(t.map((t=>["widgets[]",t]))),i=(await l.default.get("".concat(n,"?").concat(a.toString()))).data.ocs.data;this.apiWidgetItems=e?Object.assign({},this.apiWidgetItems,i):i}finally{this.loadingItems=!1}},isApiWidgetV2(t){for(const e of Object.values(this.apiWidgets))if(e.id===t&&e.item_api_versions.includes(2))return!0;return!1}}};var B=a(93379),W=a.n(B),I=a(7795),D=a.n(I),O=a(90569),N=a.n(O),j=a(3565),M=a.n(j),E=a(19216),F=a.n(E),T=a(44589),U=a.n(T),L=a(69268),P={};P.styleTagTransform=U(),P.setAttributes=M(),P.insert=N().bind(null,"head"),P.domAPI=D(),P.insertStyleElement=F(),W()(L.Z,P),L.Z&&L.Z.locals&&L.Z.locals;var z=a(43141),G={};G.styleTagTransform=U(),G.setAttributes=M(),G.insert=N().bind(null,"head"),G.domAPI=D(),G.insertStyleElement=F(),W()(z.Z,G),z.Z&&z.Z.locals&&z.Z.locals;const R=(0,C.Z)(S,(function(){var t=this,e=t._self._c;return e("div",{attrs:{id:"app-dashboard"}},[e("h2",[t._v(t._s(t.greeting.text))]),t._v(" "),e("ul",{staticClass:"statuses"},t._l(t.sortedRegisteredStatus,(function(t){return e("li",{key:t,attrs:{id:"status-"+t}},[e("div",{ref:"status-"+t,refInFor:!0})])})),0),t._v(" "),e("Draggable",t._b({staticClass:"panels",attrs:{handle:".panel--header"},on:{end:t.saveLayout},model:{value:t.layout,callback:function(e){t.layout=e},expression:"layout"}},"Draggable",{swapThreshold:.3,delay:500,delayOnTouchOnly:!0,touchStartThreshold:3},!1),[t._l(t.layout,(function(n){return[t.isApiWidgetV2(t.panels[n].id)?e("div",{key:"".concat(t.panels[n].id,"-v2"),staticClass:"panel"},[e("div",{staticClass:"panel--header"},[e("h2",[e("div",{class:t.apiWidgets[t.panels[n].id].icon_class,attrs:{"aria-labelledby":"panel--header--icon--description","aria-hidden":"true",role:"img"}}),t._v("\n\t\t\t\t\t\t"+t._s(t.apiWidgets[t.panels[n].id].title)+"\n\t\t\t\t\t")]),t._v(" "),e("span",{staticClass:"hidden-visually",attrs:{id:"panel--header--icon--description"}},[t._v("\n\t\t\t\t\t\t"+t._s(t.t("dashboard",'"{title} icon"',{title:t.apiWidgets[t.panels[n].id].title}))+"\n\t\t\t\t\t")])]),t._v(" "),e("div",{staticClass:"panel--content"},[e("ApiDashboardWidget",{attrs:{widget:t.apiWidgets[t.panels[n].id],data:t.apiWidgetItems[t.panels[n].id],loading:t.loadingItems}})],1)]):e("div",{key:t.panels[n].id,staticClass:"panel"},[e("div",{staticClass:"panel--header"},[e("h2",[e("div",{class:t.panels[n].iconClass,attrs:{"aria-labelledby":"panel--header--icon--description","aria-hidden":"true",role:"img"}}),t._v("\n\t\t\t\t\t\t"+t._s(t.panels[n].title)+"\n\t\t\t\t\t")]),t._v(" "),e("span",{staticClass:"hidden-visually",attrs:{id:"panel--header--icon--description"}},[t._v(" "+t._s(t.t("dashboard",'"{title} icon"',{title:t.panels[n].title}))+" ")])]),t._v(" "),e("div",{staticClass:"panel--content",class:{loading:!t.panels[n].mounted}},[e("div",{ref:t.panels[n].id,refInFor:!0,attrs:{"data-id":t.panels[n].id}})])])]}))],2),t._v(" "),e("div",{staticClass:"footer"},[e("NcButton",{on:{click:t.showModal},scopedSlots:t._u([{key:"icon",fn:function(){return[e("Pencil",{attrs:{size:20}})]},proxy:!0}])},[t._v("\n\t\t\t"+t._s(t.t("dashboard","Customize"))+"\n\t\t")])],1),t._v(" "),t.modal?e("NcModal",{attrs:{size:"large"},on:{close:t.closeModal}},[e("div",{staticClass:"modal__content"},[e("h3",[t._v(t._s(t.t("dashboard","Edit widgets")))]),t._v(" "),e("ol",{staticClass:"panels"},t._l(t.sortedAllStatuses,(function(n){return e("li",{key:n,class:"panel-"+n},[e("input",{staticClass:"checkbox",attrs:{id:"status-checkbox-"+n,type:"checkbox"},domProps:{checked:t.isStatusActive(n)},on:{input:function(e){return t.updateStatusCheckbox(n,e.target.checked)}}}),t._v(" "),e("label",{attrs:{for:"status-checkbox-"+n}},[e("div",{class:t.statusInfo[n].icon,attrs:{"aria-hidden":"true",role:"img"}}),t._v("\n\t\t\t\t\t\t"+t._s(t.statusInfo[n].text)+"\n\t\t\t\t\t")])])})),0),t._v(" "),e("Draggable",t._b({staticClass:"panels",attrs:{tag:"ol",handle:".draggable"},on:{end:t.saveLayout},model:{value:t.layout,callback:function(e){t.layout=e},expression:"layout"}},"Draggable",{swapThreshold:.3,delay:500,delayOnTouchOnly:!0,touchStartThreshold:3},!1),t._l(t.sortedPanels,(function(n){return e("li",{key:n.id,class:"panel-"+n.id},[e("input",{staticClass:"checkbox",attrs:{id:"panel-checkbox-"+n.id,type:"checkbox"},domProps:{checked:t.isActive(n)},on:{input:function(e){return t.updateCheckbox(n,e.target.checked)}}}),t._v(" "),e("label",{class:{draggable:t.isActive(n)},attrs:{for:"panel-checkbox-"+n.id}},[e("div",{class:n.iconClass,attrs:{"aria-hidden":"true",role:"img"}}),t._v("\n\t\t\t\t\t\t"+t._s(n.title)+"\n\t\t\t\t\t")])])})),0),t._v(" "),t.isAdmin?e("a",{staticClass:"button",attrs:{href:t.appStoreUrl}},[t._v(t._s(t.t("dashboard","Get more widgets from the App Store")))]):t._e(),t._v(" "),t.statuses.weather&&t.isStatusActive("weather")?e("div",[e("h3",[t._v(t._s(t.t("dashboard","Weather service")))]),t._v(" "),e("p",[t._v("\n\t\t\t\t\t"+t._s(t.t("dashboard","For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information."))+"\n\t\t\t\t")]),t._v(" "),e("p",{staticClass:"credits--end"},[e("a",{attrs:{href:"https://api.met.no/doc/TermsOfService",target:"_blank",rel:"noopener"}},[t._v(t._s(t.t("dashboard","Weather data from Met.no")))]),t._v(",\n\t\t\t\t\t"),e("a",{attrs:{href:"https://wiki.osmfoundation.org/wiki/Privacy_Policy",target:"_blank",rel:"noopener"}},[t._v(t._s(t.t("dashboard","geocoding with Nominatim")))]),t._v(",\n\t\t\t\t\t"),e("a",{attrs:{href:"https://www.opentopodata.org/#public-api",target:"_blank",rel:"noopener"}},[t._v(t._s(t.t("dashboard","elevation data from OpenTopoData")))]),t._v(".\n\t\t\t\t")])]):t._e()],1)]):t._e()],1)}),[],!1,null,"42572a02",null).exports;var V=a(31352),H=a(15168),$=a.n(H);a.nc=btoa((0,o.IH)()),i.default.directive("Tooltip",$()),i.default.prototype.t=V.Iu,window.OCA.Files||(window.OCA.Files={}),Object.assign(window.OCA.Files,{App:{fileList:{filesClient:OC.Files.getClient()}}},window.OCA.Files);const Z=new(i.default.extend(R))({}).$mount("#app-content-vue");window.OCA.Dashboard={register:(t,e)=>Z.register(t,e),registerStatus:(t,e)=>Z.registerStatus(t,e)}},69268:(t,e,n)=>{n.d(e,{Z:()=>r});var a=n(87537),i=n.n(a),s=n(23645),o=n.n(s)()(i());o.push([t.id,"#app-dashboard[data-v-42572a02]{width:100%;min-height:100%;background-size:cover;background-position:center center;background-repeat:no-repeat;background-attachment:fixed}#app-dashboard>h2[data-v-42572a02]{color:var(--color-primary-text);text-align:center;font-size:32px;line-height:130%;padding:1rem 0}.panels[data-v-42572a02]{width:auto;margin:auto;max-width:1800px;display:flex;justify-content:center;flex-direction:row;align-items:flex-start;flex-wrap:wrap}.panel[data-v-42572a02],.panels>div[data-v-42572a02]{width:320px;max-width:100%;margin:16px;align-self:stretch;background-color:var(--color-main-background-blur);-webkit-backdrop-filter:var(--filter-background-blur);backdrop-filter:var(--filter-background-blur);border-radius:var(--border-radius-rounded)}#body-user.theme--highcontrast .panel[data-v-42572a02],#body-user.theme--highcontrast .panels>div[data-v-42572a02]{border:2px solid var(--color-border)}.panel.sortable-ghost[data-v-42572a02],.panels>div.sortable-ghost[data-v-42572a02]{opacity:.1}.panel>.panel--header[data-v-42572a02],.panels>div>.panel--header[data-v-42572a02]{display:flex;z-index:1;top:50px;padding:16px;cursor:grab}.panel>.panel--header[data-v-42572a02],.panel>.panel--header[data-v-42572a02] *,.panels>div>.panel--header[data-v-42572a02],.panels>div>.panel--header[data-v-42572a02] *{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.panel>.panel--header[data-v-42572a02]:active,.panels>div>.panel--header[data-v-42572a02]:active{cursor:grabbing}.panel>.panel--header a[data-v-42572a02],.panels>div>.panel--header a[data-v-42572a02]{flex-grow:1}.panel>.panel--header>h2[data-v-42572a02],.panels>div>.panel--header>h2[data-v-42572a02]{display:block;align-items:center;flex-grow:1;margin:0;font-size:20px;line-height:24px;font-weight:bold;padding:16px 8px;height:56px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:grab}.panel>.panel--header>h2 div[data-v-42572a02],.panels>div>.panel--header>h2 div[data-v-42572a02]{background-size:32px;width:32px;height:32px;margin-right:16px;background-position:center;float:left;margin-top:-6px}.panel>.panel--content[data-v-42572a02],.panels>div>.panel--content[data-v-42572a02]{margin:0 16px 16px 16px;height:424px;overflow:visible}@media only screen and (max-width: 709px){.panel>.panel--content[data-v-42572a02],.panels>div>.panel--content[data-v-42572a02]{height:auto}}.footer[data-v-42572a02]{display:flex;justify-content:center;transition:bottom var(--animation-slow) ease-in-out;padding:1rem 0}.edit-panels[data-v-42572a02]{display:inline-block;margin:auto;background-position:16px center;padding:12px 16px;padding-left:36px;border-radius:var(--border-radius-pill);max-width:200px;opacity:1;text-align:center}.button[data-v-42572a02],.button-vue[data-v-42572a02],.edit-panels[data-v-42572a02],.statuses[data-v-42572a02] .action-item .action-item__menutoggle,.statuses[data-v-42572a02] .action-item.action-item--open .action-item__menutoggle{background-color:var(--color-main-background-blur);-webkit-backdrop-filter:var(--filter-background-blur);backdrop-filter:var(--filter-background-blur);opacity:1 !important}.button[data-v-42572a02]:hover,.button[data-v-42572a02]:focus,.button[data-v-42572a02]:active,.button-vue[data-v-42572a02]:hover,.button-vue[data-v-42572a02]:focus,.button-vue[data-v-42572a02]:active,.edit-panels[data-v-42572a02]:hover,.edit-panels[data-v-42572a02]:focus,.edit-panels[data-v-42572a02]:active,.statuses[data-v-42572a02] .action-item .action-item__menutoggle:hover,.statuses[data-v-42572a02] .action-item .action-item__menutoggle:focus,.statuses[data-v-42572a02] .action-item .action-item__menutoggle:active,.statuses[data-v-42572a02] .action-item.action-item--open .action-item__menutoggle:hover,.statuses[data-v-42572a02] .action-item.action-item--open .action-item__menutoggle:focus,.statuses[data-v-42572a02] .action-item.action-item--open .action-item__menutoggle:active{background-color:var(--color-background-hover) !important}.button[data-v-42572a02]:focus-visible,.button-vue[data-v-42572a02]:focus-visible,.edit-panels[data-v-42572a02]:focus-visible,.statuses[data-v-42572a02] .action-item .action-item__menutoggle:focus-visible,.statuses[data-v-42572a02] .action-item.action-item--open .action-item__menutoggle:focus-visible{box-shadow:0 0 0 2px var(--color-main-text) !important}.modal__content[data-v-42572a02]{padding:32px 16px;text-align:center}.modal__content ol[data-v-42572a02]{display:flex;flex-direction:row;justify-content:center;list-style-type:none;padding-bottom:16px}.modal__content li label[data-v-42572a02]{position:relative;display:block;padding:48px 16px 14px 16px;margin:8px;width:140px;background-color:var(--color-background-hover);border:2px solid var(--color-main-background);border-radius:var(--border-radius-large);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.modal__content li label div[data-v-42572a02]{position:absolute;top:16px;width:24px;height:24px;background-size:24px}.modal__content li label[data-v-42572a02]:hover{border-color:var(--color-primary-element)}.modal__content li:not(.panel-status) label div[data-v-42572a02]{filter:var(--background-invert-if-dark)}.modal__content li input[type=checkbox].checkbox+label[data-v-42572a02]:before{position:absolute;right:12px;top:16px}.modal__content li input:focus+label[data-v-42572a02]{border-color:var(--color-primary-element)}.modal__content h3[data-v-42572a02]{font-weight:bold}.modal__content h3[data-v-42572a02]:not(:first-of-type){margin-top:64px}.modal__content .button[data-v-42572a02]{display:inline-block;padding:10px 16px;margin:0}.modal__content p[data-v-42572a02]{max-width:650px;margin:0 auto}.modal__content p a[data-v-42572a02]:hover,.modal__content p a[data-v-42572a02]:focus{border-bottom:2px solid var(--color-border)}.modal__content .credits--end[data-v-42572a02]{padding-bottom:32px;color:var(--color-text-maxcontrast)}.modal__content .credits--end a[data-v-42572a02]{color:var(--color-text-maxcontrast)}.flip-list-move[data-v-42572a02]{transition:transform var(--animation-slow)}.statuses[data-v-42572a02]{display:flex;flex-direction:row;justify-content:center;flex-wrap:wrap;margin-bottom:36px}.statuses>li[data-v-42572a02]{margin:8px}","",{version:3,sources:["webpack://./apps/dashboard/src/DashboardApp.vue"],names:[],mappings:"AACA,gCACC,UAAA,CACA,eAAA,CACA,qBAAA,CACA,iCAAA,CACA,2BAAA,CACA,2BAAA,CAEA,mCAEC,+BAAA,CACA,iBAAA,CACA,cAAA,CACA,gBAAA,CACA,cAAA,CAIF,yBACC,UAAA,CACA,WAAA,CACA,gBAAA,CACA,YAAA,CACA,sBAAA,CACA,kBAAA,CACA,sBAAA,CACA,cAAA,CAGD,qDACC,WAAA,CACA,cAAA,CACA,WAAA,CACA,kBAAA,CACA,kDAAA,CACA,qDAAA,CACA,6CAAA,CACA,0CAAA,CAEA,mHACC,oCAAA,CAGD,mFACE,UAAA,CAGF,mFACC,YAAA,CACA,SAAA,CACA,QAAA,CACA,YAAA,CACA,WAAA,CAEA,0KACC,0BAAA,CACA,wBAAA,CACA,uBAAA,CACA,qBAAA,CACA,oBAAA,CACA,gBAAA,CAGD,iGACC,eAAA,CAGD,uFACC,WAAA,CAGD,yFACC,aAAA,CACA,kBAAA,CACA,WAAA,CACA,QAAA,CACA,cAAA,CACA,gBAAA,CACA,gBAAA,CACA,gBAAA,CACA,WAAA,CACA,kBAAA,CACA,eAAA,CACA,sBAAA,CACA,WAAA,CACA,iGACC,oBAAA,CACA,UAAA,CACA,WAAA,CACA,iBAAA,CACA,0BAAA,CACA,UAAA,CACA,eAAA,CAKH,qFACC,uBAAA,CACA,YAAA,CAEA,gBAAA,CAID,0CACC,qFACC,WAAA,CAAA,CAKH,yBACC,YAAA,CACA,sBAAA,CACA,mDAAA,CACA,cAAA,CAGD,8BACC,oBAAA,CACA,WAAA,CACA,+BAAA,CACA,iBAAA,CACA,iBAAA,CACA,uCAAA,CACA,eAAA,CACA,SAAA,CACA,iBAAA,CAGD,wOAKC,kDAAA,CACA,qDAAA,CACA,6CAAA,CACA,oBAAA,CAEA,uxBAGC,yDAAA,CAED,8SACC,sDAAA,CAIF,iCACC,iBAAA,CACA,iBAAA,CAEA,oCACC,YAAA,CACA,kBAAA,CACA,sBAAA,CACA,oBAAA,CACA,mBAAA,CAGA,0CACC,iBAAA,CACA,aAAA,CACA,2BAAA,CACA,UAAA,CACA,WAAA,CACA,8CAAA,CACA,6CAAA,CACA,wCAAA,CACA,eAAA,CACA,eAAA,CACA,sBAAA,CACA,kBAAA,CAEA,8CACC,iBAAA,CACA,QAAA,CACA,UAAA,CACA,WAAA,CACA,oBAAA,CAGD,gDACC,yCAAA,CAKF,iEACC,uCAAA,CAGD,+EACC,iBAAA,CACA,UAAA,CACA,QAAA,CAGD,sDACC,yCAAA,CAIF,oCACC,gBAAA,CAEA,wDACC,eAAA,CAKF,yCACC,oBAAA,CACA,iBAAA,CACA,QAAA,CAGD,mCACC,eAAA,CACA,aAAA,CAEA,sFAEC,2CAAA,CAIF,+CACC,mBAAA,CACA,mCAAA,CAEA,iDACC,mCAAA,CAKH,iCACC,0CAAA,CAGD,2BACC,YAAA,CACA,kBAAA,CACA,sBAAA,CACA,cAAA,CACA,kBAAA,CAEA,8BACC,UAAA",sourcesContent:["\n#app-dashboard {\n\twidth: 100%;\n\tmin-height: 100%;\n\tbackground-size: cover;\n\tbackground-position: center center;\n\tbackground-repeat: no-repeat;\n\tbackground-attachment: fixed;\n\n\t> h2 {\n\t\t// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`\n\t\tcolor: var(--color-primary-text);\n\t\ttext-align: center;\n\t\tfont-size: 32px;\n\t\tline-height: 130%;\n\t\tpadding: 1rem 0;\n\t}\n}\n\n.panels {\n\twidth: auto;\n\tmargin: auto;\n\tmax-width: 1800px;\n\tdisplay: flex;\n\tjustify-content: center;\n\tflex-direction: row;\n\talign-items: flex-start;\n\tflex-wrap: wrap;\n}\n\n.panel, .panels > div {\n\twidth: 320px;\n\tmax-width: 100%;\n\tmargin: 16px;\n\talign-self: stretch;\n\tbackground-color: var(--color-main-background-blur);\n\t-webkit-backdrop-filter: var(--filter-background-blur);\n\tbackdrop-filter: var(--filter-background-blur);\n\tborder-radius: var(--border-radius-rounded);\n\n\t#body-user.theme--highcontrast & {\n\t\tborder: 2px solid var(--color-border);\n\t}\n\n\t&.sortable-ghost {\n\t\t opacity: 0.1;\n\t}\n\n\t& > .panel--header {\n\t\tdisplay: flex;\n\t\tz-index: 1;\n\t\ttop: 50px;\n\t\tpadding: 16px;\n\t\tcursor: grab;\n\n\t\t&, ::v-deep * {\n\t\t\t-webkit-touch-callout: none;\n\t\t\t-webkit-user-select: none;\n\t\t\t-khtml-user-select: none;\n\t\t\t-moz-user-select: none;\n\t\t\t-ms-user-select: none;\n\t\t\tuser-select: none;\n\t\t}\n\n\t\t&:active {\n\t\t\tcursor: grabbing;\n\t\t}\n\n\t\ta {\n\t\t\tflex-grow: 1;\n\t\t}\n\n\t\t> h2 {\n\t\t\tdisplay: block;\n\t\t\talign-items: center;\n\t\t\tflex-grow: 1;\n\t\t\tmargin: 0;\n\t\t\tfont-size: 20px;\n\t\t\tline-height: 24px;\n\t\t\tfont-weight: bold;\n\t\t\tpadding: 16px 8px;\n\t\t\theight: 56px;\n\t\t\twhite-space: nowrap;\n\t\t\toverflow: hidden;\n\t\t\ttext-overflow: ellipsis;\n\t\t\tcursor: grab;\n\t\t\tdiv {\n\t\t\t\tbackground-size: 32px;\n\t\t\t\twidth: 32px;\n\t\t\t\theight: 32px;\n\t\t\t\tmargin-right: 16px;\n\t\t\t\tbackground-position: center;\n\t\t\t\tfloat: left;\n\t\t\t\tmargin-top: -6px;\n\t\t\t}\n\t\t}\n\t}\n\n\t& > .panel--content {\n\t\tmargin: 0 16px 16px 16px;\n\t\theight: 424px;\n\t\t// We specifically do not want scrollbars inside widgets\n\t\toverflow: visible;\n\t}\n\n\t// No need to extend height of widgets if only one column is shown\n\t@media only screen and (max-width: 709px) {\n\t\t& > .panel--content {\n\t\t\theight: auto;\n\t\t}\n\t}\n}\n\n.footer {\n\tdisplay: flex;\n\tjustify-content: center;\n\ttransition: bottom var(--animation-slow) ease-in-out;\n\tpadding: 1rem 0;\n}\n\n.edit-panels {\n\tdisplay: inline-block;\n\tmargin:auto;\n\tbackground-position: 16px center;\n\tpadding: 12px 16px;\n\tpadding-left: 36px;\n\tborder-radius: var(--border-radius-pill);\n\tmax-width: 200px;\n\topacity: 1;\n\ttext-align: center;\n}\n\n.button,\n.button-vue,\n.edit-panels,\n.statuses ::v-deep .action-item .action-item__menutoggle,\n.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {\n\tbackground-color: var(--color-main-background-blur);\n\t-webkit-backdrop-filter: var(--filter-background-blur);\n\tbackdrop-filter: var(--filter-background-blur);\n\topacity: 1 !important;\n\n\t&:hover,\n\t&:focus,\n\t&:active {\n\t\tbackground-color: var(--color-background-hover)!important;\n\t}\n\t&:focus-visible {\n\t\tbox-shadow: 0 0 0 2px var(--color-main-text) !important;\n\t}\n}\n\n.modal__content {\n\tpadding: 32px 16px;\n\ttext-align: center;\n\n\tol {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tjustify-content: center;\n\t\tlist-style-type: none;\n\t\tpadding-bottom: 16px;\n\t}\n\tli {\n\t\tlabel {\n\t\t\tposition: relative;\n\t\t\tdisplay: block;\n\t\t\tpadding: 48px 16px 14px 16px;\n\t\t\tmargin: 8px;\n\t\t\twidth: 140px;\n\t\t\tbackground-color: var(--color-background-hover);\n\t\t\tborder: 2px solid var(--color-main-background);\n\t\t\tborder-radius: var(--border-radius-large);\n\t\t\ttext-align: left;\n\t\t\toverflow: hidden;\n\t\t\ttext-overflow: ellipsis;\n\t\t\twhite-space: nowrap;\n\n\t\t\tdiv {\n\t\t\t\tposition: absolute;\n\t\t\t\ttop: 16px;\n\t\t\t\twidth: 24px;\n\t\t\t\theight: 24px;\n\t\t\t\tbackground-size: 24px;\n\t\t\t}\n\n\t\t\t&:hover {\n\t\t\t\tborder-color: var(--color-primary-element);\n\t\t\t}\n\t\t}\n\n\t\t// Do not invert status icons\n\t\t&:not(.panel-status) label div {\n\t\t\tfilter: var(--background-invert-if-dark);\n\t\t}\n\n\t\tinput[type='checkbox'].checkbox + label:before {\n\t\t\tposition: absolute;\n\t\t\tright: 12px;\n\t\t\ttop: 16px;\n\t\t}\n\n\t\tinput:focus + label {\n\t\t\tborder-color: var(--color-primary-element);\n\t\t}\n\t}\n\n\th3 {\n\t\tfont-weight: bold;\n\n\t\t&:not(:first-of-type) {\n\t\t\tmargin-top: 64px;\n\t\t}\n\t}\n\n\t// Adjust design of 'Get more widgets' button\n\t.button {\n\t\tdisplay: inline-block;\n\t\tpadding: 10px 16px;\n\t\tmargin: 0;\n\t}\n\n\tp {\n\t\tmax-width: 650px;\n\t\tmargin: 0 auto;\n\n\t\ta:hover,\n\t\ta:focus {\n\t\t\tborder-bottom: 2px solid var(--color-border);\n\t\t}\n\t}\n\n\t.credits--end {\n\t\tpadding-bottom: 32px;\n\t\tcolor: var(--color-text-maxcontrast);\n\n\t\ta {\n\t\t\tcolor: var(--color-text-maxcontrast);\n\t\t}\n\t}\n}\n\n.flip-list-move {\n\ttransition: transform var(--animation-slow);\n}\n\n.statuses {\n\tdisplay: flex;\n\tflex-direction: row;\n\tjustify-content: center;\n\tflex-wrap: wrap;\n\tmargin-bottom: 36px;\n\n\t& > li {\n\t\tmargin: 8px;\n\t}\n}\n"],sourceRoot:""}]);const r=o},43141:(t,e,n)=>{n.d(e,{Z:()=>r});var a=n(87537),i=n.n(a),s=n(23645),o=n.n(s)()(i());o.push([t.id,"\nhtml, body {\n\tbackground-attachment: fixed;\n}\n#body-user #header {\n\tposition: fixed;\n}\n#content {\n\toverflow: auto;\n}\n","",{version:3,sources:["webpack://./apps/dashboard/src/DashboardApp.vue"],names:[],mappings:";AA4sBA;CACA,4BAAA;AACA;AAEA;CACA,eAAA;AACA;AAEA;CACA,cAAA;AACA",sourcesContent:["<template>\n\t<div id=\"app-dashboard\">\n\t\t<h2>{{ greeting.text }}</h2>\n\t\t<ul class=\"statuses\">\n\t\t\t<li v-for=\"status in sortedRegisteredStatus\"\n\t\t\t\t:id=\"'status-' + status\"\n\t\t\t\t:key=\"status\">\n\t\t\t\t<div :ref=\"'status-' + status\" />\n\t\t\t</li>\n\t\t</ul>\n\n\t\t<Draggable v-model=\"layout\"\n\t\t\tclass=\"panels\"\n\t\t\tv-bind=\"{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}\"\n\t\t\thandle=\".panel--header\"\n\t\t\t@end=\"saveLayout\">\n\t\t\t<template v-for=\"panelId in layout\">\n\t\t\t\t<div v-if=\"isApiWidgetV2(panels[panelId].id)\"\n\t\t\t\t\t:key=\"`${panels[panelId].id}-v2`\"\n\t\t\t\t\tclass=\"panel\">\n\t\t\t\t\t<div class=\"panel--header\">\n\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t<div aria-labelledby=\"panel--header--icon--description\"\n\t\t\t\t\t\t\t\taria-hidden=\"true\"\n\t\t\t\t\t\t\t\t:class=\"apiWidgets[panels[panelId].id].icon_class\"\n\t\t\t\t\t\t\t\trole=\"img\" />\n\t\t\t\t\t\t\t{{ apiWidgets[panels[panelId].id].title }}\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t\t<span id=\"panel--header--icon--description\" class=\"hidden-visually\">\n\t\t\t\t\t\t\t{{ t('dashboard', '\"{title} icon\"', { title: apiWidgets[panels[panelId].id].title }) }}\n\t\t\t\t\t\t</span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"panel--content\">\n\t\t\t\t\t\t<ApiDashboardWidget :widget=\"apiWidgets[panels[panelId].id]\"\n\t\t\t\t\t\t\t:data=\"apiWidgetItems[panels[panelId].id]\"\n\t\t\t\t\t\t\t:loading=\"loadingItems\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div v-else :key=\"panels[panelId].id\" class=\"panel\">\n\t\t\t\t\t<div class=\"panel--header\">\n\t\t\t\t\t\t<h2>\n\t\t\t\t\t\t\t<div aria-labelledby=\"panel--header--icon--description\"\n\t\t\t\t\t\t\t\taria-hidden=\"true\"\n\t\t\t\t\t\t\t\t:class=\"panels[panelId].iconClass\"\n\t\t\t\t\t\t\t\trole=\"img\" />\n\t\t\t\t\t\t\t{{ panels[panelId].title }}\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t\t<span id=\"panel--header--icon--description\" class=\"hidden-visually\"> {{ t('dashboard', '\"{title} icon\"', { title: panels[panelId].title }) }} </span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"panel--content\" :class=\"{ loading: !panels[panelId].mounted }\">\n\t\t\t\t\t\t<div :ref=\"panels[panelId].id\" :data-id=\"panels[panelId].id\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</template>\n\t\t</Draggable>\n\n\t\t<div class=\"footer\">\n\t\t\t<NcButton @click=\"showModal\">\n\t\t\t\t<template #icon>\n\t\t\t\t\t<Pencil :size=\"20\" />\n\t\t\t\t</template>\n\t\t\t\t{{ t('dashboard', 'Customize') }}\n\t\t\t</NcButton>\n\t\t</div>\n\n\t\t<NcModal v-if=\"modal\" size=\"large\" @close=\"closeModal\">\n\t\t\t<div class=\"modal__content\">\n\t\t\t\t<h3>{{ t('dashboard', 'Edit widgets') }}</h3>\n\t\t\t\t<ol class=\"panels\">\n\t\t\t\t\t<li v-for=\"status in sortedAllStatuses\" :key=\"status\" :class=\"'panel-' + status\">\n\t\t\t\t\t\t<input :id=\"'status-checkbox-' + status\"\n\t\t\t\t\t\t\ttype=\"checkbox\"\n\t\t\t\t\t\t\tclass=\"checkbox\"\n\t\t\t\t\t\t\t:checked=\"isStatusActive(status)\"\n\t\t\t\t\t\t\t@input=\"updateStatusCheckbox(status, $event.target.checked)\">\n\t\t\t\t\t\t<label :for=\"'status-checkbox-' + status\">\n\t\t\t\t\t\t\t<div :class=\"statusInfo[status].icon\" aria-hidden=\"true\" role=\"img\" />\n\t\t\t\t\t\t\t{{ statusInfo[status].text }}\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</li>\n\t\t\t\t</ol>\n\t\t\t\t<Draggable v-model=\"layout\"\n\t\t\t\t\tclass=\"panels\"\n\t\t\t\t\ttag=\"ol\"\n\t\t\t\t\tv-bind=\"{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}\"\n\t\t\t\t\thandle=\".draggable\"\n\t\t\t\t\t@end=\"saveLayout\">\n\t\t\t\t\t<li v-for=\"panel in sortedPanels\" :key=\"panel.id\" :class=\"'panel-' + panel.id\">\n\t\t\t\t\t\t<input :id=\"'panel-checkbox-' + panel.id\"\n\t\t\t\t\t\t\ttype=\"checkbox\"\n\t\t\t\t\t\t\tclass=\"checkbox\"\n\t\t\t\t\t\t\t:checked=\"isActive(panel)\"\n\t\t\t\t\t\t\t@input=\"updateCheckbox(panel, $event.target.checked)\">\n\t\t\t\t\t\t<label :for=\"'panel-checkbox-' + panel.id\" :class=\"{ draggable: isActive(panel) }\">\n\t\t\t\t\t\t\t<div :class=\"panel.iconClass\" aria-hidden=\"true\" role=\"img\" />\n\t\t\t\t\t\t\t{{ panel.title }}\n\t\t\t\t\t\t</label>\n\t\t\t\t\t</li>\n\t\t\t\t</Draggable>\n\n\t\t\t\t<a v-if=\"isAdmin\" :href=\"appStoreUrl\" class=\"button\">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>\n\n\t\t\t\t<div v-if=\"statuses.weather && isStatusActive('weather')\">\n\t\t\t\t\t<h3>{{ t('dashboard', 'Weather service') }}</h3>\n\t\t\t\t\t<p>\n\t\t\t\t\t\t{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}\n\t\t\t\t\t</p>\n\t\t\t\t\t<p class=\"credits--end\">\n\t\t\t\t\t\t<a href=\"https://api.met.no/doc/TermsOfService\" target=\"_blank\" rel=\"noopener\">{{ t('dashboard', 'Weather data from Met.no') }}</a>,\n\t\t\t\t\t\t<a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\" target=\"_blank\" rel=\"noopener\">{{ t('dashboard', 'geocoding with Nominatim') }}</a>,\n\t\t\t\t\t\t<a href=\"https://www.opentopodata.org/#public-api\" target=\"_blank\" rel=\"noopener\">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.\n\t\t\t\t\t</p>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</NcModal>\n\t</div>\n</template>\n\n<script>\nimport { generateUrl, generateOcsUrl } from '@nextcloud/router'\nimport { getCurrentUser } from '@nextcloud/auth'\nimport { loadState } from '@nextcloud/initial-state'\nimport axios from '@nextcloud/axios'\nimport NcButton from '@nextcloud/vue/dist/Components/NcButton.js'\nimport Draggable from 'vuedraggable'\nimport NcModal from '@nextcloud/vue/dist/Components/NcModal.js'\nimport Pencil from 'vue-material-design-icons/Pencil.vue'\nimport Vue from 'vue'\n\nimport isMobile from './mixins/isMobile.js'\nimport ApiDashboardWidget from './components/ApiDashboardWidget.vue'\n\nconst panels = loadState('dashboard', 'panels')\nconst firstRun = loadState('dashboard', 'firstRun')\n\nconst statusInfo = {\n\tweather: {\n\t\ttext: t('dashboard', 'Weather'),\n\t\ticon: 'icon-weather-status',\n\t},\n\tstatus: {\n\t\ttext: t('dashboard', 'Status'),\n\t\ticon: 'icon-user-status-online',\n\t},\n}\n\nexport default {\n\tname: 'DashboardApp',\n\tcomponents: {\n\t\tApiDashboardWidget,\n\t\tNcButton,\n\t\tDraggable,\n\t\tNcModal,\n\t\tPencil,\n\t},\n\tmixins: [\n\t\tisMobile,\n\t],\n\n\tdata() {\n\t\treturn {\n\t\t\tisAdmin: getCurrentUser().isAdmin,\n\t\t\ttimer: new Date(),\n\t\t\tregisteredStatus: [],\n\t\t\tcallbacks: {},\n\t\t\tcallbacksStatus: {},\n\t\t\tallCallbacksStatus: {},\n\t\t\tstatusInfo,\n\t\t\tenabledStatuses: loadState('dashboard', 'statuses'),\n\t\t\tpanels,\n\t\t\tfirstRun,\n\t\t\tdisplayName: getCurrentUser()?.displayName,\n\t\t\tuid: getCurrentUser()?.uid,\n\t\t\tlayout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),\n\t\t\tmodal: false,\n\t\t\tappStoreUrl: generateUrl('/settings/apps/dashboard'),\n\t\t\tstatuses: {},\n\t\t\tapiWidgets: [],\n\t\t\tapiWidgetItems: {},\n\t\t\tloadingItems: true,\n\t\t}\n\t},\n\tcomputed: {\n\t\tgreeting() {\n\t\t\tconst time = this.timer.getHours()\n\n\t\t\t// Determine part of the day\n\t\t\tlet partOfDay\n\t\t\tif (time >= 22 || time < 5) {\n\t\t\t\tpartOfDay = 'night'\n\t\t\t} else if (time >= 18) {\n\t\t\t\tpartOfDay = 'evening'\n\t\t\t} else if (time >= 12) {\n\t\t\t\tpartOfDay = 'afternoon'\n\t\t\t} else {\n\t\t\t\tpartOfDay = 'morning'\n\t\t\t}\n\n\t\t\t// Define the greetings\n\t\t\tconst good = {\n\t\t\t\tmorning: {\n\t\t\t\t\tgeneric: t('dashboard', 'Good morning'),\n\t\t\t\t\twithName: t('dashboard', 'Good morning, {name}', { name: this.displayName }, undefined, { escape: false }),\n\t\t\t\t},\n\t\t\t\tafternoon: {\n\t\t\t\t\tgeneric: t('dashboard', 'Good afternoon'),\n\t\t\t\t\twithName: t('dashboard', 'Good afternoon, {name}', { name: this.displayName }, undefined, { escape: false }),\n\t\t\t\t},\n\t\t\t\tevening: {\n\t\t\t\t\tgeneric: t('dashboard', 'Good evening'),\n\t\t\t\t\twithName: t('dashboard', 'Good evening, {name}', { name: this.displayName }, undefined, { escape: false }),\n\t\t\t\t},\n\t\t\t\tnight: {\n\t\t\t\t\t// Don't use \"Good night\" as it's not a greeting\n\t\t\t\t\tgeneric: t('dashboard', 'Hello'),\n\t\t\t\t\twithName: t('dashboard', 'Hello, {name}', { name: this.displayName }, undefined, { escape: false }),\n\t\t\t\t},\n\t\t\t}\n\n\t\t\t// Figure out which greeting to show\n\t\t\tconst shouldShowName = this.displayName && this.uid !== this.displayName\n\t\t\treturn { text: shouldShowName ? good[partOfDay].withName : good[partOfDay].generic }\n\t\t},\n\n\t\tisActive() {\n\t\t\treturn (panel) => this.layout.indexOf(panel.id) > -1\n\t\t},\n\t\tisStatusActive() {\n\t\t\treturn (status) => !(status in this.enabledStatuses) || this.enabledStatuses[status]\n\t\t},\n\n\t\tsortedAllStatuses() {\n\t\t\treturn Object.keys(this.allCallbacksStatus).slice().sort(this.sortStatuses)\n\t\t},\n\t\tsortedPanels() {\n\t\t\treturn Object.values(this.panels).sort((a, b) => {\n\t\t\t\tconst indexA = this.layout.indexOf(a.id)\n\t\t\t\tconst indexB = this.layout.indexOf(b.id)\n\t\t\t\tif (indexA === -1 || indexB === -1) {\n\t\t\t\t\treturn indexB - indexA || a.id - b.id\n\t\t\t\t}\n\t\t\t\treturn indexA - indexB || a.id - b.id\n\t\t\t})\n\t\t},\n\t\tsortedRegisteredStatus() {\n\t\t\treturn this.registeredStatus.slice().sort(this.sortStatuses)\n\t\t},\n\t},\n\n\twatch: {\n\t\tcallbacks() {\n\t\t\tthis.rerenderPanels()\n\t\t},\n\t\tcallbacksStatus() {\n\t\t\tfor (const app in this.callbacksStatus) {\n\t\t\t\tconst element = this.$refs['status-' + app]\n\t\t\t\tif (this.statuses[app] && this.statuses[app].mounted) {\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\t\t\t\tif (element) {\n\t\t\t\t\tthis.callbacksStatus[app](element[0])\n\t\t\t\t\tVue.set(this.statuses, app, { mounted: true })\n\t\t\t\t} else {\n\t\t\t\t\tconsole.error('Failed to register panel in the frontend as no backend data was provided for ' + app)\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t},\n\n\tasync created() {\n\t\tawait this.fetchApiWidgets()\n\n\t\tconst apiWidgetIdsToFetch = Object\n\t\t\t.values(this.apiWidgets)\n\t\t\t.filter(widget => this.isApiWidgetV2(widget.id))\n\t\t\t.map(widget => widget.id)\n\t\tawait Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)))\n\n\t\tfor (const widget of Object.values(this.apiWidgets)) {\n\t\t\tif (widget.reload_interval > 0) {\n\t\t\t\tsetInterval(async () => {\n\t\t\t\t\tawait this.fetchApiWidgetItems([widget.id], true)\n\t\t\t\t}, widget.reload_interval * 1000)\n\t\t\t}\n\t\t}\n\t},\n\tmounted() {\n\t\tthis.updateSkipLink()\n\t\twindow.addEventListener('scroll', this.handleScroll)\n\n\t\tsetInterval(() => {\n\t\t\tthis.timer = new Date()\n\t\t}, 30000)\n\n\t\tif (this.firstRun) {\n\t\t\twindow.addEventListener('scroll', this.disableFirstrunHint)\n\t\t}\n\t},\n\tdestroyed() {\n\t\twindow.removeEventListener('scroll', this.handleScroll)\n\t},\n\n\tmethods: {\n\t\t/**\n\t\t * Method to register panels that will be called by the integrating apps\n\t\t *\n\t\t * @param {string} app The unique app id for the widget\n\t\t * @param {Function} callback The callback function to register a panel which gets the DOM element passed as parameter\n\t\t */\n\t\tregister(app, callback) {\n\t\t\tVue.set(this.callbacks, app, callback)\n\t\t},\n\t\tregisterStatus(app, callback) {\n\t\t\t// always save callbacks in case user enables the status later\n\t\t\tVue.set(this.allCallbacksStatus, app, callback)\n\t\t\t// register only if status is enabled or missing from config\n\t\t\tif (this.isStatusActive(app)) {\n\t\t\t\tthis.registeredStatus.push(app)\n\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\tVue.set(this.callbacksStatus, app, callback)\n\t\t\t\t})\n\t\t\t}\n\t\t},\n\t\trerenderPanels() {\n\t\t\tfor (const app in this.callbacks) {\n\t\t\t\t// TODO: Properly rerender v2 widgets\n\t\t\t\tif (this.isApiWidgetV2(this.panels[app].id)) {\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\n\t\t\t\tconst element = this.$refs[app]\n\t\t\t\tif (this.layout.indexOf(app) === -1) {\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\t\t\t\tif (this.panels[app] && this.panels[app].mounted) {\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\t\t\t\tif (element) {\n\t\t\t\t\tthis.callbacks[app](element[0], {\n\t\t\t\t\t\twidget: this.panels[app],\n\t\t\t\t\t})\n\t\t\t\t\tVue.set(this.panels[app], 'mounted', true)\n\t\t\t\t} else {\n\t\t\t\t\tconsole.error('Failed to register panel in the frontend as no backend data was provided for ' + app)\n\t\t\t\t}\n\t\t\t}\n\t\t},\n\t\tsaveLayout() {\n\t\t\taxios.post(generateUrl('/apps/dashboard/layout'), {\n\t\t\t\tlayout: this.layout.join(','),\n\t\t\t})\n\t\t},\n\t\tsaveStatuses() {\n\t\t\taxios.post(generateUrl('/apps/dashboard/statuses'), {\n\t\t\t\tstatuses: JSON.stringify(this.enabledStatuses),\n\t\t\t})\n\t\t},\n\t\tshowModal() {\n\t\t\tthis.modal = true\n\t\t\tthis.firstRun = false\n\t\t},\n\t\tcloseModal() {\n\t\t\tthis.modal = false\n\t\t},\n\t\tupdateCheckbox(panel, currentValue) {\n\t\t\tconst index = this.layout.indexOf(panel.id)\n\t\t\tif (!currentValue && index > -1) {\n\t\t\t\tthis.layout.splice(index, 1)\n\n\t\t\t} else {\n\t\t\t\tthis.layout.push(panel.id)\n\t\t\t}\n\t\t\tVue.set(this.panels[panel.id], 'mounted', false)\n\t\t\tthis.saveLayout()\n\t\t\tthis.$nextTick(() => this.rerenderPanels())\n\t\t},\n\t\tdisableFirstrunHint() {\n\t\t\twindow.removeEventListener('scroll', this.disableFirstrunHint)\n\t\t\tsetTimeout(() => {\n\t\t\t\tthis.firstRun = false\n\t\t\t}, 1000)\n\t\t},\n\t\tupdateSkipLink() {\n\t\t\t// Make sure \"Skip to main content\" link points to the app content\n\t\t\tdocument.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')\n\t\t},\n\t\tupdateStatusCheckbox(app, checked) {\n\t\t\tif (checked) {\n\t\t\t\tthis.enableStatus(app)\n\t\t\t} else {\n\t\t\t\tthis.disableStatus(app)\n\t\t\t}\n\t\t},\n\t\tenableStatus(app) {\n\t\t\tthis.enabledStatuses[app] = true\n\t\t\tthis.registerStatus(app, this.allCallbacksStatus[app])\n\t\t\tthis.saveStatuses()\n\t\t},\n\t\tdisableStatus(app) {\n\t\t\tthis.enabledStatuses[app] = false\n\t\t\tconst i = this.registeredStatus.findIndex((s) => s === app)\n\t\t\tif (i !== -1) {\n\t\t\t\tthis.registeredStatus.splice(i, 1)\n\t\t\t\tVue.set(this.statuses, app, { mounted: false })\n\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\tVue.delete(this.callbacksStatus, app)\n\t\t\t\t})\n\t\t\t}\n\t\t\tthis.saveStatuses()\n\t\t},\n\t\tsortStatuses(a, b) {\n\t\t\tconst al = a.toLowerCase()\n\t\t\tconst bl = b.toLowerCase()\n\t\t\treturn al > bl\n\t\t\t\t? 1\n\t\t\t\t: al < bl\n\t\t\t\t\t? -1\n\t\t\t\t\t: 0\n\t\t},\n\t\thandleScroll() {\n\t\t\tif (window.scrollY > 70) {\n\t\t\t\tdocument.body.classList.add('dashboard--scrolled')\n\t\t\t} else {\n\t\t\t\tdocument.body.classList.remove('dashboard--scrolled')\n\t\t\t}\n\t\t},\n\t\tasync fetchApiWidgets() {\n\t\t\tconst response = await axios.get(generateOcsUrl('/apps/dashboard/api/v1/widgets'))\n\t\t\tthis.apiWidgets = response.data.ocs.data\n\t\t},\n\t\tasync fetchApiWidgetItems(widgetIds, merge = false) {\n\t\t\ttry {\n\t\t\t\tconst url = generateOcsUrl('/apps/dashboard/api/v2/widget-items')\n\t\t\t\tconst params = new URLSearchParams(widgetIds.map(id => ['widgets[]', id]))\n\t\t\t\tconst response = await axios.get(`${url}?${params.toString()}`)\n\t\t\t\tconst widgetItems = response.data.ocs.data\n\t\t\t\tif (merge) {\n\t\t\t\t\tthis.apiWidgetItems = Object.assign({}, this.apiWidgetItems, widgetItems)\n\t\t\t\t} else {\n\t\t\t\t\tthis.apiWidgetItems = widgetItems\n\t\t\t\t}\n\t\t\t} finally {\n\t\t\t\tthis.loadingItems = false\n\t\t\t}\n\t\t},\n\t\tisApiWidgetV2(id) {\n\t\t\tfor (const widget of Object.values(this.apiWidgets)) {\n\t\t\t\tif (widget.id === id && widget.item_api_versions.includes(2)) {\n\t\t\t\t\treturn true\n\t\t\t\t}\n\t\t\t}\n\t\t\treturn false\n\t\t},\n\t},\n}\n<\/script>\n\n<style lang=\"scss\" scoped>\n#app-dashboard {\n\twidth: 100%;\n\tmin-height: 100%;\n\tbackground-size: cover;\n\tbackground-position: center center;\n\tbackground-repeat: no-repeat;\n\tbackground-attachment: fixed;\n\n\t> h2 {\n\t\t// this is shown directly on the background which has `color-primary`, so we need `color-primary-text`\n\t\tcolor: var(--color-primary-text);\n\t\ttext-align: center;\n\t\tfont-size: 32px;\n\t\tline-height: 130%;\n\t\tpadding: 1rem 0;\n\t}\n}\n\n.panels {\n\twidth: auto;\n\tmargin: auto;\n\tmax-width: 1800px;\n\tdisplay: flex;\n\tjustify-content: center;\n\tflex-direction: row;\n\talign-items: flex-start;\n\tflex-wrap: wrap;\n}\n\n.panel, .panels > div {\n\twidth: 320px;\n\tmax-width: 100%;\n\tmargin: 16px;\n\talign-self: stretch;\n\tbackground-color: var(--color-main-background-blur);\n\t-webkit-backdrop-filter: var(--filter-background-blur);\n\tbackdrop-filter: var(--filter-background-blur);\n\tborder-radius: var(--border-radius-rounded);\n\n\t#body-user.theme--highcontrast & {\n\t\tborder: 2px solid var(--color-border);\n\t}\n\n\t&.sortable-ghost {\n\t\t opacity: 0.1;\n\t}\n\n\t& > .panel--header {\n\t\tdisplay: flex;\n\t\tz-index: 1;\n\t\ttop: 50px;\n\t\tpadding: 16px;\n\t\tcursor: grab;\n\n\t\t&, ::v-deep * {\n\t\t\t-webkit-touch-callout: none;\n\t\t\t-webkit-user-select: none;\n\t\t\t-khtml-user-select: none;\n\t\t\t-moz-user-select: none;\n\t\t\t-ms-user-select: none;\n\t\t\tuser-select: none;\n\t\t}\n\n\t\t&:active {\n\t\t\tcursor: grabbing;\n\t\t}\n\n\t\ta {\n\t\t\tflex-grow: 1;\n\t\t}\n\n\t\t> h2 {\n\t\t\tdisplay: block;\n\t\t\talign-items: center;\n\t\t\tflex-grow: 1;\n\t\t\tmargin: 0;\n\t\t\tfont-size: 20px;\n\t\t\tline-height: 24px;\n\t\t\tfont-weight: bold;\n\t\t\tpadding: 16px 8px;\n\t\t\theight: 56px;\n\t\t\twhite-space: nowrap;\n\t\t\toverflow: hidden;\n\t\t\ttext-overflow: ellipsis;\n\t\t\tcursor: grab;\n\t\t\tdiv {\n\t\t\t\tbackground-size: 32px;\n\t\t\t\twidth: 32px;\n\t\t\t\theight: 32px;\n\t\t\t\tmargin-right: 16px;\n\t\t\t\tbackground-position: center;\n\t\t\t\tfloat: left;\n\t\t\t\tmargin-top: -6px;\n\t\t\t}\n\t\t}\n\t}\n\n\t& > .panel--content {\n\t\tmargin: 0 16px 16px 16px;\n\t\theight: 424px;\n\t\t// We specifically do not want scrollbars inside widgets\n\t\toverflow: visible;\n\t}\n\n\t// No need to extend height of widgets if only one column is shown\n\t@media only screen and (max-width: 709px) {\n\t\t& > .panel--content {\n\t\t\theight: auto;\n\t\t}\n\t}\n}\n\n.footer {\n\tdisplay: flex;\n\tjustify-content: center;\n\ttransition: bottom var(--animation-slow) ease-in-out;\n\tpadding: 1rem 0;\n}\n\n.edit-panels {\n\tdisplay: inline-block;\n\tmargin:auto;\n\tbackground-position: 16px center;\n\tpadding: 12px 16px;\n\tpadding-left: 36px;\n\tborder-radius: var(--border-radius-pill);\n\tmax-width: 200px;\n\topacity: 1;\n\ttext-align: center;\n}\n\n.button,\n.button-vue,\n.edit-panels,\n.statuses ::v-deep .action-item .action-item__menutoggle,\n.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {\n\tbackground-color: var(--color-main-background-blur);\n\t-webkit-backdrop-filter: var(--filter-background-blur);\n\tbackdrop-filter: var(--filter-background-blur);\n\topacity: 1 !important;\n\n\t&:hover,\n\t&:focus,\n\t&:active {\n\t\tbackground-color: var(--color-background-hover)!important;\n\t}\n\t&:focus-visible {\n\t\tbox-shadow: 0 0 0 2px var(--color-main-text) !important;\n\t}\n}\n\n.modal__content {\n\tpadding: 32px 16px;\n\ttext-align: center;\n\n\tol {\n\t\tdisplay: flex;\n\t\tflex-direction: row;\n\t\tjustify-content: center;\n\t\tlist-style-type: none;\n\t\tpadding-bottom: 16px;\n\t}\n\tli {\n\t\tlabel {\n\t\t\tposition: relative;\n\t\t\tdisplay: block;\n\t\t\tpadding: 48px 16px 14px 16px;\n\t\t\tmargin: 8px;\n\t\t\twidth: 140px;\n\t\t\tbackground-color: var(--color-background-hover);\n\t\t\tborder: 2px solid var(--color-main-background);\n\t\t\tborder-radius: var(--border-radius-large);\n\t\t\ttext-align: left;\n\t\t\toverflow: hidden;\n\t\t\ttext-overflow: ellipsis;\n\t\t\twhite-space: nowrap;\n\n\t\t\tdiv {\n\t\t\t\tposition: absolute;\n\t\t\t\ttop: 16px;\n\t\t\t\twidth: 24px;\n\t\t\t\theight: 24px;\n\t\t\t\tbackground-size: 24px;\n\t\t\t}\n\n\t\t\t&:hover {\n\t\t\t\tborder-color: var(--color-primary-element);\n\t\t\t}\n\t\t}\n\n\t\t// Do not invert status icons\n\t\t&:not(.panel-status) label div {\n\t\t\tfilter: var(--background-invert-if-dark);\n\t\t}\n\n\t\tinput[type='checkbox'].checkbox + label:before {\n\t\t\tposition: absolute;\n\t\t\tright: 12px;\n\t\t\ttop: 16px;\n\t\t}\n\n\t\tinput:focus + label {\n\t\t\tborder-color: var(--color-primary-element);\n\t\t}\n\t}\n\n\th3 {\n\t\tfont-weight: bold;\n\n\t\t&:not(:first-of-type) {\n\t\t\tmargin-top: 64px;\n\t\t}\n\t}\n\n\t// Adjust design of 'Get more widgets' button\n\t.button {\n\t\tdisplay: inline-block;\n\t\tpadding: 10px 16px;\n\t\tmargin: 0;\n\t}\n\n\tp {\n\t\tmax-width: 650px;\n\t\tmargin: 0 auto;\n\n\t\ta:hover,\n\t\ta:focus {\n\t\t\tborder-bottom: 2px solid var(--color-border);\n\t\t}\n\t}\n\n\t.credits--end {\n\t\tpadding-bottom: 32px;\n\t\tcolor: var(--color-text-maxcontrast);\n\n\t\ta {\n\t\t\tcolor: var(--color-text-maxcontrast);\n\t\t}\n\t}\n}\n\n.flip-list-move {\n\ttransition: transform var(--animation-slow);\n}\n\n.statuses {\n\tdisplay: flex;\n\tflex-direction: row;\n\tjustify-content: center;\n\tflex-wrap: wrap;\n\tmargin-bottom: 36px;\n\n\t& > li {\n\t\tmargin: 8px;\n\t}\n}\n</style>\n<style>\nhtml, body {\n\tbackground-attachment: fixed;\n}\n\n#body-user #header {\n\tposition: fixed;\n}\n\n#content {\n\toverflow: auto;\n}\n</style>\n"],sourceRoot:""}]);const r=o}},a={};function i(t){var e=a[t];if(void 0!==e)return e.exports;var s=a[t]={id:t,loaded:!1,exports:{}};return n[t].call(s.exports,s,s.exports,i),s.loaded=!0,s.exports}i.m=n,e=[],i.O=(t,n,a,s)=>{if(!n){var o=1/0;for(c=0;c<e.length;c++){n=e[c][0],a=e[c][1],s=e[c][2];for(var r=!0,l=0;l<n.length;l++)(!1&s||o>=s)&&Object.keys(i.O).every((t=>i.O[t](n[l])))?n.splice(l--,1):(r=!1,s<o&&(o=s));if(r){e.splice(c--,1);var d=a();void 0!==d&&(t=d)}}return t}s=s||0;for(var c=e.length;c>0&&e[c-1][2]>s;c--)e[c]=e[c-1];e[c]=[n,a,s]},i.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return i.d(e,{a:e}),e},i.d=(t,e)=>{for(var n in e)i.o(e,n)&&!i.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},i.e=()=>Promise.resolve(),i.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),i.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),i.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),i.j=4773,(()=>{i.b=document.baseURI||self.location.href;var t={4773:0};i.O.j=e=>0===t[e];var e=(e,n)=>{var a,s,o=n[0],r=n[1],l=n[2],d=0;if(o.some((e=>0!==t[e]))){for(a in r)i.o(r,a)&&(i.m[a]=r[a]);if(l)var c=l(i)}for(e&&e(n);d<o.length;d++)s=o[d],i.o(t,s)&&t[s]&&t[s][0](),t[s]=0;return i.O(c)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(e.bind(null,0)),n.push=e.bind(null,n.push.bind(n))})(),i.nc=void 0;var s=i.O(void 0,[7874],(()=>i(53226)));s=i.O(s)})();
-//# sourceMappingURL=dashboard-main.js.map?v=5fb0a8d03322f96d4adf
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/dashboard/src/main.js":
+/*!************************************!*\
+  !*** ./apps/dashboard/src/main.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _DashboardApp_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DashboardApp.vue */ "./apps/dashboard/src/DashboardApp.vue");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_dist_Directives_Tooltip_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/dist/Directives/Tooltip.js */ "./node_modules/@nextcloud/vue/dist/Directives/Tooltip.js");
+/* harmony import */ var _nextcloud_vue_dist_Directives_Tooltip_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Directives_Tooltip_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.es.mjs");
+/**
+ * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+
+
+
+// eslint-disable-next-line camelcase
+__webpack_require__.nc = btoa((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getRequestToken)());
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].directive('Tooltip', (_nextcloud_vue_dist_Directives_Tooltip_js__WEBPACK_IMPORTED_MODULE_2___default()));
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].prototype.t = _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate;
+
+// FIXME workaround to make the sidebar work
+if (!window.OCA.Files) {
+  window.OCA.Files = {};
+}
+Object.assign(window.OCA.Files, {
+  App: {
+    fileList: {
+      filesClient: OC.Files.getClient()
+    }
+  }
+}, window.OCA.Files);
+const Dashboard = vue__WEBPACK_IMPORTED_MODULE_4__["default"].extend(_DashboardApp_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
+const Instance = new Dashboard({}).$mount('#app-content-vue');
+window.OCA.Dashboard = {
+  register: (app, callback) => Instance.register(app, callback),
+  registerStatus: (app, callback) => Instance.registerStatus(app, callback)
+};
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/mixins/isMobile.js":
+/*!***********************************************!*\
+  !*** ./apps/dashboard/src/mixins/isMobile.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data() {
+    return {
+      isMobile: this._isMobile()
+    };
+  },
+  beforeMount() {
+    window.addEventListener('resize', this._onResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this._onResize);
+  },
+  methods: {
+    _onResize() {
+      // Update mobile mode
+      this.isMobile = this._isMobile();
+    },
+    _isMobile() {
+      // check if content width is under 768px
+      return document.documentElement.clientWidth < 768;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.es.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.esm.js");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcModal_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcModal.js */ "./node_modules/@nextcloud/vue/dist/Components/NcModal.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcModal_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcModal_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_material_design_icons_Pencil_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-material-design-icons/Pencil.vue */ "./node_modules/vue-material-design-icons/Pencil.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _mixins_isMobile_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./mixins/isMobile.js */ "./apps/dashboard/src/mixins/isMobile.js");
+/* harmony import */ var _components_ApiDashboardWidget_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/ApiDashboardWidget.vue */ "./apps/dashboard/src/components/ApiDashboardWidget.vue");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+
+
+
+
+
+
+
+const panels = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('dashboard', 'panels');
+const firstRun = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('dashboard', 'firstRun');
+const statusInfo = {
+  weather: {
+    text: t('dashboard', 'Weather'),
+    icon: 'icon-weather-status'
+  },
+  status: {
+    text: t('dashboard', 'Status'),
+    icon: 'icon-user-status-online'
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'DashboardApp',
+  components: {
+    ApiDashboardWidget: _components_ApiDashboardWidget_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
+    NcButton: (_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4___default()),
+    Draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_5___default()),
+    NcModal: (_nextcloud_vue_dist_Components_NcModal_js__WEBPACK_IMPORTED_MODULE_6___default()),
+    Pencil: vue_material_design_icons_Pencil_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+  },
+  mixins: [_mixins_isMobile_js__WEBPACK_IMPORTED_MODULE_8__["default"]],
+  data() {
+    var _getCurrentUser, _getCurrentUser2;
+    return {
+      isAdmin: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_1__.getCurrentUser)().isAdmin,
+      timer: new Date(),
+      registeredStatus: [],
+      callbacks: {},
+      callbacksStatus: {},
+      allCallbacksStatus: {},
+      statusInfo,
+      enabledStatuses: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('dashboard', 'statuses'),
+      panels,
+      firstRun,
+      displayName: (_getCurrentUser = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_1__.getCurrentUser)()) === null || _getCurrentUser === void 0 ? void 0 : _getCurrentUser.displayName,
+      uid: (_getCurrentUser2 = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_1__.getCurrentUser)()) === null || _getCurrentUser2 === void 0 ? void 0 : _getCurrentUser2.uid,
+      layout: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('dashboard', 'layout').filter(panelId => panels[panelId]),
+      modal: false,
+      appStoreUrl: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/settings/apps/dashboard'),
+      statuses: {},
+      apiWidgets: [],
+      apiWidgetItems: {},
+      loadingItems: true
+    };
+  },
+  computed: {
+    greeting() {
+      const time = this.timer.getHours();
+
+      // Determine part of the day
+      let partOfDay;
+      if (time >= 22 || time < 5) {
+        partOfDay = 'night';
+      } else if (time >= 18) {
+        partOfDay = 'evening';
+      } else if (time >= 12) {
+        partOfDay = 'afternoon';
+      } else {
+        partOfDay = 'morning';
+      }
+
+      // Define the greetings
+      const good = {
+        morning: {
+          generic: t('dashboard', 'Good morning'),
+          withName: t('dashboard', 'Good morning, {name}', {
+            name: this.displayName
+          }, undefined, {
+            escape: false
+          })
+        },
+        afternoon: {
+          generic: t('dashboard', 'Good afternoon'),
+          withName: t('dashboard', 'Good afternoon, {name}', {
+            name: this.displayName
+          }, undefined, {
+            escape: false
+          })
+        },
+        evening: {
+          generic: t('dashboard', 'Good evening'),
+          withName: t('dashboard', 'Good evening, {name}', {
+            name: this.displayName
+          }, undefined, {
+            escape: false
+          })
+        },
+        night: {
+          // Don't use "Good night" as it's not a greeting
+          generic: t('dashboard', 'Hello'),
+          withName: t('dashboard', 'Hello, {name}', {
+            name: this.displayName
+          }, undefined, {
+            escape: false
+          })
+        }
+      };
+
+      // Figure out which greeting to show
+      const shouldShowName = this.displayName && this.uid !== this.displayName;
+      return {
+        text: shouldShowName ? good[partOfDay].withName : good[partOfDay].generic
+      };
+    },
+    isActive() {
+      return panel => this.layout.indexOf(panel.id) > -1;
+    },
+    isStatusActive() {
+      return status => !(status in this.enabledStatuses) || this.enabledStatuses[status];
+    },
+    sortedAllStatuses() {
+      return Object.keys(this.allCallbacksStatus).slice().sort(this.sortStatuses);
+    },
+    sortedPanels() {
+      return Object.values(this.panels).sort((a, b) => {
+        const indexA = this.layout.indexOf(a.id);
+        const indexB = this.layout.indexOf(b.id);
+        if (indexA === -1 || indexB === -1) {
+          return indexB - indexA || a.id - b.id;
+        }
+        return indexA - indexB || a.id - b.id;
+      });
+    },
+    sortedRegisteredStatus() {
+      return this.registeredStatus.slice().sort(this.sortStatuses);
+    }
+  },
+  watch: {
+    callbacks() {
+      this.rerenderPanels();
+    },
+    callbacksStatus() {
+      for (const app in this.callbacksStatus) {
+        const element = this.$refs['status-' + app];
+        if (this.statuses[app] && this.statuses[app].mounted) {
+          continue;
+        }
+        if (element) {
+          this.callbacksStatus[app](element[0]);
+          vue__WEBPACK_IMPORTED_MODULE_10__["default"].set(this.statuses, app, {
+            mounted: true
+          });
+        } else {
+          console.error('Failed to register panel in the frontend as no backend data was provided for ' + app);
+        }
+      }
+    }
+  },
+  async created() {
+    await this.fetchApiWidgets();
+    const apiWidgetIdsToFetch = Object.values(this.apiWidgets).filter(widget => this.isApiWidgetV2(widget.id)).map(widget => widget.id);
+    await Promise.all(apiWidgetIdsToFetch.map(id => this.fetchApiWidgetItems([id], true)));
+    for (const widget of Object.values(this.apiWidgets)) {
+      if (widget.reload_interval > 0) {
+        setInterval(async () => {
+          await this.fetchApiWidgetItems([widget.id], true);
+        }, widget.reload_interval * 1000);
+      }
+    }
+  },
+  mounted() {
+    this.updateSkipLink();
+    window.addEventListener('scroll', this.handleScroll);
+    setInterval(() => {
+      this.timer = new Date();
+    }, 30000);
+    if (this.firstRun) {
+      window.addEventListener('scroll', this.disableFirstrunHint);
+    }
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+  methods: {
+    /**
+     * Method to register panels that will be called by the integrating apps
+     *
+     * @param {string} app The unique app id for the widget
+     * @param {Function} callback The callback function to register a panel which gets the DOM element passed as parameter
+     */
+    register(app, callback) {
+      vue__WEBPACK_IMPORTED_MODULE_10__["default"].set(this.callbacks, app, callback);
+    },
+    registerStatus(app, callback) {
+      // always save callbacks in case user enables the status later
+      vue__WEBPACK_IMPORTED_MODULE_10__["default"].set(this.allCallbacksStatus, app, callback);
+      // register only if status is enabled or missing from config
+      if (this.isStatusActive(app)) {
+        this.registeredStatus.push(app);
+        this.$nextTick(() => {
+          vue__WEBPACK_IMPORTED_MODULE_10__["default"].set(this.callbacksStatus, app, callback);
+        });
+      }
+    },
+    rerenderPanels() {
+      for (const app in this.callbacks) {
+        // TODO: Properly rerender v2 widgets
+        if (this.isApiWidgetV2(this.panels[app].id)) {
+          continue;
+        }
+        const element = this.$refs[app];
+        if (this.layout.indexOf(app) === -1) {
+          continue;
+        }
+        if (this.panels[app] && this.panels[app].mounted) {
+          continue;
+        }
+        if (element) {
+          this.callbacks[app](element[0], {
+            widget: this.panels[app]
+          });
+          vue__WEBPACK_IMPORTED_MODULE_10__["default"].set(this.panels[app], 'mounted', true);
+        } else {
+          console.error('Failed to register panel in the frontend as no backend data was provided for ' + app);
+        }
+      }
+    },
+    saveLayout() {
+      _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/apps/dashboard/layout'), {
+        layout: this.layout.join(',')
+      });
+    },
+    saveStatuses() {
+      _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/apps/dashboard/statuses'), {
+        statuses: JSON.stringify(this.enabledStatuses)
+      });
+    },
+    showModal() {
+      this.modal = true;
+      this.firstRun = false;
+    },
+    closeModal() {
+      this.modal = false;
+    },
+    updateCheckbox(panel, currentValue) {
+      const index = this.layout.indexOf(panel.id);
+      if (!currentValue && index > -1) {
+        this.layout.splice(index, 1);
+      } else {
+        this.layout.push(panel.id);
+      }
+      vue__WEBPACK_IMPORTED_MODULE_10__["default"].set(this.panels[panel.id], 'mounted', false);
+      this.saveLayout();
+      this.$nextTick(() => this.rerenderPanels());
+    },
+    disableFirstrunHint() {
+      window.removeEventListener('scroll', this.disableFirstrunHint);
+      setTimeout(() => {
+        this.firstRun = false;
+      }, 1000);
+    },
+    updateSkipLink() {
+      // Make sure "Skip to main content" link points to the app content
+      document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard');
+    },
+    updateStatusCheckbox(app, checked) {
+      if (checked) {
+        this.enableStatus(app);
+      } else {
+        this.disableStatus(app);
+      }
+    },
+    enableStatus(app) {
+      this.enabledStatuses[app] = true;
+      this.registerStatus(app, this.allCallbacksStatus[app]);
+      this.saveStatuses();
+    },
+    disableStatus(app) {
+      this.enabledStatuses[app] = false;
+      const i = this.registeredStatus.findIndex(s => s === app);
+      if (i !== -1) {
+        this.registeredStatus.splice(i, 1);
+        vue__WEBPACK_IMPORTED_MODULE_10__["default"].set(this.statuses, app, {
+          mounted: false
+        });
+        this.$nextTick(() => {
+          vue__WEBPACK_IMPORTED_MODULE_10__["default"]["delete"](this.callbacksStatus, app);
+        });
+      }
+      this.saveStatuses();
+    },
+    sortStatuses(a, b) {
+      const al = a.toLowerCase();
+      const bl = b.toLowerCase();
+      return al > bl ? 1 : al < bl ? -1 : 0;
+    },
+    handleScroll() {
+      if (window.scrollY > 70) {
+        document.body.classList.add('dashboard--scrolled');
+      } else {
+        document.body.classList.remove('dashboard--scrolled');
+      }
+    },
+    async fetchApiWidgets() {
+      const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateOcsUrl)('/apps/dashboard/api/v1/widgets'));
+      this.apiWidgets = response.data.ocs.data;
+    },
+    async fetchApiWidgetItems(widgetIds) {
+      let merge = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      try {
+        const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateOcsUrl)('/apps/dashboard/api/v2/widget-items');
+        const params = new URLSearchParams(widgetIds.map(id => ['widgets[]', id]));
+        const response = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get("".concat(url, "?").concat(params.toString()));
+        const widgetItems = response.data.ocs.data;
+        if (merge) {
+          this.apiWidgetItems = Object.assign({}, this.apiWidgetItems, widgetItems);
+        } else {
+          this.apiWidgetItems = widgetItems;
+        }
+      } finally {
+        this.loadingItems = false;
+      }
+    },
+    isApiWidgetV2(id) {
+      for (const widget of Object.values(this.apiWidgets)) {
+        if (widget.id === id && widget.item_api_versions.includes(2)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/vue */ "./node_modules/@nextcloud/vue/dist/index.module.js");
+/* harmony import */ var vue_material_design_icons_Check_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-material-design-icons/Check.vue */ "./node_modules/vue-material-design-icons/Check.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'ApiDashboardWidget',
+  components: {
+    NcAvatar: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__.NcAvatar,
+    NcDashboardWidget: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__.NcDashboardWidget,
+    NcDashboardWidgetItem: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__.NcDashboardWidgetItem,
+    NcEmptyContent: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__.NcEmptyContent,
+    NcButton: _nextcloud_vue__WEBPACK_IMPORTED_MODULE_0__.NcButton,
+    CheckIcon: vue_material_design_icons_Check_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    widget: {
+      type: [Object, undefined],
+      default: undefined
+    },
+    data: {
+      type: [Object, undefined],
+      default: undefined
+    },
+    loading: {
+      type: Boolean,
+      required: true
+    }
+  },
+  computed: {
+    /** @return {object[]} */
+    items() {
+      var _this$data$items, _this$data;
+      return (_this$data$items = (_this$data = this.data) === null || _this$data === void 0 ? void 0 : _this$data.items) !== null && _this$data$items !== void 0 ? _this$data$items : [];
+    },
+    /** @return {string} */
+    emptyContentMessage() {
+      var _this$data$emptyConte, _this$data2;
+      return (_this$data$emptyConte = (_this$data2 = this.data) === null || _this$data2 === void 0 ? void 0 : _this$data2.emptyContentMessage) !== null && _this$data$emptyConte !== void 0 ? _this$data$emptyConte : '';
+    },
+    /** @return {string} */
+    halfEmptyContentMessage() {
+      var _this$data$halfEmptyC, _this$data3;
+      return (_this$data$halfEmptyC = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.halfEmptyContentMessage) !== null && _this$data$halfEmptyC !== void 0 ? _this$data$halfEmptyC : '';
+    },
+    /** @return {object|undefined} */
+    newButton() {
+      var _this$widget, _this$widget$buttons;
+      // TODO: Render new button in the template
+      // I couldn't find a widget that makes use of the button. Furthermore, there is no convenient
+      // way to render such a button using the official widget component.
+      return (_this$widget = this.widget) === null || _this$widget === void 0 ? void 0 : (_this$widget$buttons = _this$widget.buttons) === null || _this$widget$buttons === void 0 ? void 0 : _this$widget$buttons.find(button => button.type === 'new');
+    },
+    /** @return {object|undefined} */
+    moreButton() {
+      var _this$widget2, _this$widget2$buttons;
+      return (_this$widget2 = this.widget) === null || _this$widget2 === void 0 ? void 0 : (_this$widget2$buttons = _this$widget2.buttons) === null || _this$widget2$buttons === void 0 ? void 0 : _this$widget2$buttons.find(button => button.type === 'more');
+    },
+    /** @return {object|undefined} */
+    setupButton() {
+      var _this$widget3, _this$widget3$buttons;
+      return (_this$widget3 = this.widget) === null || _this$widget3 === void 0 ? void 0 : (_this$widget3$buttons = _this$widget3.buttons) === null || _this$widget3$buttons === void 0 ? void 0 : _this$widget3$buttons.find(button => button.type === 'setup');
+    },
+    /** @return {string|undefined} */
+    showMoreLabel() {
+      var _this$moreButton;
+      return (_this$moreButton = this.moreButton) === null || _this$moreButton === void 0 ? void 0 : _this$moreButton.text;
+    },
+    /** @return {string|undefined} */
+    showMoreUrl() {
+      var _this$moreButton2;
+      return (_this$moreButton2 = this.moreButton) === null || _this$moreButton2 === void 0 ? void 0 : _this$moreButton2.link;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=template&id=37a61812&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=template&id=37a61812&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    attrs: {
+      id: "app-dashboard"
+    }
+  }, [_c("h2", [_vm._v(_vm._s(_vm.greeting.text))]), _vm._v(" "), _c("ul", {
+    staticClass: "statuses"
+  }, _vm._l(_vm.sortedRegisteredStatus, function (status) {
+    return _c("li", {
+      key: status,
+      attrs: {
+        id: "status-" + status
+      }
+    }, [_c("div", {
+      ref: "status-" + status,
+      refInFor: true
+    })]);
+  }), 0), _vm._v(" "), _c("Draggable", _vm._b({
+    staticClass: "panels",
+    attrs: {
+      handle: ".panel--header"
+    },
+    on: {
+      end: _vm.saveLayout
+    },
+    model: {
+      value: _vm.layout,
+      callback: function ($$v) {
+        _vm.layout = $$v;
+      },
+      expression: "layout"
+    }
+  }, "Draggable", {
+    swapThreshold: 0.3,
+    delay: 500,
+    delayOnTouchOnly: true,
+    touchStartThreshold: 3
+  }, false), [_vm._l(_vm.layout, function (panelId) {
+    return [_vm.isApiWidgetV2(_vm.panels[panelId].id) ? _c("div", {
+      key: "".concat(_vm.panels[panelId].id, "-v2"),
+      staticClass: "panel"
+    }, [_c("div", {
+      staticClass: "panel--header"
+    }, [_c("h2", [_c("div", {
+      class: _vm.apiWidgets[_vm.panels[panelId].id].icon_class,
+      attrs: {
+        "aria-labelledby": "panel--header--icon--description",
+        "aria-hidden": "true",
+        role: "img"
+      }
+    }), _vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.apiWidgets[_vm.panels[panelId].id].title) + "\n\t\t\t\t\t")]), _vm._v(" "), _c("span", {
+      staticClass: "hidden-visually",
+      attrs: {
+        id: "panel--header--icon--description"
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.t("dashboard", '"{title} icon"', {
+      title: _vm.apiWidgets[_vm.panels[panelId].id].title
+    })) + "\n\t\t\t\t\t")])]), _vm._v(" "), _c("div", {
+      staticClass: "panel--content"
+    }, [_c("ApiDashboardWidget", {
+      attrs: {
+        widget: _vm.apiWidgets[_vm.panels[panelId].id],
+        data: _vm.apiWidgetItems[_vm.panels[panelId].id],
+        loading: _vm.loadingItems
+      }
+    })], 1)]) : _c("div", {
+      key: _vm.panels[panelId].id,
+      staticClass: "panel"
+    }, [_c("div", {
+      staticClass: "panel--header"
+    }, [_c("h2", [_c("div", {
+      class: _vm.panels[panelId].iconClass,
+      attrs: {
+        "aria-labelledby": "panel--header--icon--description",
+        "aria-hidden": "true",
+        role: "img"
+      }
+    }), _vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.panels[panelId].title) + "\n\t\t\t\t\t")]), _vm._v(" "), _c("span", {
+      staticClass: "hidden-visually",
+      attrs: {
+        id: "panel--header--icon--description"
+      }
+    }, [_vm._v(" " + _vm._s(_vm.t("dashboard", '"{title} icon"', {
+      title: _vm.panels[panelId].title
+    })) + " ")])]), _vm._v(" "), _c("div", {
+      staticClass: "panel--content",
+      class: {
+        loading: !_vm.panels[panelId].mounted
+      }
+    }, [_c("div", {
+      ref: _vm.panels[panelId].id,
+      refInFor: true,
+      attrs: {
+        "data-id": _vm.panels[panelId].id
+      }
+    })])])];
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "footer"
+  }, [_c("NcButton", {
+    on: {
+      click: _vm.showModal
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("Pencil", {
+          attrs: {
+            size: 20
+          }
+        })];
+      },
+      proxy: true
+    }])
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("dashboard", "Customize")) + "\n\t\t")])], 1), _vm._v(" "), _vm.modal ? _c("NcModal", {
+    attrs: {
+      size: "large"
+    },
+    on: {
+      close: _vm.closeModal
+    }
+  }, [_c("div", {
+    staticClass: "modal__content"
+  }, [_c("h3", [_vm._v(_vm._s(_vm.t("dashboard", "Edit widgets")))]), _vm._v(" "), _c("ol", {
+    staticClass: "panels"
+  }, _vm._l(_vm.sortedAllStatuses, function (status) {
+    return _c("li", {
+      key: status,
+      class: "panel-" + status
+    }, [_c("input", {
+      staticClass: "checkbox",
+      attrs: {
+        id: "status-checkbox-" + status,
+        type: "checkbox"
+      },
+      domProps: {
+        checked: _vm.isStatusActive(status)
+      },
+      on: {
+        input: function ($event) {
+          return _vm.updateStatusCheckbox(status, $event.target.checked);
+        }
+      }
+    }), _vm._v(" "), _c("label", {
+      attrs: {
+        for: "status-checkbox-" + status
+      }
+    }, [_c("div", {
+      class: _vm.statusInfo[status].icon,
+      attrs: {
+        "aria-hidden": "true",
+        role: "img"
+      }
+    }), _vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.statusInfo[status].text) + "\n\t\t\t\t\t")])]);
+  }), 0), _vm._v(" "), _c("Draggable", _vm._b({
+    staticClass: "panels",
+    attrs: {
+      tag: "ol",
+      handle: ".draggable"
+    },
+    on: {
+      end: _vm.saveLayout
+    },
+    model: {
+      value: _vm.layout,
+      callback: function ($$v) {
+        _vm.layout = $$v;
+      },
+      expression: "layout"
+    }
+  }, "Draggable", {
+    swapThreshold: 0.3,
+    delay: 500,
+    delayOnTouchOnly: true,
+    touchStartThreshold: 3
+  }, false), _vm._l(_vm.sortedPanels, function (panel) {
+    return _c("li", {
+      key: panel.id,
+      class: "panel-" + panel.id
+    }, [_c("input", {
+      staticClass: "checkbox",
+      attrs: {
+        id: "panel-checkbox-" + panel.id,
+        type: "checkbox"
+      },
+      domProps: {
+        checked: _vm.isActive(panel)
+      },
+      on: {
+        input: function ($event) {
+          return _vm.updateCheckbox(panel, $event.target.checked);
+        }
+      }
+    }), _vm._v(" "), _c("label", {
+      class: {
+        draggable: _vm.isActive(panel)
+      },
+      attrs: {
+        for: "panel-checkbox-" + panel.id
+      }
+    }, [_c("div", {
+      class: panel.iconClass,
+      attrs: {
+        "aria-hidden": "true",
+        role: "img"
+      }
+    }), _vm._v("\n\t\t\t\t\t\t" + _vm._s(panel.title) + "\n\t\t\t\t\t")])]);
+  }), 0), _vm._v(" "), _vm.isAdmin ? _c("a", {
+    staticClass: "button",
+    attrs: {
+      href: _vm.appStoreUrl
+    }
+  }, [_vm._v(_vm._s(_vm.t("dashboard", "Get more widgets from the App Store")))]) : _vm._e(), _vm._v(" "), _vm.statuses.weather && _vm.isStatusActive("weather") ? _c("div", [_c("h3", [_vm._v(_vm._s(_vm.t("dashboard", "Weather service")))])]) : _vm._e()], 1)]) : _vm._e()], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("NcDashboardWidget", {
+    attrs: {
+      items: _vm.items,
+      "show-more-label": _vm.showMoreLabel,
+      "show-more-url": _vm.showMoreUrl,
+      loading: _vm.loading,
+      "show-items-and-empty-content": !!_vm.halfEmptyContentMessage,
+      "half-empty-content-message": _vm.halfEmptyContentMessage
+    },
+    scopedSlots: _vm._u([{
+      key: "default",
+      fn: function (_ref) {
+        let {
+          item
+        } = _ref;
+        return [_c("NcDashboardWidgetItem", {
+          attrs: {
+            "target-url": item.link,
+            "overlay-icon-url": item.overlayIconUrl ? item.overlayIconUrl : "",
+            "main-text": item.title,
+            "sub-text": item.subtitle
+          },
+          scopedSlots: _vm._u([{
+            key: "avatar",
+            fn: function () {
+              return [item.iconUrl ? [_c("NcAvatar", {
+                attrs: {
+                  size: 44,
+                  url: item.iconUrl
+                }
+              })] : _vm._e()];
+            },
+            proxy: true
+          }], null, true)
+        })];
+      }
+    }, {
+      key: "empty-content",
+      fn: function () {
+        return [_vm.items.length === 0 ? _c("NcEmptyContent", {
+          attrs: {
+            description: _vm.emptyContentMessage
+          },
+          scopedSlots: _vm._u([{
+            key: "icon",
+            fn: function () {
+              return [_vm.emptyContentMessage ? _c("CheckIcon", {
+                attrs: {
+                  size: 65
+                }
+              }) : _vm._e()];
+            },
+            proxy: true
+          }, {
+            key: "action",
+            fn: function () {
+              return [_vm.setupButton ? _c("NcButton", {
+                attrs: {
+                  href: _vm.setupButton.link
+                }
+              }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.setupButton.text) + "\n\t\t\t\t")]) : _vm._e()];
+            },
+            proxy: true
+          }], null, false, 4172361897)
+        }) : _vm._e()];
+      },
+      proxy: true
+    }])
+  });
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "#app-dashboard[data-v-37a61812] {\n  width: 100%;\n  min-height: 100%;\n  background-size: cover;\n  background-position: center center;\n  background-repeat: no-repeat;\n  background-attachment: fixed;\n}\n#app-dashboard > h2[data-v-37a61812] {\n  color: var(--color-primary-text);\n  text-align: center;\n  font-size: 32px;\n  line-height: 130%;\n  padding: 1rem 0;\n}\n.panels[data-v-37a61812] {\n  width: auto;\n  margin: auto;\n  max-width: 1800px;\n  display: flex;\n  justify-content: center;\n  flex-direction: row;\n  align-items: flex-start;\n  flex-wrap: wrap;\n}\n.panel[data-v-37a61812], .panels > div[data-v-37a61812] {\n  width: 320px;\n  max-width: 100%;\n  margin: 16px;\n  align-self: stretch;\n  background-color: var(--color-main-background-blur);\n  -webkit-backdrop-filter: var(--filter-background-blur);\n  backdrop-filter: var(--filter-background-blur);\n  border-radius: var(--border-radius-rounded);\n}\n#body-user.theme--highcontrast .panel[data-v-37a61812], #body-user.theme--highcontrast .panels > div[data-v-37a61812] {\n  border: 2px solid var(--color-border);\n}\n.panel.sortable-ghost[data-v-37a61812], .panels > div.sortable-ghost[data-v-37a61812] {\n  opacity: 0.1;\n}\n.panel > .panel--header[data-v-37a61812], .panels > div > .panel--header[data-v-37a61812] {\n  display: flex;\n  z-index: 1;\n  top: 50px;\n  padding: 16px;\n  cursor: grab;\n}\n.panel > .panel--header[data-v-37a61812], .panel > .panel--header[data-v-37a61812] *, .panels > div > .panel--header[data-v-37a61812], .panels > div > .panel--header[data-v-37a61812] * {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n.panel > .panel--header[data-v-37a61812]:active, .panels > div > .panel--header[data-v-37a61812]:active {\n  cursor: grabbing;\n}\n.panel > .panel--header a[data-v-37a61812], .panels > div > .panel--header a[data-v-37a61812] {\n  flex-grow: 1;\n}\n.panel > .panel--header > h2[data-v-37a61812], .panels > div > .panel--header > h2[data-v-37a61812] {\n  display: block;\n  align-items: center;\n  flex-grow: 1;\n  margin: 0;\n  font-size: 20px;\n  line-height: 24px;\n  font-weight: bold;\n  padding: 16px 8px;\n  height: 56px;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: grab;\n}\n.panel > .panel--header > h2 div[data-v-37a61812], .panels > div > .panel--header > h2 div[data-v-37a61812] {\n  background-size: 32px;\n  width: 32px;\n  height: 32px;\n  margin-right: 16px;\n  background-position: center;\n  float: left;\n  margin-top: -6px;\n}\n.panel > .panel--content[data-v-37a61812], .panels > div > .panel--content[data-v-37a61812] {\n  margin: 0 16px 16px 16px;\n  height: 424px;\n  overflow: visible;\n}\n@media only screen and (max-width: 709px) {\n.panel > .panel--content[data-v-37a61812], .panels > div > .panel--content[data-v-37a61812] {\n    height: auto;\n}\n}\n.footer[data-v-37a61812] {\n  display: flex;\n  justify-content: center;\n  transition: bottom var(--animation-slow) ease-in-out;\n  padding: 1rem 0;\n}\n.edit-panels[data-v-37a61812] {\n  display: inline-block;\n  margin: auto;\n  background-position: 16px center;\n  padding: 12px 16px;\n  padding-left: 36px;\n  border-radius: var(--border-radius-pill);\n  max-width: 200px;\n  opacity: 1;\n  text-align: center;\n}\n.button[data-v-37a61812],\n.button-vue[data-v-37a61812],\n.edit-panels[data-v-37a61812],\n.statuses[data-v-37a61812] .action-item .action-item__menutoggle,\n.statuses[data-v-37a61812] .action-item.action-item--open .action-item__menutoggle {\n  background-color: var(--color-main-background-blur);\n  -webkit-backdrop-filter: var(--filter-background-blur);\n  backdrop-filter: var(--filter-background-blur);\n  opacity: 1 !important;\n}\n.button[data-v-37a61812]:hover, .button[data-v-37a61812]:focus, .button[data-v-37a61812]:active,\n.button-vue[data-v-37a61812]:hover,\n.button-vue[data-v-37a61812]:focus,\n.button-vue[data-v-37a61812]:active,\n.edit-panels[data-v-37a61812]:hover,\n.edit-panels[data-v-37a61812]:focus,\n.edit-panels[data-v-37a61812]:active,\n.statuses[data-v-37a61812] .action-item .action-item__menutoggle:hover,\n.statuses[data-v-37a61812] .action-item .action-item__menutoggle:focus,\n.statuses[data-v-37a61812] .action-item .action-item__menutoggle:active,\n.statuses[data-v-37a61812] .action-item.action-item--open .action-item__menutoggle:hover,\n.statuses[data-v-37a61812] .action-item.action-item--open .action-item__menutoggle:focus,\n.statuses[data-v-37a61812] .action-item.action-item--open .action-item__menutoggle:active {\n  background-color: var(--color-background-hover) !important;\n}\n.button[data-v-37a61812]:focus-visible,\n.button-vue[data-v-37a61812]:focus-visible,\n.edit-panels[data-v-37a61812]:focus-visible,\n.statuses[data-v-37a61812] .action-item .action-item__menutoggle:focus-visible,\n.statuses[data-v-37a61812] .action-item.action-item--open .action-item__menutoggle:focus-visible {\n  box-shadow: 0 0 0 2px var(--color-main-text) !important;\n}\n.modal__content[data-v-37a61812] {\n  padding: 32px 16px;\n  text-align: center;\n}\n.modal__content ol[data-v-37a61812] {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  list-style-type: none;\n  padding-bottom: 16px;\n}\n.modal__content li label[data-v-37a61812] {\n  position: relative;\n  display: block;\n  padding: 48px 16px 14px 16px;\n  margin: 8px;\n  width: 140px;\n  background-color: var(--color-background-hover);\n  border: 2px solid var(--color-main-background);\n  border-radius: var(--border-radius-large);\n  text-align: left;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.modal__content li label div[data-v-37a61812] {\n  position: absolute;\n  top: 16px;\n  width: 24px;\n  height: 24px;\n  background-size: 24px;\n}\n.modal__content li label[data-v-37a61812]:hover {\n  border-color: var(--color-primary-element);\n}\n.modal__content li:not(.panel-status) label div[data-v-37a61812] {\n  filter: var(--background-invert-if-dark);\n}\n.modal__content li input[type=checkbox].checkbox + label[data-v-37a61812]:before {\n  position: absolute;\n  right: 12px;\n  top: 16px;\n}\n.modal__content li input:focus + label[data-v-37a61812] {\n  border-color: var(--color-primary-element);\n}\n.modal__content h3[data-v-37a61812] {\n  font-weight: bold;\n}\n.modal__content h3[data-v-37a61812]:not(:first-of-type) {\n  margin-top: 64px;\n}\n.modal__content .button[data-v-37a61812] {\n  display: inline-block;\n  padding: 10px 16px;\n  margin: 0;\n}\n.modal__content p[data-v-37a61812] {\n  max-width: 650px;\n  margin: 0 auto;\n}\n.modal__content p a[data-v-37a61812]:hover,\n.modal__content p a[data-v-37a61812]:focus {\n  border-bottom: 2px solid var(--color-border);\n}\n.modal__content .credits--end[data-v-37a61812] {\n  padding-bottom: 32px;\n  color: var(--color-text-maxcontrast);\n}\n.modal__content .credits--end a[data-v-37a61812] {\n  color: var(--color-text-maxcontrast);\n}\n.flip-list-move[data-v-37a61812] {\n  transition: transform var(--animation-slow);\n}\n.statuses[data-v-37a61812] {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  flex-wrap: wrap;\n  margin-bottom: 36px;\n}\n.statuses > li[data-v-37a61812] {\n  margin: 8px;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nhtml, body {\n\tbackground-attachment: fixed;\n}\n#body-user #header {\n\tposition: fixed;\n}\n#content {\n\toverflow: auto;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_0_id_37a61812_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_0_id_37a61812_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_0_id_37a61812_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_0_id_37a61812_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_0_id_37a61812_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_1_id_37a61812_lang_css___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_1_id_37a61812_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_1_id_37a61812_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_1_id_37a61812_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_1_id_37a61812_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/DashboardApp.vue":
+/*!*********************************************!*\
+  !*** ./apps/dashboard/src/DashboardApp.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _DashboardApp_vue_vue_type_template_id_37a61812_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DashboardApp.vue?vue&type=template&id=37a61812&scoped=true& */ "./apps/dashboard/src/DashboardApp.vue?vue&type=template&id=37a61812&scoped=true&");
+/* harmony import */ var _DashboardApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DashboardApp.vue?vue&type=script&lang=js& */ "./apps/dashboard/src/DashboardApp.vue?vue&type=script&lang=js&");
+/* harmony import */ var _DashboardApp_vue_vue_type_style_index_0_id_37a61812_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true& */ "./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true&");
+/* harmony import */ var _DashboardApp_vue_vue_type_style_index_1_id_37a61812_lang_css___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css& */ "./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__["default"])(
+  _DashboardApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DashboardApp_vue_vue_type_template_id_37a61812_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _DashboardApp_vue_vue_type_template_id_37a61812_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "37a61812",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/dashboard/src/DashboardApp.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/components/ApiDashboardWidget.vue":
+/*!**************************************************************!*\
+  !*** ./apps/dashboard/src/components/ApiDashboardWidget.vue ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ApiDashboardWidget_vue_vue_type_template_id_d7bbf3fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true& */ "./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true&");
+/* harmony import */ var _ApiDashboardWidget_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ApiDashboardWidget.vue?vue&type=script&lang=js& */ "./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ApiDashboardWidget_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ApiDashboardWidget_vue_vue_type_template_id_d7bbf3fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ApiDashboardWidget_vue_vue_type_template_id_d7bbf3fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "d7bbf3fc",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/dashboard/src/components/ApiDashboardWidget.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/DashboardApp.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./apps/dashboard/src/DashboardApp.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DashboardApp.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiDashboardWidget_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ApiDashboardWidget.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiDashboardWidget_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/DashboardApp.vue?vue&type=template&id=37a61812&scoped=true&":
+/*!****************************************************************************************!*\
+  !*** ./apps/dashboard/src/DashboardApp.vue?vue&type=template&id=37a61812&scoped=true& ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_template_id_37a61812_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_template_id_37a61812_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_template_id_37a61812_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DashboardApp.vue?vue&type=template&id=37a61812&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=template&id=37a61812&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true&":
+/*!*********************************************************************************************************!*\
+  !*** ./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true& ***!
+  \*********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiDashboardWidget_vue_vue_type_template_id_d7bbf3fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiDashboardWidget_vue_vue_type_template_id_d7bbf3fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ApiDashboardWidget_vue_vue_type_template_id_d7bbf3fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/components/ApiDashboardWidget.vue?vue&type=template&id=d7bbf3fc&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true&":
+/*!*******************************************************************************************************!*\
+  !*** ./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true& ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_0_id_37a61812_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=0&id=37a61812&lang=scss&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css&":
+/*!******************************************************************************************!*\
+  !*** ./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css& ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_DashboardApp_vue_vue_type_style_index_1_id_37a61812_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/dashboard/src/DashboardApp.vue?vue&type=style&index=1&id=37a61812&lang=css&");
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__webpack_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"dashboard-main": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/dashboard/src/main.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=dashboard-main.js.map?v=6cd4966a2af3e399e06c
