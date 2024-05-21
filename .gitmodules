@@ -21,6 +21,7 @@
 	url = https://git.dkviet.com/an.nguyen/fulltextsearch.git
 [submodule "apps/files_rightclick"]
 	path = apps/files_rightclick
+	url = https://git.dkviet.com/khang.nguyen/right_click_dkswork.git
 [submodule "apps/activity"]
 	path = apps/activity
 	url = https://git.dkviet.com/an.nguyen/activity.git
