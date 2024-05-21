@@ -10,3 +10,12 @@
 [submodule "apps/integration_google"]
 	path = apps/integration_google
 	url = https://git.dkviet.com/khang.nguyen/integration_google.git
+[submodule "apps/calendar"]
+	path = apps/calendar
+	url = https://git.dkviet.com/an.nguyen/calendar.git
+[submodule "apps/deck"]
+	path = apps/deck
+	url = https://git.dkviet.com/an.nguyen/deck.git
+[submodule "apps/fulltextsearch"]
+	path = apps/fulltextsearch
+	url = https://git.dkviet.com/an.nguyen/fulltextsearch.git
