@@ -37,3 +37,6 @@
 [submodule "apps/files_texteditor"]
 	path = apps/files_texteditor
 	url = https://git.dkviet.com/an.nguyen/files_texteditor.git
+[submodule "files_antivirus"]
+	path = files_antivirus
+	url = https://git.dkviet.com/vinhne/files_antivirus.git
