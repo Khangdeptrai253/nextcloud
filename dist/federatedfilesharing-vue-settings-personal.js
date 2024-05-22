@@ -170,8 +170,7 @@ var render = function render() {
   return _c("NcSettingsSection", {
     attrs: {
       title: _vm.t("federatedfilesharing", "Federated Cloud"),
-      description: _vm.t("federatedfilesharing", "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com"),
-      "doc-url": _vm.docUrlFederated
+      description: _vm.t("federatedfilesharing", "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com")
     }
   }, [_c("p", {
     staticClass: "cloud-id-text"
@@ -808,4 +807,4 @@ module.exports = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/sv
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=federatedfilesharing-vue-settings-personal.js.map?v=587b1bf0de7f482c92aa
+//# sourceMappingURL=federatedfilesharing-vue-settings-personal.js.map?v=1feaf752262ecf74dd60

@@ -762,82 +762,7 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("NcSettingsSection", {
-    attrs: {
-      title: _vm.t("settings", "Background jobs"),
-      description: _vm.t("settings", "For the server to work properly, it's important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information."),
-      "doc-url": _vm.backgroundJobsDocUrl
-    }
-  }, [_vm.lastCron !== 0 ? [_vm.oldExecution ? _c("NcNoteCard", {
-    attrs: {
-      type: "error"
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Last job execution ran {time}. Something seems wrong.", {
-    time: _vm.relativeTime
-  })) + "\n\t\t")]) : _vm.longExecutionCron ? _c("NcNoteCard", {
-    attrs: {
-      type: "warning"
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider increasing the execution frequency.", {
-    maxAgeRelativeTime: _vm.maxAgeRelativeTime
-  })) + "\n\t\t")]) : _vm.longExecutionNotCron ? _c("NcNoteCard", {
-    attrs: {
-      type: "warning"
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Some jobs have not been executed since {maxAgeRelativeTime}. Please consider switching to system cron.", {
-    maxAgeRelativeTime: _vm.maxAgeRelativeTime
-  })) + "\n\t\t")]) : _c("NcNoteCard", {
-    attrs: {
-      type: "success"
-    }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("settings", "Last job ran {relativeTime}.", {
-    relativeTime: _vm.relativeTime
-  })) + "\n\t\t")])] : _c("NcNoteCard", {
-    attrs: {
-      type: "error"
-    }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Background job did not run yet!")) + "\n\t")]), _vm._v(" "), _c("NcCheckboxRadioSwitch", {
-    staticClass: "ajaxSwitch",
-    attrs: {
-      type: "radio",
-      checked: _vm.backgroundJobsMode,
-      name: "backgroundJobsMode",
-      value: "ajax"
-    },
-    on: {
-      "update:checked": [function ($event) {
-        _vm.backgroundJobsMode = $event;
-      }, _vm.onBackgroundJobModeChanged]
-    }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "AJAX")) + "\n\t")]), _vm._v(" "), _c("em", [_vm._v(_vm._s(_vm.t("settings", "Execute one task with each page loaded. Use case: Single user instance.")))]), _vm._v(" "), _c("NcCheckboxRadioSwitch", {
-    attrs: {
-      type: "radio",
-      checked: _vm.backgroundJobsMode,
-      name: "backgroundJobsMode",
-      value: "webcron"
-    },
-    on: {
-      "update:checked": [function ($event) {
-        _vm.backgroundJobsMode = $event;
-      }, _vm.onBackgroundJobModeChanged]
-    }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Webcron")) + "\n\t")]), _vm._v(" "), _c("em", [_vm._v(_vm._s(_vm.t("settings", "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage).")))]), _vm._v(" "), _vm.cliBasedCronPossible ? _c("NcCheckboxRadioSwitch", {
-    attrs: {
-      type: "radio",
-      checked: _vm.backgroundJobsMode,
-      value: "cron",
-      name: "backgroundJobsMode"
-    },
-    on: {
-      "update:checked": [function ($event) {
-        _vm.backgroundJobsMode = $event;
-      }, _vm.onBackgroundJobModeChanged]
-    }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("settings", "Cron (Recommended)")) + "\n\t")]) : _vm._e(), _vm._v(" "), _vm.cliBasedCronPossible ? _c("em", [_vm._v(_vm._s(_vm.cronLabel))]) : _c("em", [_vm._v("\n\t\t{{ t('settings', 'To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.', {\n\t\t\tlinkstart: '"), _c("a", {
-    attrs: {
-      href: "https://www.php.net/manual/en/book.posix.php"
-    }
-  }, [_vm._v("',\n\t\t\tlinkend: '")]), _vm._v("',\n\t\t}) }}\n\t")])], 2);
+  return _c("div");
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -1773,4 +1698,4 @@ module.exports = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/sv
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=settings-vue-settings-admin-basic-settings.js.map?v=a184c24cb6eb8109cc5f
+//# sourceMappingURL=settings-vue-settings-admin-basic-settings.js.map?v=b0020ea204cf916d85ab

@@ -164,22 +164,9 @@ var render = function render() {
   return _c("NcSettingsSection", {
     attrs: {
       title: _vm.t("federatedfilesharing", "Federated Cloud Sharing"),
-      description: _vm.t("federatedfilesharing", "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing."),
-      "doc-url": _vm.sharingFederatedDocUrl
+      description: _vm.t("federatedfilesharing", "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing.")
     }
   }, [_c("NcCheckboxRadioSwitch", {
-    attrs: {
-      type: "switch",
-      checked: _vm.outgoingServer2serverShareEnabled
-    },
-    on: {
-      "update:checked": [function ($event) {
-        _vm.outgoingServer2serverShareEnabled = $event;
-      }, function ($event) {
-        return _vm.update("outgoing_server2server_share_enabled", _vm.outgoingServer2serverShareEnabled);
-      }]
-    }
-  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("federatedfilesharing", "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)")) + "\n\t")]), _vm._v(" "), _c("NcCheckboxRadioSwitch", {
     attrs: {
       type: "switch",
       checked: _vm.incomingServer2serverShareEnabled
@@ -658,4 +645,4 @@ module.exports = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/sv
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=federatedfilesharing-vue-settings-admin.js.map?v=6bb25a3dac3929f216f4
+//# sourceMappingURL=federatedfilesharing-vue-settings-admin.js.map?v=08b862b0a0e392562870

@@ -210,8 +210,7 @@ var render = function render() {
       title: _vm.t("oauth2", "OAuth 2.0 clients"),
       description: _vm.t("oauth2", "OAuth 2.0 allows external services to request access to {instanceName}.", {
         instanceName: _vm.instanceName
-      }),
-      "doc-url": _vm.oauthDocLink
+      })
     }
   }, [_vm.clients.length > 0 ? _c("table", {
     staticClass: "grid"
@@ -887,4 +886,4 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=oauth2-oauth2.js.map?v=13c4787e123615633427
+//# sourceMappingURL=oauth2-oauth2.js.map?v=e27b1938b5d1f7257d0d
