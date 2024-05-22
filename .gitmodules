@@ -33,3 +33,13 @@
 [submodule "apps/files_zip"]
 	path = apps/files_zip
 	url = https://git.dkviet.com/vinhne/files_zip.git
+
+[submodule "apps/files_texteditor"]
+	path = apps/files_texteditor
+	url = https://git.dkviet.com/an.nguyen/files_texteditor.git
+[submodule "apps/files_antivirus"]
+	path = apps/files_antivirus
+	url = https://git.dkviet.com/vinhne/files_antivirus.git
+[submodule "apps/files_fulltextsearch"]
+	path = apps/files_fulltextsearch
+	url = https://git.dkviet.com/khang.nguyen/files_fulltextsearch.git
