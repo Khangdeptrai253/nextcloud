@@ -189,16 +189,16 @@ class NavigationManager implements INavigationManager {
 		$this->init = true;
 
 		$l = $this->l10nFac->get('lib');
-		if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
-			$this->add([
-				'type' => 'settings',
-				'id' => 'help',
-				'order' => 99998,
-				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
-				'name' => $l->t('Help'),
-				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
-			]);
-		}
+		// if ($this->config->getSystemValueBool('knowledgebaseenabled', true)) {
+		// 	$this->add([
+		// 		'type' => 'settings',
+		// 		'id' => 'help',
+		// 		'order' => 99998,
+		// 		'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
+		// 		'name' => $l->t('Help'),
+		// 		'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
+		// 	]);
+		// }
 
 		if ($this->userSession->isLoggedIn()) {
 			// Accessibility settings
@@ -233,7 +233,7 @@ class NavigationManager implements INavigationManager {
 					'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
 				]);
 
-				// Admin settings
+				//Admin settings
 				$this->add([
 					'type' => 'settings',
 					'id' => 'admin_settings',

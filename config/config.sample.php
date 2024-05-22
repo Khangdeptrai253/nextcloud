@@ -1065,13 +1065,13 @@ $CONFIG = [
  *
  * Defaults to:
  *
- * - Desktop client: ``https://nextcloud.com/install/#install-clients``
+ * - Desktop client: ``https://dkviet.com/install/#install-clients``
  * - Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
  * - iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
  * - iOS client app id: ``1125420102``
  */
 'customclient_desktop' =>
-	'https://nextcloud.com/install/#install-clients',
+	'https://dkviet.com/install/#install-clients',
 'customclient_android' =>
 	'https://play.google.com/store/apps/details?id=com.nextcloud.client',
 'customclient_ios' =>
@@ -2238,7 +2238,7 @@ $CONFIG = [
 
 /**
  * By default, there is on public pages a link shown that allows users to
- * learn about the "simple sign up" - see https://nextcloud.com/signup/
+ * learn about the "simple sign up" - see https://dkviet.com/signup/
  *
  * If this is set to "false" it will not show the link.
  */

@@ -124,7 +124,7 @@ class ChangesCheckTest extends TestCase {
 <release xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://updates.nextcloud.com/changelog_server/schema.xsd"
          version="13.0.0">
-    <changelog href="https://nextcloud.com/changelog/#13-0-0"/>
+    <changelog href="https://dkviet.com/changelog/#13-0-0"/>
     <whatsNew lang="en">
         <regular>
             <item>Refined user interface</item>
@@ -149,7 +149,7 @@ class ChangesCheckTest extends TestCase {
     </whatsNew>
 </release>',
 				[
-					'changelogURL' => 'https://nextcloud.com/changelog/#13-0-0',
+					'changelogURL' => 'https://dkviet.com/changelog/#13-0-0',
 					'whatsNew' => [
 						'en' => [
 							'regular' => [
@@ -181,7 +181,7 @@ class ChangesCheckTest extends TestCase {
 <release xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://updates.nextcloud.com/changelog_server/schema.xsd"
          version="13.0.0">
-    <changelog href="https://nextcloud.com/changelog/#13-0-0"/>
+    <changelog href="https://dkviet.com/changelog/#13-0-0"/>
     <whatsNew lang="en">
         <regular>
             <item>Refined user interface</item>
@@ -202,7 +202,7 @@ class ChangesCheckTest extends TestCase {
     </whatsNew>
 </release>',
 				[
-					'changelogURL' => 'https://nextcloud.com/changelog/#13-0-0',
+					'changelogURL' => 'https://dkviet.com/changelog/#13-0-0',
 					'whatsNew' => [
 						'en' => [
 							'regular' => [
@@ -232,7 +232,7 @@ class ChangesCheckTest extends TestCase {
 <release xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://updates.nextcloud.com/changelog_server/schema.xsd"
          version="13.0.0">
-    <changelog href="https://nextcloud.com/changelog/#13-0-0"/>
+    <changelog href="https://dkviet.com/changelog/#13-0-0"/>
     <whatsNew lang="en">
         <regular>
             <item>Refined user interface</item>
@@ -242,7 +242,7 @@ class ChangesCheckTest extends TestCase {
     </whatsNew>
 </release>',
 				[
-					'changelogURL' => 'https://nextcloud.com/changelog/#13-0-0',
+					'changelogURL' => 'https://dkviet.com/changelog/#13-0-0',
 					'whatsNew' => [
 						'en' => [
 							'regular' => [
@@ -260,7 +260,7 @@ class ChangesCheckTest extends TestCase {
 <release xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://updates.nextcloud.com/changelog_server/schema.xsd"
          version="13.0.0">
-    <changelog href="https://nextcloud.com/changelog/#13-0-0"/>
+    <changelog href="https://dkviet.com/changelog/#13-0-0"/>
     <whatsNew lang="en">
         <regular>
             <item>Write this tomorrow</item>
@@ -268,7 +268,7 @@ class ChangesCheckTest extends TestCase {
     </whatsNew>
 </release>',
 				[
-					'changelogURL' => 'https://nextcloud.com/changelog/#13-0-0',
+					'changelogURL' => 'https://dkviet.com/changelog/#13-0-0',
 					'whatsNew' => [
 						'en' => [
 							'regular' => [

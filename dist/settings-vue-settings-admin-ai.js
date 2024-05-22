@@ -1,3 +1,676 @@
-/*! For license information please see settings-vue-settings-admin-ai.js.LICENSE.txt */
-(()=>{"use strict";var e,n={20529:(e,n,s)=>{var i=s(20144),r=s(4820),a=s(20571),o=s.n(a),c=s(13299),p=s.n(c),l=s(36456),d=s.n(l),g=s(10861),v=s.n(g),u=s(9980),h=s.n(u),m=s(24939),f=s(76236),y=s(85313),_=s(79954),b=s(79753),A=s(25108);const x={name:"AdminAI",components:{NcCheckboxRadioSwitch:o(),NcSettingsSection:p(),NcSelect:d(),draggable:h(),DragVerticalIcon:m.Z,ArrowDownIcon:f.Z,ArrowUpIcon:y.Z,NcButton:v()},data:()=>({loading:!1,dirty:!1,groups:[],loadingGroups:!1,sttProviders:(0,_.j)("settings","ai-stt-providers"),translationProviders:(0,_.j)("settings","ai-translation-providers"),textProcessingProviders:(0,_.j)("settings","ai-text-processing-providers"),textProcessingTaskTypes:(0,_.j)("settings","ai-text-processing-task-types"),settings:(0,_.j)("settings","ai-settings")}),computed:{hasStt(){return this.sttProviders.length>0},hasTextProcessing(){return Object.keys(this.settings["ai.textprocessing_provider_preferences"]).length>0&&Array.isArray(this.textProcessingTaskTypes)},tpTaskTypes(){return Object.keys(this.settings["ai.textprocessing_provider_preferences"]).filter((t=>!!this.getTaskType(t)))}},methods:{moveUp(t){this.settings["ai.translation_provider_preferences"].splice(Math.min(t-1,0),0,...this.settings["ai.translation_provider_preferences"].splice(t,1)),this.saveChanges()},moveDown(t){this.settings["ai.translation_provider_preferences"].splice(t+1,0,...this.settings["ai.translation_provider_preferences"].splice(t,1)),this.saveChanges()},async saveChanges(){this.loading=!0;const t={settings:this.settings};try{await r.default.put((0,b.generateUrl)("/settings/api/admin/ai"),t)}catch(t){A.error("could not save changes",t)}this.loading=!1},getTaskType(t){return Array.isArray(this.textProcessingTaskTypes)?this.textProcessingTaskTypes.find((e=>e.class===t)):null}}};var T=s(93379),k=s.n(T),S=s(7795),w=s.n(S),C=s(90569),N=s.n(C),P=s(3565),j=s.n(P),O=s(19216),I=s.n(O),D=s(44589),B=s.n(D),U=s(77025),M={};M.styleTagTransform=B(),M.setAttributes=j(),M.insert=N().bind(null,"head"),M.domAPI=w(),M.insertStyleElement=I(),k()(U.Z,M),U.Z&&U.Z.locals&&U.Z.locals;const R=(0,s(51900).Z)(x,(function(){var t=this,e=t._self._c;return e("div",[e("NcSettingsSection",{attrs:{title:t.t("settings","Machine translation"),description:t.t("settings","Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.")}},[e("draggable",{on:{change:t.saveChanges},model:{value:t.settings["ai.translation_provider_preferences"],callback:function(e){t.$set(t.settings,"ai.translation_provider_preferences",e)},expression:"settings['ai.translation_provider_preferences']"}},t._l(t.settings["ai.translation_provider_preferences"],(function(n,s){var i;return e("div",{key:n,staticClass:"draggable__item"},[e("DragVerticalIcon"),t._v(" "),e("span",{staticClass:"draggable__number"},[t._v(t._s(s+1))]),t._v(" "+t._s(null===(i=t.translationProviders.find((t=>t.class===n)))||void 0===i?void 0:i.name)+"\n\t\t\t\t"),e("NcButton",{attrs:{"aria-label":"Move up",type:"tertiary"},on:{click:function(e){return t.moveUp(s)}},scopedSlots:t._u([{key:"icon",fn:function(){return[e("ArrowUpIcon")]},proxy:!0}],null,!0)}),t._v(" "),e("NcButton",{attrs:{"aria-label":"Move down",type:"tertiary"},on:{click:function(e){return t.moveDown(s)}},scopedSlots:t._u([{key:"icon",fn:function(){return[e("ArrowDownIcon")]},proxy:!0}],null,!0)})],1)})),0)],1),t._v(" "),e("NcSettingsSection",{attrs:{title:t.t("settings","Speech-To-Text"),description:t.t("settings","Speech-To-Text can be implemented by different apps. Here you can set which app should be used.")}},[t._l(t.sttProviders,(function(n){return[e("NcCheckboxRadioSwitch",{key:n.class,attrs:{checked:t.settings["ai.stt_provider"],value:n.class,name:"stt_provider",type:"radio"},on:{"update:checked":[function(e){return t.$set(t.settings,"ai.stt_provider",e)},t.saveChanges]}},[t._v("\n\t\t\t\t"+t._s(n.name)+"\n\t\t\t")])]})),t._v(" "),t.hasStt?t._e():[e("NcCheckboxRadioSwitch",{attrs:{disabled:"",type:"radio"}},[t._v("\n\t\t\t\t"+t._s(t.t("settings","None of your currently installed apps provide Speech-To-Text functionality"))+"\n\t\t\t")])]],2),t._v(" "),e("NcSettingsSection",{attrs:{title:t.t("settings","Text processing"),description:t.t("settings","Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.")}},[t._l(t.tpTaskTypes,(function(n){return[e("div",{key:n},[e("h3",[t._v(t._s(t.t("settings","Task:"))+" "+t._s(t.getTaskType(n).name))]),t._v(" "),e("p",[t._v(t._s(t.getTaskType(n).description))]),t._v(" "),e("p",[t._v(" ")]),t._v(" "),e("NcSelect",{attrs:{clearable:!1,options:t.textProcessingProviders.filter((t=>t.taskType===n)).map((t=>t.class))},on:{input:t.saveChanges},scopedSlots:t._u([{key:"option",fn:function(e){var n;let{label:s}=e;return[t._v("\n\t\t\t\t\t\t"+t._s(null===(n=t.textProcessingProviders.find((t=>t.class===s)))||void 0===n?void 0:n.name)+"\n\t\t\t\t\t")]}},{key:"selected-option",fn:function(e){var n;let{label:s}=e;return[t._v("\n\t\t\t\t\t\t"+t._s(null===(n=t.textProcessingProviders.find((t=>t.class===s)))||void 0===n?void 0:n.name)+"\n\t\t\t\t\t")]}}],null,!0),model:{value:t.settings["ai.textprocessing_provider_preferences"][n],callback:function(e){t.$set(t.settings["ai.textprocessing_provider_preferences"],n,e)},expression:"settings['ai.textprocessing_provider_preferences'][type]"}}),t._v(" "),e("p",[t._v(" ")])],1)]})),t._v(" "),t.hasTextProcessing?t._e():[e("p",[t._v(t._s(t.t("settings","None of your currently installed apps provide Text processing functionality")))])]],2)],1)}),[],!1,null,"a3ab164e",null).exports;s.nc=btoa(OC.requestToken),i.default.prototype.t=t,window.OC=window.OC||{},window.OC.Settings=window.OC.Settings||{},(new(i.default.extend(R))).$mount("#ai-settings")},77025:(t,e,n)=>{n.d(e,{Z:()=>o});var s=n(87537),i=n.n(s),r=n(23645),a=n.n(r)()(i());a.push([t.id,"\n.draggable__item[data-v-a3ab164e] {\n\tmargin-bottom: 5px;\n  display: flex;\n  align-items: center;\n}\n.draggable__item[data-v-a3ab164e],\n.draggable__item *[data-v-a3ab164e] {\n  cursor: grab;\n}\n.draggable__number[data-v-a3ab164e] {\n\tborder-radius: 20px;\n\tborder: 2px solid var(--color-primary-default);\n\tcolor: var(--color-primary-default);\n  padding: 0px 7px;\n\tmargin-right: 3px;\n}\n.drag-vertical-icon[data-v-a3ab164e] {\n  float: left;\n}\n","",{version:3,sources:["webpack://./apps/settings/src/components/AdminAI.vue"],names:[],mappings:";AAyJA;CACA,kBAAA;EACA,aAAA;EACA,mBAAA;AACA;AAEA;;EAEA,YAAA;AACA;AAEA;CACA,mBAAA;CACA,8CAAA;CACA,mCAAA;EACA,gBAAA;CACA,iBAAA;AACA;AAEA;EACA,WAAA;AACA",sourcesContent:["<template>\n\t<div>\n\t\t<NcSettingsSection :title=\"t('settings', 'Machine translation')\"\n\t\t\t:description=\"t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')\">\n\t\t\t<draggable v-model=\"settings['ai.translation_provider_preferences']\" @change=\"saveChanges\">\n\t\t\t\t<div v-for=\"(providerClass, i) in settings['ai.translation_provider_preferences']\" :key=\"providerClass\" class=\"draggable__item\">\n\t\t\t\t\t<DragVerticalIcon /> <span class=\"draggable__number\">{{ i + 1 }}</span> {{ translationProviders.find(p => p.class === providerClass)?.name }}\n\t\t\t\t\t<NcButton aria-label=\"Move up\" type=\"tertiary\" @click=\"moveUp(i)\">\n\t\t\t\t\t\t<template #icon>\n\t\t\t\t\t\t\t<ArrowUpIcon />\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</NcButton>\n\t\t\t\t\t<NcButton aria-label=\"Move down\" type=\"tertiary\" @click=\"moveDown(i)\">\n\t\t\t\t\t\t<template #icon>\n\t\t\t\t\t\t\t<ArrowDownIcon />\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</NcButton>\n\t\t\t\t</div>\n\t\t\t</draggable>\n\t\t</NcSettingsSection>\n\t\t<NcSettingsSection :title=\"t('settings', 'Speech-To-Text')\"\n\t\t\t:description=\"t('settings', 'Speech-To-Text can be implemented by different apps. Here you can set which app should be used.')\">\n\t\t\t<template v-for=\"provider in sttProviders\">\n\t\t\t\t<NcCheckboxRadioSwitch :key=\"provider.class\"\n\t\t\t\t\t:checked.sync=\"settings['ai.stt_provider']\"\n\t\t\t\t\t:value=\"provider.class\"\n\t\t\t\t\tname=\"stt_provider\"\n\t\t\t\t\ttype=\"radio\"\n\t\t\t\t\t@update:checked=\"saveChanges\">\n\t\t\t\t\t{{ provider.name }}\n\t\t\t\t</NcCheckboxRadioSwitch>\n\t\t\t</template>\n\t\t\t<template v-if=\"!hasStt\">\n\t\t\t\t<NcCheckboxRadioSwitch disabled type=\"radio\">\n\t\t\t\t\t{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}\n\t\t\t\t</NcCheckboxRadioSwitch>\n\t\t\t</template>\n\t\t</NcSettingsSection>\n\t\t<NcSettingsSection :title=\"t('settings', 'Text processing')\"\n\t\t\t:description=\"t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')\">\n\t\t\t<template v-for=\"type in tpTaskTypes\">\n\t\t\t\t<div :key=\"type\">\n\t\t\t\t\t<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>\n\t\t\t\t\t<p>{{ getTaskType(type).description }}</p>\n\t\t\t\t\t<p>&nbsp;</p>\n\t\t\t\t\t<NcSelect v-model=\"settings['ai.textprocessing_provider_preferences'][type]\"\n\t\t\t\t\t\t:clearable=\"false\"\n\t\t\t\t\t\t:options=\"textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)\"\n\t\t\t\t\t\t@input=\"saveChanges\">\n\t\t\t\t\t\t<template #option=\"{label}\">\n\t\t\t\t\t\t\t{{ textProcessingProviders.find(p => p.class === label)?.name }}\n\t\t\t\t\t\t</template>\n\t\t\t\t\t\t<template #selected-option=\"{label}\">\n\t\t\t\t\t\t\t{{ textProcessingProviders.find(p => p.class === label)?.name }}\n\t\t\t\t\t\t</template>\n\t\t\t\t\t</NcSelect>\n\t\t\t\t\t<p>&nbsp;</p>\n\t\t\t\t</div>\n\t\t\t</template>\n\t\t\t<template v-if=\"!hasTextProcessing\">\n\t\t\t\t<p>{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}</p>\n\t\t\t</template>\n\t\t</NcSettingsSection>\n\t</div>\n</template>\n\n<script>\nimport axios from '@nextcloud/axios'\nimport NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'\nimport NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'\nimport NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'\nimport NcButton from '@nextcloud/vue/dist/Components/NcButton.js'\nimport draggable from 'vuedraggable'\nimport DragVerticalIcon from 'vue-material-design-icons/DragVertical.vue'\nimport ArrowDownIcon from 'vue-material-design-icons/ArrowDown.vue'\nimport ArrowUpIcon from 'vue-material-design-icons/ArrowUp.vue'\nimport { loadState } from '@nextcloud/initial-state'\n\nimport { generateUrl } from '@nextcloud/router'\n\nexport default {\n\tname: 'AdminAI',\n\tcomponents: {\n\t\tNcCheckboxRadioSwitch,\n\t\tNcSettingsSection,\n\t\tNcSelect,\n\t\tdraggable,\n\t\tDragVerticalIcon,\n\t\tArrowDownIcon,\n\t\tArrowUpIcon,\n\t\tNcButton,\n\t},\n\tdata() {\n\t\treturn {\n\t\t\tloading: false,\n\t\t\tdirty: false,\n\t\t\tgroups: [],\n\t\t\tloadingGroups: false,\n\t\t\tsttProviders: loadState('settings', 'ai-stt-providers'),\n\t\t\ttranslationProviders: loadState('settings', 'ai-translation-providers'),\n\t\t\ttextProcessingProviders: loadState('settings', 'ai-text-processing-providers'),\n\t\t\ttextProcessingTaskTypes: loadState('settings', 'ai-text-processing-task-types'),\n\t\t\tsettings: loadState('settings', 'ai-settings'),\n\t\t}\n\t},\n\tcomputed: {\n\t\thasStt() {\n\t\t\treturn this.sttProviders.length > 0\n\t\t},\n\t\thasTextProcessing() {\n\t\t\treturn Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)\n\t\t},\n\t\ttpTaskTypes() {\n\t\t\treturn Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTaskType(type))\n\t\t},\n\t},\n\tmethods: {\n\t  moveUp(i) {\n\t\t\tthis.settings['ai.translation_provider_preferences'].splice(\n\t\t\t  Math.min(i - 1, 0),\n\t\t\t\t0,\n\t\t\t\t...this.settings['ai.translation_provider_preferences'].splice(i, 1)\n\t\t\t)\n\t\t\tthis.saveChanges()\n\t\t},\n\t\tmoveDown(i) {\n\t\t\tthis.settings['ai.translation_provider_preferences'].splice(\n\t\t\t\ti + 1,\n\t\t\t\t0,\n\t\t\t\t...this.settings['ai.translation_provider_preferences'].splice(i, 1)\n\t\t\t)\n\t\t\tthis.saveChanges()\n\t\t},\n\t\tasync saveChanges() {\n\t\t\tthis.loading = true\n\t\t\tconst data = { settings: this.settings }\n\t\t\ttry {\n\t\t\t\tawait axios.put(generateUrl('/settings/api/admin/ai'), data)\n\t\t\t} catch (err) {\n\t\t\t\tconsole.error('could not save changes', err)\n\t\t\t}\n\t\t\tthis.loading = false\n\t\t},\n\t\tgetTaskType(type) {\n\t\t  if (!Array.isArray(this.textProcessingTaskTypes)) {\n\t\t\t\treturn null\n\t\t\t}\n\t\t\treturn this.textProcessingTaskTypes.find(taskType => taskType.class === type)\n\t\t},\n\t},\n}\n<\/script>\n<style scoped>\n.draggable__item {\n\tmargin-bottom: 5px;\n  display: flex;\n  align-items: center;\n}\n\n.draggable__item,\n.draggable__item * {\n  cursor: grab;\n}\n\n.draggable__number {\n\tborder-radius: 20px;\n\tborder: 2px solid var(--color-primary-default);\n\tcolor: var(--color-primary-default);\n  padding: 0px 7px;\n\tmargin-right: 3px;\n}\n\n.drag-vertical-icon {\n  float: left;\n}\n</style>\n"],sourceRoot:""}]);const o=a}},s={};function i(t){var e=s[t];if(void 0!==e)return e.exports;var r=s[t]={id:t,loaded:!1,exports:{}};return n[t].call(r.exports,r,r.exports,i),r.loaded=!0,r.exports}i.m=n,e=[],i.O=(t,n,s,r)=>{if(!n){var a=1/0;for(l=0;l<e.length;l++){n=e[l][0],s=e[l][1],r=e[l][2];for(var o=!0,c=0;c<n.length;c++)(!1&r||a>=r)&&Object.keys(i.O).every((t=>i.O[t](n[c])))?n.splice(c--,1):(o=!1,r<a&&(a=r));if(o){e.splice(l--,1);var p=s();void 0!==p&&(t=p)}}return t}r=r||0;for(var l=e.length;l>0&&e[l-1][2]>r;l--)e[l]=e[l-1];e[l]=[n,s,r]},i.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return i.d(e,{a:e}),e},i.d=(t,e)=>{for(var n in e)i.o(e,n)&&!i.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:e[n]})},i.e=()=>Promise.resolve(),i.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),i.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),i.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),i.j=1104,(()=>{i.b=document.baseURI||self.location.href;var t={1104:0};i.O.j=e=>0===t[e];var e=(e,n)=>{var s,r,a=n[0],o=n[1],c=n[2],p=0;if(a.some((e=>0!==t[e]))){for(s in o)i.o(o,s)&&(i.m[s]=o[s]);if(c)var l=c(i)}for(e&&e(n);p<a.length;p++)r=a[p],i.o(t,r)&&t[r]&&t[r][0](),t[r]=0;return i.O(l)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(e.bind(null,0)),n.push=e.bind(null,n.push.bind(n))})(),i.nc=void 0;var r=i.O(void 0,[7874],(()=>i(20529)));r=i.O(r)})();
-//# sourceMappingURL=settings-vue-settings-admin-ai.js.map?v=81b630b17b9903dcd6ba
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/main-admin-ai.js":
+/*!********************************************!*\
+  !*** ./apps/settings/src/main-admin-ai.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_AdminAI_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/AdminAI.vue */ "./apps/settings/src/components/AdminAI.vue");
+/**
+ * @copyright Copyright (c) 2016 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+// eslint-disable-next-line camelcase
+__webpack_require__.nc = btoa(OC.requestToken);
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.t = t;
+
+// Not used here but required for legacy templates
+window.OC = window.OC || {};
+window.OC.Settings = window.OC.Settings || {};
+const View = vue__WEBPACK_IMPORTED_MODULE_1__["default"].extend(_components_AdminAI_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
+new View().$mount('#ai-settings');
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcCheckboxRadioSwitch_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js */ "./node_modules/@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcCheckboxRadioSwitch_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcCheckboxRadioSwitch_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcSettingsSection.js */ "./node_modules/@nextcloud/vue/dist/Components/NcSettingsSection.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSelect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcSelect.js */ "./node_modules/@nextcloud/vue/dist/Components/NcSelect.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcSelect_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcSelect_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue_material_design_icons_DragVertical_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-material-design-icons/DragVertical.vue */ "./node_modules/vue-material-design-icons/DragVertical.vue");
+/* harmony import */ var vue_material_design_icons_ArrowDown_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-material-design-icons/ArrowDown.vue */ "./node_modules/vue-material-design-icons/ArrowDown.vue");
+/* harmony import */ var vue_material_design_icons_ArrowUp_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-material-design-icons/ArrowUp.vue */ "./node_modules/vue-material-design-icons/ArrowUp.vue");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.esm.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'AdminAI',
+  components: {
+    NcCheckboxRadioSwitch: (_nextcloud_vue_dist_Components_NcCheckboxRadioSwitch_js__WEBPACK_IMPORTED_MODULE_1___default()),
+    NcSettingsSection: (_nextcloud_vue_dist_Components_NcSettingsSection_js__WEBPACK_IMPORTED_MODULE_2___default()),
+    NcSelect: (_nextcloud_vue_dist_Components_NcSelect_js__WEBPACK_IMPORTED_MODULE_3___default()),
+    draggable: (vuedraggable__WEBPACK_IMPORTED_MODULE_5___default()),
+    DragVerticalIcon: vue_material_design_icons_DragVertical_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    ArrowDownIcon: vue_material_design_icons_ArrowDown_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    ArrowUpIcon: vue_material_design_icons_ArrowUp_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    NcButton: (_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_4___default())
+  },
+  data() {
+    return {
+      loading: false,
+      dirty: false,
+      groups: [],
+      loadingGroups: false,
+      sttProviders: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_9__.loadState)('settings', 'ai-stt-providers'),
+      translationProviders: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_9__.loadState)('settings', 'ai-translation-providers'),
+      textProcessingProviders: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_9__.loadState)('settings', 'ai-text-processing-providers'),
+      textProcessingTaskTypes: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_9__.loadState)('settings', 'ai-text-processing-task-types'),
+      settings: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_9__.loadState)('settings', 'ai-settings')
+    };
+  },
+  computed: {
+    hasStt() {
+      return this.sttProviders.length > 0;
+    },
+    hasTextProcessing() {
+      return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes);
+    },
+    tpTaskTypes() {
+      return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTaskType(type));
+    }
+  },
+  methods: {
+    moveUp(i) {
+      this.settings['ai.translation_provider_preferences'].splice(Math.min(i - 1, 0), 0, ...this.settings['ai.translation_provider_preferences'].splice(i, 1));
+      this.saveChanges();
+    },
+    moveDown(i) {
+      this.settings['ai.translation_provider_preferences'].splice(i + 1, 0, ...this.settings['ai.translation_provider_preferences'].splice(i, 1));
+      this.saveChanges();
+    },
+    async saveChanges() {
+      this.loading = true;
+      const data = {
+        settings: this.settings
+      };
+      try {
+        await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].put((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_10__.generateUrl)('/settings/api/admin/ai'), data);
+      } catch (err) {
+        console.error('could not save changes', err);
+      }
+      this.loading = false;
+    },
+    getTaskType(type) {
+      if (!Array.isArray(this.textProcessingTaskTypes)) {
+        return null;
+      }
+      return this.textProcessingTaskTypes.find(taskType => taskType.class === type);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=template&id=0e831806&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=template&id=0e831806&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", [_c("NcSettingsSection", {
+    attrs: {
+      title: _vm.t("settings", "Machine translation"),
+      description: _vm.t("settings", "Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.")
+    }
+  }, [_c("draggable", {
+    on: {
+      change: _vm.saveChanges
+    },
+    model: {
+      value: _vm.settings["ai.translation_provider_preferences"],
+      callback: function ($$v) {
+        _vm.$set(_vm.settings, "ai.translation_provider_preferences", $$v);
+      },
+      expression: "settings['ai.translation_provider_preferences']"
+    }
+  }, _vm._l(_vm.settings["ai.translation_provider_preferences"], function (providerClass, i) {
+    var _vm$translationProvid;
+    return _c("div", {
+      key: providerClass,
+      staticClass: "draggable__item"
+    }, [_c("DragVerticalIcon"), _vm._v(" "), _c("span", {
+      staticClass: "draggable__number"
+    }, [_vm._v(_vm._s(i + 1))]), _vm._v(" " + _vm._s((_vm$translationProvid = _vm.translationProviders.find(p => p.class === providerClass)) === null || _vm$translationProvid === void 0 ? void 0 : _vm$translationProvid.name) + "\n\t\t\t\t"), _c("NcButton", {
+      attrs: {
+        "aria-label": "Move up",
+        type: "tertiary"
+      },
+      on: {
+        click: function ($event) {
+          return _vm.moveUp(i);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "icon",
+        fn: function () {
+          return [_c("ArrowUpIcon")];
+        },
+        proxy: true
+      }], null, true)
+    }), _vm._v(" "), _c("NcButton", {
+      attrs: {
+        "aria-label": "Move down",
+        type: "tertiary"
+      },
+      on: {
+        click: function ($event) {
+          return _vm.moveDown(i);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "icon",
+        fn: function () {
+          return [_c("ArrowDownIcon")];
+        },
+        proxy: true
+      }], null, true)
+    })], 1);
+  }), 0)], 1), _vm._v(" "), _c("NcSettingsSection", {
+    attrs: {
+      title: _vm.t("settings", "Speech-To-Text"),
+      description: _vm.t("settings", "Speech-To-Text can be implemented by different apps. Here you can set which app should be used.")
+    }
+  }, [_vm._l(_vm.sttProviders, function (provider) {
+    return [_c("NcCheckboxRadioSwitch", {
+      key: provider.class,
+      attrs: {
+        checked: _vm.settings["ai.stt_provider"],
+        value: provider.class,
+        name: "stt_provider",
+        type: "radio"
+      },
+      on: {
+        "update:checked": [function ($event) {
+          return _vm.$set(_vm.settings, "ai.stt_provider", $event);
+        }, _vm.saveChanges]
+      }
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(provider.name) + "\n\t\t\t")])];
+  }), _vm._v(" "), !_vm.hasStt ? [_c("NcCheckboxRadioSwitch", {
+    attrs: {
+      disabled: "",
+      type: "radio"
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("settings", "None of your currently installed apps provide Speech-To-Text functionality")) + "\n\t\t\t")])] : _vm._e()], 2), _vm._v(" "), _c("NcSettingsSection", {
+    attrs: {
+      title: _vm.t("settings", "Text processing"),
+      description: _vm.t("settings", "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.")
+    }
+  }, [_vm._l(_vm.tpTaskTypes, function (type) {
+    return [_c("div", {
+      key: type
+    }, [_c("h3", [_vm._v(_vm._s(_vm.t("settings", "Task:")) + " " + _vm._s(_vm.getTaskType(type).name))]), _vm._v(" "), _c("p", [_vm._v(_vm._s(_vm.getTaskType(type).description))]), _vm._v(" "), _c("p", [_vm._v(" ")]), _vm._v(" "), _c("NcSelect", {
+      attrs: {
+        clearable: false,
+        options: _vm.textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)
+      },
+      on: {
+        input: _vm.saveChanges
+      },
+      scopedSlots: _vm._u([{
+        key: "option",
+        fn: function (_ref) {
+          var _vm$textProcessingPro;
+          let {
+            label
+          } = _ref;
+          return [_vm._v("\n\t\t\t\t\t\t" + _vm._s((_vm$textProcessingPro = _vm.textProcessingProviders.find(p => p.class === label)) === null || _vm$textProcessingPro === void 0 ? void 0 : _vm$textProcessingPro.name) + "\n\t\t\t\t\t")];
+        }
+      }, {
+        key: "selected-option",
+        fn: function (_ref2) {
+          var _vm$textProcessingPro2;
+          let {
+            label
+          } = _ref2;
+          return [_vm._v("\n\t\t\t\t\t\t" + _vm._s((_vm$textProcessingPro2 = _vm.textProcessingProviders.find(p => p.class === label)) === null || _vm$textProcessingPro2 === void 0 ? void 0 : _vm$textProcessingPro2.name) + "\n\t\t\t\t\t")];
+        }
+      }], null, true),
+      model: {
+        value: _vm.settings["ai.textprocessing_provider_preferences"][type],
+        callback: function ($$v) {
+          _vm.$set(_vm.settings["ai.textprocessing_provider_preferences"], type, $$v);
+        },
+        expression: "settings['ai.textprocessing_provider_preferences'][type]"
+      }
+    }), _vm._v(" "), _c("p", [_vm._v(" ")])], 1)];
+  }), _vm._v(" "), !_vm.hasTextProcessing ? [_c("p", [_vm._v(_vm._s(_vm.t("settings", "None of your currently installed apps provide Text processing functionality")))])] : _vm._e()], 2)], 1);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.draggable__item[data-v-0e831806] {\n\tmargin-bottom: 5px;\n  display: flex;\n  align-items: center;\n}\n.draggable__item[data-v-0e831806],\n.draggable__item *[data-v-0e831806] {\n  cursor: grab;\n}\n.draggable__number[data-v-0e831806] {\n\tborder-radius: 20px;\n\tborder: 2px solid var(--color-primary-default);\n\tcolor: var(--color-primary-default);\n  padding: 0px 7px;\n\tmargin-right: 3px;\n}\n.drag-vertical-icon[data-v-0e831806] {\n  float: left;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_style_index_0_id_0e831806_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_style_index_0_id_0e831806_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_style_index_0_id_0e831806_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_style_index_0_id_0e831806_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_style_index_0_id_0e831806_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AdminAI.vue":
+/*!**************************************************!*\
+  !*** ./apps/settings/src/components/AdminAI.vue ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AdminAI_vue_vue_type_template_id_0e831806_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AdminAI.vue?vue&type=template&id=0e831806&scoped=true& */ "./apps/settings/src/components/AdminAI.vue?vue&type=template&id=0e831806&scoped=true&");
+/* harmony import */ var _AdminAI_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AdminAI.vue?vue&type=script&lang=js& */ "./apps/settings/src/components/AdminAI.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AdminAI_vue_vue_type_style_index_0_id_0e831806_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css& */ "./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _AdminAI_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AdminAI_vue_vue_type_template_id_0e831806_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _AdminAI_vue_vue_type_template_id_0e831806_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "0e831806",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "apps/settings/src/components/AdminAI.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AdminAI.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./apps/settings/src/components/AdminAI.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminAI.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AdminAI.vue?vue&type=template&id=0e831806&scoped=true&":
+/*!*********************************************************************************************!*\
+  !*** ./apps/settings/src/components/AdminAI.vue?vue&type=template&id=0e831806&scoped=true& ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_template_id_0e831806_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_template_id_0e831806_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_template_id_0e831806_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminAI.vue?vue&type=template&id=0e831806&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=template&id=0e831806&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css&":
+/*!***********************************************************************************************************!*\
+  !*** ./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css& ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AdminAI_vue_vue_type_style_index_0_id_0e831806_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/settings/src/components/AdminAI.vue?vue&type=style&index=0&id=0e831806&scoped=true&lang=css&");
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__webpack_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"settings-vue-settings-admin-ai": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/settings/src/main-admin-ai.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-vue-settings-admin-ai.js.map?v=169d8d7b209f5916c2fe

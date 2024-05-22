@@ -1,3 +1,9042 @@
-/*! For license information please see core-login.js.LICENSE.txt */
-(()=>{var e,o,i,a={83508:(e,o,i)=>{"use strict";var a=i(20144),r=i(69183),s=i(19755),l=i.n(s),c=i(79753),d=i(25108);const u={},p=[];var f=i(18181),h=i(64024),m=i(25108);const g={updatableNotification:null,getDefaultNotificationFunction:null,setDefault(e){this.getDefaultNotificationFunction=e},hide(e,t){f.default.isFunction(e)&&(t=e,e=void 0),e?(e.each((function(){l()(this)[0].toastify?l()(this)[0].toastify.hideToast():m.error("cannot hide toast because object is not set"),this===this.updatableNotification&&(this.updatableNotification=null)})),t&&t.call(),this.getDefaultNotificationFunction&&this.getDefaultNotificationFunction()):m.error("Missing argument $row in OC.Notification.hide() call, caller needs to be adjusted to only dismiss its own notification")},showHtml(e,t){(t=t||{}).isHTML=!0,t.timeout=t.timeout?t.timeout:h.Rl;const n=(0,h.PV)(e,t);return n.toastElement.toastify=n,l()(n.toastElement)},show(e,t){(t=t||{}).timeout=t.timeout?t.timeout:h.Rl;const n=(0,h.PV)(function(e){return e.toString().split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split('"').join("&quot;").split("'").join("&#039;")}(e),t);return n.toastElement.toastify=n,l()(n.toastElement)},showUpdate(e){return this.updatableNotification&&this.updatableNotification.hideToast(),this.updatableNotification=(0,h.PV)(e,{timeout:h.Rl}),this.updatableNotification.toastElement.toastify=this.updatableNotification,l()(this.updatableNotification.toastElement)},showTemporary(e,t){(t=t||{}).timeout=t.timeout||h.TN;const n=(0,h.PV)(e,t);return n.toastElement.toastify=n,l()(n.toastElement)},isHidden:()=>!l()("#content").find(".toastify").length},v=f.default.throttle((()=>{g.showTemporary(t("core","Connection to server lost"))}),7e3,{trailing:!1});let w=!1;const y={enableDynamicSlideToggle(){w=!0},showAppSidebar:function(e){(e||l()("#app-sidebar")).removeClass("disappear").show(),l()("#app-content").trigger(new(l().Event)("appresized"))},hideAppSidebar:function(e){(e||l()("#app-sidebar")).hide().addClass("disappear"),l()("#app-content").trigger(new(l().Event)("appresized"))}};function b(e,t,n){"post"!==e&&"delete"!==e||!Se.PasswordConfirmation.requiresPasswordConfirmation()?(n=n||{},l().ajax({type:e.toUpperCase(),url:(0,c.generateOcsUrl)("apps/provisioning_api/api/v1/config/apps")+t,data:n.data||{},success:n.success,error:n.error})):Se.PasswordConfirmation.requirePasswordConfirmation(_.bind(b,this,e,t,n))}const C=window.oc_appconfig||{},A={getValue:function(e,t,n,o){!function(e,t,n,o){(o=o||{}).data={defaultValue:n},b("get","/"+e+"/"+t,o)}(e,t,n,{success:o})},setValue:function(e,t,n){!function(e,t,n,o){(o=o||{}).data={value:n},b("post","/"+e+"/"+t,o)}(e,t,n)},getApps:function(e){!function(e){b("get","",e)}({success:e})},getKeys:function(e,t){!function(e,t){b("get","/"+e,t)}(e,{success:t})},deleteKey:function(e,t){!function(e,t,n){b("delete","/"+e+"/"+t,void 0)}(e,t)}};var P=i(25108);const k=void 0!==window._oc_appswebroots&&window._oc_appswebroots;var x=i(72316),T=i.n(x),O=i(76591),E=i(25108);const j={create:"POST",update:"PROPPATCH",patch:"PROPPATCH",delete:"DELETE",read:"PROPFIND"};function L(e,t){if(f.default.isArray(e))return f.default.map(e,(function(e){return L(e,t)}));var n={href:e.href};return f.default.each(e.propStat,(function(e){if("HTTP/1.1 200 OK"===e.status)for(var o in e.properties){var i=o;o in t&&(i=t[o]),n[i]=e.properties[o]}})),n.id||(n.id=S(n.href)),n}function S(e){var t=e.indexOf("?");t>0&&(e=e.substr(0,t));var n,o=e.split("/");do{n=o[o.length-1],o.pop()}while(!n&&o.length>0);return n}function N(e){return e>=200&&e<=299}function I(e,t,n,o){return e.propPatch(t.url,function(e,t){var n,o={};for(n in e){var i=t[n],a=e[n];i||(E.warn('No matching DAV property for property "'+n),i=n),(f.default.isBoolean(a)||f.default.isNumber(a))&&(a=""+a),o[i]=a}return o}(n.changed,t.davProperties),o).then((function(e){N(e.status)?f.default.isFunction(t.success)&&t.success(n.toJSON()):f.default.isFunction(t.error)&&t.error(e)}))}const U=T().noConflict();Object.assign(U,{davCall:(e,t)=>{var n=new O.dav.Client({baseUrl:e.url,xmlNamespaces:f.default.extend({"DAV:":"d","http://owncloud.org/ns":"oc"},e.xmlNamespaces||{})});n.resolveUrl=function(){return e.url};var o=f.default.extend({"X-Requested-With":"XMLHttpRequest",requesttoken:OC.requestToken},e.headers);return"PROPFIND"===e.type?function(e,t,n,o){return e.propFind(t.url,f.default.values(t.davProperties)||[],t.depth,o).then((function(e){if(N(e.status)){if(f.default.isFunction(t.success)){var n=f.default.invert(t.davProperties),o=L(e.body,n);t.depth>0&&o.shift(),t.success(o)}}else f.default.isFunction(t.error)&&t.error(e)}))}(n,e,0,o):"PROPPATCH"===e.type?I(n,e,t,o):"MKCOL"===e.type?function(e,t,n,o){return e.request(t.type,t.url,o,null).then((function(i){N(i.status)?I(e,t,n,o):f.default.isFunction(t.error)&&t.error(i)}))}(n,e,t,o):function(e,t,n,o){return o["Content-Type"]="application/json",e.request(t.type,t.url,o,t.data).then((function(e){if(N(e.status)){if(f.default.isFunction(t.success)){if("PUT"===t.type||"POST"===t.type||"MKCOL"===t.type){var o=e.body||n.toJSON(),i=e.xhr.getResponseHeader("Content-Location");return"POST"===t.type&&i&&(o.id=S(i)),void t.success(o)}if(207===e.status){var a=f.default.invert(t.davProperties);t.success(L(e.body,a))}else t.success(e.body)}}else f.default.isFunction(t.error)&&t.error(e)}))}(n,e,t,o)},davSync:(e=>(t,n,o)=>{var i={type:j[t]||t},a=n instanceof e.Collection;if("update"===t&&(n.hasInnerCollection?i.type="MKCOL":(n.usePUT||n.collection&&n.collection.usePUT)&&(i.type="PUT")),o.url||(i.url=f.default.result(n,"url")||function(){throw new Error('A "url" property or function must be specified')}()),null!=o.data||!n||"create"!==t&&"update"!==t&&"patch"!==t||(i.data=JSON.stringify(o.attrs||n.toJSON(o))),"PROPFIND"!==i.type&&(i.processData=!1),"PROPFIND"===i.type||"PROPPATCH"===i.type){var r=n.davProperties;!r&&n.model&&(r=n.model.prototype.davProperties),r&&(f.default.isFunction(r)?i.davProperties=r.call(n):i.davProperties=r),i.davProperties=f.default.extend(i.davProperties||{},o.davProperties),f.default.isUndefined(o.depth)&&(o.depth=a?1:0)}var s=o.error;o.error=function(e,t,n){o.textStatus=t,o.errorThrown=n,s&&s.call(o.context,e,t,n)};var l=o.xhr=e.davCall(f.default.extend(i,o),n);return n.trigger("request",n,l,o),l})(U)});const $=U;var F=i(65358);const R=window._oc_config||{};var M=i(25108);const B=x.Model.extend({defaults:{fullName:"",lastMessage:"",actions:[],hasOneAction:!1,hasTwoActions:!1,hasManyActions:!1},initialize:function(){0===this.get("actions").length?this.set("hasOneAction",!0):1===this.get("actions").length?(this.set("hasTwoActions",!0),this.set("secondAction",this.get("actions")[0])):this.set("hasManyActions",!0);const e=this.get("fullName");this.get("avatar")&&e&&this.set("avatarLabel",t("core","Avatar of {fullName}",{fullName:e}))}}),z=x.Collection.extend({model:B}),D=x.View.extend({_collection:void 0,_subViews:[],tagName:"ul",initialize:function(e){this._collection=e.collection},render:function(){var e=this;return e.$el.html(""),e._subViews=[],e._collection.forEach((function(t){var n=new q({model:t});n.render(),e.$el.append(n.$el),n.on("toggle:actionmenu",e._onChildActionMenuToggle,e),e._subViews.push(n)})),e},_onChildActionMenuToggle:function(e){this._subViews.forEach((function(t){t.trigger("parent:toggle:actionmenu",e)}))}}),q=x.View.extend({className:"contact",tagName:"li",_template:void 0,_model:void 0,_actionMenuShown:!1,events:{"click .icon-more":"_onToggleActionsMenu"},contactTemplate:i(10944),template:function(e){return this.contactTemplate(e)},initialize:function(e){this._model=e.model,this.on("parent:toggle:actionmenu",this._onOtherActionMenuOpened,this)},render:function(){return this.$el.html(this.template({contact:this._model.toJSON()})),this.delegateEvents(),this.$("div.avatar").imageplaceholder(this._model.get("fullName")),this},_onToggleActionsMenu:function(){this._actionMenuShown=!this._actionMenuShown,this._actionMenuShown?this.$(".menu").show():this.$(".menu").hide(),this.trigger("toggle:actionmenu",this.$el)},_onOtherActionMenuOpened:function(e){this.$el.is(e)||(this._actionMenuShown=!1,this.$(".menu").hide())}}),H=x.View.extend({_loadingTemplate:void 0,_errorTemplate:void 0,_contentTemplate:void 0,_contactsTemplate:void 0,_contacts:void 0,_searchTerm:"",events:{"input #contactsmenu-search":"_onSearch"},templates:{loading:i(95386),error:i(20421),menu:i(66115),list:i(34083)},_onSearch:f.default.debounce((function(e){var t=this.$("#contactsmenu-search").val();t!==this._searchTerm&&(this.trigger("search",this.$("#contactsmenu-search").val()),this._searchTerm=t)}),700),loadingTemplate:function(e){return this.templates.loading(e)},errorTemplate:function(e){return this.templates.error(f.default.extend({couldNotLoadText:t("core","Could not load your contacts")},e))},contentTemplate:function(e){return this.templates.menu(f.default.extend({searchContactsText:t("core","Search contacts …")},e))},contactsTemplate:function(e){return this.templates.list(f.default.extend({noContactsFoundText:t("core","No contacts found"),showAllContactsText:t("core","Show all contacts …"),contactsAppMgmtText:t("core","Install the Contacts app")},e))},initialize:function(e){this.options=e},showLoading:function(e){this.render(),this._contacts=void 0,this.$(".content").html(this.loadingTemplate({loadingText:e}))},showError:function(){this.render(),this._contacts=void 0,this.$(".content").html(this.errorTemplate())},showContacts:function(e,t){this._contacts=e.contacts,this.render({contacts:e.contacts});var n=new D({collection:e.contacts});n.render(),this.$(".content").html(this.contactsTemplate({contacts:e.contacts,searchTerm:t,contactsAppEnabled:e.contactsAppEnabled,contactsAppURL:Se.generateUrl("/apps/contacts"),canInstallApp:Se.isUserAdmin(),contactsAppMgmtURL:Se.generateUrl("/settings/apps/social/contacts")})),this.$("#contactsmenu-contacts").html(n.$el)},render:function(e){var t=this.$("#contactsmenu-search").val();return this.$el.html(this.contentTemplate(e)),this.$("#contactsmenu-search").val(t),this.$("#contactsmenu-search").focus(),this}}),Y=function(e){this.initialize(e)};Y.prototype={$el:void 0,_view:void 0,_contactsPromise:void 0,initialize:function(e){this.$el=l()(e.el),this._view=new H({el:this.$el}),this._view.on("search",(function(e){this.loadContacts(e)}),this)},_getContacts:function(e){var t=Se.generateUrl("/contactsmenu/contacts");return Promise.resolve(l().ajax(t,{method:"POST",data:{filter:e}}))},loadContacts:function(e){var n=this;return n._contactsPromise||(n._contactsPromise=n._getContacts(e)),f.default.isUndefined(e)||""===e?n._view.showLoading(t("core","Loading your contacts …")):n._view.showLoading(t("core","Looking for {term} …",{term:e})),n._contactsPromise.then((function(t){t.contacts=new z(t.contacts),n._view.showContacts(t,e)}),(function(e){n._view.showError(),M.error("There was an error loading your contacts",e)})).then((function(){delete n._contactsPromise})).catch(M.error.bind(this))}};const K=Y,Z=document.getElementsByTagName("head")[0].getAttribute("data-user"),V=document.getElementsByTagName("head")[0].getAttribute("data-user-displayname"),G=void 0!==Z&&Z;var W=i(25108);const J={Search:class{constructor(){OC.debug&&W.warn("OCA.Search is deprecated. Please use the unified search API instead")}}},Q=e=>"click"===e.type||"keydown"===e.type&&"Enter"===e.key;var X=i(51819),ee=i(25108);const te={YES_NO_BUTTONS:70,OK_BUTTONS:71,FILEPICKER_TYPE_CHOOSE:1,FILEPICKER_TYPE_MOVE:2,FILEPICKER_TYPE_COPY:3,FILEPICKER_TYPE_COPY_MOVE:4,FILEPICKER_TYPE_CUSTOM:5,dialogsCounter:0,alert:function(e,t,n,o){this.message(e,t,"alert",te.OK_BUTTON,n,o)},info:function(e,t,n,o){this.message(e,t,"info",te.OK_BUTTON,n,o)},confirm:function(e,t,n,o){return this.message(e,t,"notice",te.YES_NO_BUTTONS,n,o)},confirmDestructive:function(e,t,n,o,i){return this.message(e,t,"none",n,o,void 0===i||i)},confirmHtml:function(e,t,n,o){return this.message(e,t,"notice",te.YES_NO_BUTTONS,n,o,!0)},prompt:function(e,n,o,i,a,r){return l().when(this._getMessageTemplate()).then((function(s){var c="oc-dialog-"+te.dialogsCounter+"-content",d="#"+c,u=s.octemplate({dialog_name:c,title:n,message:e,type:"notice"}),p=l()("<input/>");p.attr("type",r?"password":"text").attr("id",c+"-input").attr("placeholder",a);var h=l()("<label/>").attr("for",c+"-input").text(a+": ");u.append(h),u.append(p),void 0===i&&(i=!1),l()("body").append(u),void 0!==o&&(o=f.default.once(o));var m=[{text:t("core","No"),click:function(){void 0!==o&&o(!1,p.val()),l()(d).ocdialog("close")}},{text:t("core","Yes"),click:function(){void 0!==o&&o(!0,p.val()),l()(d).ocdialog("close")},defaultButton:!0}];l()(d).ocdialog({closeOnEscape:!0,modal:i,buttons:m,close:function(){void 0!==o&&o(!1,p.val())}}),p.focus(),te.dialogsCounter++}))},filepicker:X.filepicker,legacyFilepicker:function(e,n,o,i,a,r,s,c){var d=this;if(this.filepicker.sortField="name",this.filepicker.sortOrder="asc",!this.filepicker.loading){void 0===r&&(r=this.FILEPICKER_TYPE_CHOOSE);var u=t("core","No files in here"),p=t("files","New folder");r!==this.FILEPICKER_TYPE_COPY&&r!==this.FILEPICKER_TYPE_MOVE&&r!==this.FILEPICKER_TYPE_COPY_MOVE||(u=t("core","No more subfolders in here")),this.filepicker.loading=!0,this.filepicker.filesClient=J.Sharing&&J.Sharing.PublicApp&&J.Sharing.PublicApp.fileList?J.Sharing.PublicApp.fileList.filesClient:Se.Files.getClient(),this.filelist=null,s=s||"",c=Object.assign({allowDirectoryChooser:!1},c),l().when(this._getFilePickerTemplate()).then((function(f){var h,m;d.filepicker.loading=!1,d.$filePicker&&d.$filePicker.ocdialog("close"),null==i&&(i=[]),"string"==typeof i&&(i=[i]),d.$filePicker=f.octemplate({dialog_name:"oc-dialog-filepicker-content",title:e,emptytext:u,newtext:p,nameCol:t("core","Name"),sizeCol:t("core","Size"),modifiedCol:t("core","Modified")}).data("path",s).data("multiselect",o).data("mimetype",i).data("allowDirectoryChooser",c.allowDirectoryChooser),"function"==typeof c.filter&&d.$filePicker.data("filter",c.filter),void 0===a&&(a=!1),void 0===o&&(o=!1),l()(null!==(h=null===(m=c)||void 0===m?void 0:m.target)&&void 0!==h?h:"body").prepend(d.$filePicker),d.$showGridView=l()("button#picker-showgridview"),d.$showGridView.on("click keydown",(function(e){Q(e)&&d._onGridviewChange()})),d._getGridSettings();var g=d.$filePicker.find(".actions.creatable .button-add");r!==d.FILEPICKER_TYPE_CHOOSE||c.allowDirectoryChooser||d.$filePicker.find(".actions.creatable").hide(),g.on("focus",(function(){d.$filePicker.ocdialog("setEnterCallback",(function(e){e.stopImmediatePropagation(),e.preventDefault(),g.click()}))})),g.on("blur",(function(){d.$filePicker.ocdialog("unsetEnterCallback")})),Se.registerMenu(g,d.$filePicker.find(".menu"),(function(){w.tooltip("hide"),w.focus(),d.$filePicker.ocdialog("setEnterCallback",(function(e){e.stopImmediatePropagation(),e.preventDefault(),d.$filePicker.submit()}));var e=w.val(),t=e.lastIndexOf(".");-1===t&&(t=e.length),w.selectRange(0,t)}));var v=d.$filePicker.find(".filenameform"),w=v.find("input[type='text']"),y=v.find("input[type='submit']");w.on("keydown",(function(e){Q(e)&&(e.stopImmediatePropagation(),e.preventDefault(),v.submit())})),y.on("click",(function(e){e.stopImmediatePropagation(),e.preventDefault(),v.submit()}));v.on("submit",(function(e){if(e.stopPropagation(),e.preventDefault(),function(){var e=w.val();try{if(function(e){var n=e.trim();if("."===n||".."===n)throw t("files",'"{name}" is an invalid file name.',{name:e});if(0===n.length)throw t("files","File name cannot be empty.");if(-1!==n.indexOf("/"))throw t("files",'"/" is not allowed inside a file name.');if(n.match(Se.config.blacklist_files_regex))throw t("files",'"{name}" is not an allowed filetype',{name:e});return!0}(e)){if(d.filelist.find((function(e){return e.name===this}),e))throw t("files","{newName} already exists",{newName:e},void 0,{escape:!1});return!0}}catch(e){w.attr("title",e),w.tooltip({placement:"right",trigger:"manual",container:".newFolderMenu"}),w.tooltip("_fixTitle"),w.tooltip("show"),w.addClass("error")}return!1}()){var n=w.val();d.filepicker.filesClient.createDirectory(d.$filePicker.data("path")+"/"+n).always((function(e){d._fillFilePicker(d.$filePicker.data("path")+"/"+n,r)})),Se.hideMenus(),d.$filePicker.ocdialog("unsetEnterCallback"),d.$filePicker.click(),w.val(p)}})),w.on("input",(function(e){w.tooltip("hide")})),d.$filePicker.ready((function(){d.$fileListHeader=d.$filePicker.find(".filelist thead tr"),d.$filelist=d.$filePicker.find(".filelist tbody"),d.$filelistContainer=d.$filePicker.find(".filelist-container"),d.$dirTree=d.$filePicker.find(".dirtree"),d.$dirTree.on("click keydown",".crumb",d,(function(e){Q(e)&&d._handleTreeListSelect(e,r)})),d.$filelist.on("click keydown","tr",(function(e){Q(e)&&d._handlePickerClick(e,l()(this),r)})),d.$fileListHeader.on("click keydown","a",(function(e){if(Q(e)){var t=d.$filePicker.data("path");d.filepicker.sortField=l()(e.currentTarget).data("sort"),d.filepicker.sortOrder="asc"===d.filepicker.sortOrder?"desc":"asc",d._fillFilePicker(t,r)}})),d._fillFilePicker(s,r)}));var b=function(e){if(void 0!==n){var t;if(!0===o)t=[],d.$filelist.find("tr.filepicker_element_selected").each((function(e,n){t.push(d.$filePicker.data("path")+"/"+l()(n).data("entryname"))}));else{t=d.$filePicker.data("path");var i=d.$filelist.find("tr.filepicker_element_selected").data("entryname");i&&(t+="/"+i)}n(t,e),d.$filePicker.ocdialog("close")}},C=[];r===te.FILEPICKER_TYPE_CHOOSE?C.push({text:t("core","Choose"),click:function(){b(te.FILEPICKER_TYPE_CHOOSE)},defaultButton:!0}):r===te.FILEPICKER_TYPE_CUSTOM?c.buttons.forEach((function(e){C.push({text:e.text,click:function(){b(e.type)},defaultButton:e.defaultButton})})):(r!==te.FILEPICKER_TYPE_COPY&&r!==te.FILEPICKER_TYPE_COPY_MOVE||C.push({text:t("core","Copy"),click:function(){b(te.FILEPICKER_TYPE_COPY)},defaultButton:!1}),r!==te.FILEPICKER_TYPE_MOVE&&r!==te.FILEPICKER_TYPE_COPY_MOVE||C.push({text:t("core","Move"),click:function(){b(te.FILEPICKER_TYPE_MOVE)},defaultButton:!0})),d.$filePicker.ocdialog({closeOnEscape:!0,width:600,height:500,modal:a,buttons:C,style:{buttons:"aside"},close:function(){try{l()(this).ocdialog("destroy").remove()}catch(e){}d.$filePicker=null}});var _=d.$filePicker.closest(".oc-dialog").find(".primary");-1!==d.$filePicker.data("mimetype").indexOf("httpd/unix-directory")||d.$filePicker.data("allowDirectoryChooser")?_.prop("disabled",!1):_.prop("disabled",!0)})).fail((function(e,n){d.filepicker.loading=!1,0!==e&&alert(t("core","Error loading file picker template: {error}",{error:n}))}))}},message:function(e,n,o,i,a,r,s){return l().when(this._getMessageTemplate()).then((function(c){var d="oc-dialog-"+te.dialogsCounter+"-content",u="#"+d,p=c.octemplate({dialog_name:d,title:n,message:e,type:o},s?{escapeFunction:""}:{});void 0===r&&(r=!1),l()("body").append(p);var f=[];switch(i){case te.YES_NO_BUTTONS:f=[{text:t("core","No"),click:function(){void 0!==a&&a(!1),l()(u).ocdialog("close")}},{text:t("core","Yes"),click:function(){void 0!==a&&a(!0),l()(u).ocdialog("close")},defaultButton:!0}];break;case te.OK_BUTTON:f[0]={text:t("core","OK"),click:function(){l()(u).ocdialog("close"),void 0!==a&&a()},defaultButton:!0};break;default:"object"==typeof i&&i.type===te.YES_NO_BUTTONS&&(f=[{text:i.cancel||t("core","No"),click:function(){void 0!==a&&a(!1),l()(u).ocdialog("close")}},{text:i.confirm||t("core","Yes"),click:function(){void 0!==a&&a(!0),l()(u).ocdialog("close")},defaultButton:!0,classes:i.confirmClasses}])}l()(u).ocdialog({closeOnEscape:!0,closeCallback:()=>{a&&a(!1)},modal:r,buttons:f}),te.dialogsCounter++})).fail((function(o,i){0===o?alert(n+": "+e):alert(t("core","Error loading message template: {error}",{error:i}))}))},_fileexistsshown:!1,fileexists:function(e,o,i,a){var r=this,s=new(l().Deferred),c=function(e,t,n,o,i){o=Math.round(o),i=Math.round(i);for(var a=e.getContext("2d").getImageData(0,0,t,n),r=e.getContext("2d").getImageData(0,0,o,i),s=a.data,l=r.data,c=t/o,d=n/i,u=Math.ceil(c/2),p=Math.ceil(d/2),f=0;f<i;f++)for(var h=0;h<o;h++){for(var m=4*(h+f*o),g=0,v=0,w=0,y=0,b=0,C=0,_=0,A=(f+.5)*d,P=Math.floor(f*d);P<(f+1)*d;P++)for(var k=Math.abs(A-(P+.5))/p,x=(h+.5)*c,T=k*k,O=Math.floor(h*c);O<(h+1)*c;O++){var E=Math.abs(x-(O+.5))/u,j=Math.sqrt(T+E*E);j>=-1&&j<=1&&(g=2*j*j*j-3*j*j+1)>0&&(_+=g*s[3+(E=4*(O+P*t))],w+=g,s[E+3]<255&&(g=g*s[E+3]/250),y+=g*s[E],b+=g*s[E+1],C+=g*s[E+2],v+=g)}l[m]=y/v,l[m+1]=b/v,l[m+2]=C/v,l[m+3]=_/w}e.getContext("2d").clearRect(0,0,Math.max(t,o),Math.max(n,i)),e.width=o,e.height=i,e.getContext("2d").putImageData(r,0,0)},d=function(n,o,i){var a=n.find(".template").clone().removeClass("template").addClass("conflict"),r=a.find(".original"),s=a.find(".replacement");a.data("data",e),a.find(".filename").text(o.name),r.find(".size").text(Se.Util.humanFileSize(o.size)),r.find(".mtime").text(Se.Util.formatDate(o.mtime)),i.size&&i.lastModified&&(s.find(".size").text(Se.Util.humanFileSize(i.size)),s.find(".mtime").text(Se.Util.formatDate(i.lastModified)));var d=o.directory+"/"+o.name,u={file:d,x:96,y:96,c:o.etag,forceIcon:0},p=Files.generatePreviewUrl(u);p=p.replace(/'/g,"%27"),r.find(".icon").css({"background-image":"url('"+p+"')"}),function(e){var t=new(l().Deferred),n=e.type&&e.type.split("/").shift();if(window.FileReader&&"image"===n){var o=new FileReader;o.onload=function(e){var n=new Blob([e.target.result]);window.URL=window.URL||window.webkitURL;var o=window.URL.createObjectURL(n),i=new Image;i.src=o,i.onload=function(){var e,n,o,a,r,s,l,d=(e=i,r=document.createElement("canvas"),s=e.width,l=e.height,s>l?(o=0,n=(s-l)/2):(o=(l-s)/2,n=0),a=Math.min(s,l),r.width=a,r.height=a,r.getContext("2d").drawImage(e,n,o,a,a,0,0,a,a),c(r,a,a,96,96),r.toDataURL("image/png",.7));t.resolve(d)}},o.readAsArrayBuffer(e)}else t.reject();return t}(i).then((function(e){s.find(".icon").css("background-image","url("+e+")")}),(function(){d=Se.MimeType.getIconUrl(i.type),s.find(".icon").css("background-image","url("+d+")")}));var f=n.find(".conflict").length;r.find("input:checkbox").attr("id","checkbox_original_"+f),s.find("input:checkbox").attr("id","checkbox_replacement_"+f),n.append(a),i.lastModified>o.mtime?s.find(".mtime").css("font-weight","bold"):i.lastModified<o.mtime&&r.find(".mtime").css("font-weight","bold"),i.size&&i.size>o.size?s.find(".size").css("font-weight","bold"):i.size&&i.size<o.size&&r.find(".size").css("font-weight","bold"),"readonly"===o.status&&(r.addClass("readonly").find('input[type="checkbox"]').prop("checked",!0).prop("disabled",!0),r.find(".message").text(t("core","read-only")))},u="oc-dialog-fileexists-content",p="#"+u;if(this._fileexistsshown){var f=l()(p+" .conflicts");d(f,o,i);var h=l()(p+" .conflict").length,m=n("core","{count} file conflict","{count} file conflicts",h,{count:h});l()(p).parent().children(".oc-dialog-title").text(m),l()(window).trigger("resize"),s.resolve()}else this._fileexistsshown=!0,l().when(this._getFileExistsTemplate()).then((function(n){var c=t("core","One file conflict"),f=n.octemplate({dialog_name:u,title:c,type:"fileexists",allnewfiles:t("core","New Files"),allexistingfiles:t("core","Already existing files"),why:t("core","Which files do you want to keep?"),what:t("core","If you select both versions, the copied file will have a number added to its name.")});if(l()("body").append(f),o&&i){var h=f.find(".conflicts");d(h,o,i)}var m=[{text:t("core","Cancel"),classes:"cancel",click:function(){void 0!==a.onCancel&&a.onCancel(e),l()(p).ocdialog("close")}},{text:t("core","Continue"),classes:"continue",click:function(){void 0!==a.onContinue&&a.onContinue(l()(p+" .conflict")),l()(p).ocdialog("close")}}];l()(p).ocdialog({width:500,closeOnEscape:!0,modal:!0,buttons:m,closeButton:null,close:function(){r._fileexistsshown=!1;try{l()(this).ocdialog("destroy").remove()}catch(e){}}}),l()(p).css("height","auto");var g=f.closest(".oc-dialog").find("button.continue");function v(){var e=f.find(".conflicts .checkbox:checked").length;g.prop("disabled",0===e)}g.prop("disabled",!0),l()(p).find(".allnewfiles").on("click",(function(){l()(p).find('.conflict .replacement input[type="checkbox"]').prop("checked",l()(this).prop("checked"))})),l()(p).find(".allexistingfiles").on("click",(function(){l()(p).find('.conflict .original:not(.readonly) input[type="checkbox"]').prop("checked",l()(this).prop("checked"))})),l()(p).find(".conflicts").on("click",".replacement,.original:not(.readonly)",(function(){var e=l()(this).find('input[type="checkbox"]');e.prop("checked",!e.prop("checked"))})),l()(p).find(".conflicts").on("click",'.replacement input[type="checkbox"],.original:not(.readonly) input[type="checkbox"]',(function(){var e=l()(this);e.prop("checked",!e.prop("checked"))})),l()(p).on("click",".replacement,.allnewfiles",(function(){var e=l()(p).find('.conflict .replacement input[type="checkbox"]:checked').length;e===l()(p+" .conflict").length?(l()(p).find(".allnewfiles").prop("checked",!0),l()(p).find(".allnewfiles + .count").text(t("core","(all selected)"))):e>0?(l()(p).find(".allnewfiles").prop("checked",!1),l()(p).find(".allnewfiles + .count").text(t("core","({count} selected)",{count:e}))):(l()(p).find(".allnewfiles").prop("checked",!1),l()(p).find(".allnewfiles + .count").text("")),v()})),l()(p).on("click",".original,.allexistingfiles",(function(){var e=l()(p).find('.conflict .original input[type="checkbox"]:checked').length;e===l()(p+" .conflict").length?(l()(p).find(".allexistingfiles").prop("checked",!0),l()(p).find(".allexistingfiles + .count").text(t("core","(all selected)"))):e>0?(l()(p).find(".allexistingfiles").prop("checked",!1),l()(p).find(".allexistingfiles + .count").text(t("core","({count} selected)",{count:e}))):(l()(p).find(".allexistingfiles").prop("checked",!1),l()(p).find(".allexistingfiles + .count").text("")),v()})),s.resolve()})).fail((function(){s.reject(),alert(t("core","Error loading file exists template"))}));return s.promise()},_getGridSettings:function(){const e=this;l().get(Se.generateUrl("/apps/files/api/v1/showgridview"),(function(n){e.$showGridView.removeClass("icon-toggle-filelist icon-toggle-pictures").addClass(n.gridview?"icon-toggle-filelist":"icon-toggle-pictures"),e.$showGridView.attr("aria-label",n.gridview?t("files","Show list view"):t("files","Show grid view")),l()(".list-container").toggleClass("view-grid",n.gridview)}))},_onGridviewChange:function(){const e=this.$showGridView.hasClass("icon-toggle-filelist");Se.currentUser&&l().post(Se.generateUrl("/apps/files/api/v1/showgridview"),{show:!e}),this.$showGridView.removeClass("icon-toggle-filelist icon-toggle-pictures").addClass(e?"icon-toggle-pictures":"icon-toggle-filelist"),this.$showGridView.attr("aria-label",e?t("files","Show grid view"):t("files","Show list view")),this.$filePicker.find(".list-container").toggleClass("view-grid",!e)},_getFilePickerTemplate:function(){var e=l().Deferred();if(this.$filePickerTemplate)e.resolve(this.$filePickerTemplate);else{var t=this;l().get(Se.filePath("core","templates","filepicker.html"),(function(n){t.$filePickerTemplate=l()(n),t.$listTmpl=t.$filePickerTemplate.find(".filelist tbody tr:first-child").detach(),e.resolve(t.$filePickerTemplate)})).fail((function(t,n,o){e.reject(t.status,o)}))}return e.promise()},_getMessageTemplate:function(){var e=l().Deferred();if(this.$messageTemplate)e.resolve(this.$messageTemplate);else{var t=this;l().get(Se.filePath("core","templates","message.html"),(function(n){t.$messageTemplate=l()(n),e.resolve(t.$messageTemplate)})).fail((function(t,n,o){e.reject(t.status,o)}))}return e.promise()},_getFileExistsTemplate:function(){var e=l().Deferred();if(this.$fileexistsTemplate)e.resolve(this.$fileexistsTemplate);else{var t=this;l().get(Se.filePath("files","templates","fileexists.html"),(function(n){t.$fileexistsTemplate=l()(n),e.resolve(t.$fileexistsTemplate)})).fail((function(){e.reject()}))}return e.promise()},_fillFilePicker:async function(e,n){var o=this;this.$filelist.empty(),this.$filePicker.find(".emptycontent").hide(),this.$filelistContainer.addClass("icon-loading"),this.$filePicker.data("path",e);var i=this.$filePicker.data("mimetype"),a=this.$filePicker.data("filter");"string"==typeof i&&(i=[i]),o.$fileListHeader.find(".sort-indicator").addClass("hidden").removeClass("icon-triangle-n").removeClass("icon-triangle-s"),o.$fileListHeader.find("[data-sort="+o.filepicker.sortField+"] .sort-indicator").removeClass("hidden"),"asc"===o.filepicker.sortOrder?o.$fileListHeader.find("[data-sort="+o.filepicker.sortField+"] .sort-indicator").addClass("icon-triangle-n"):o.$fileListHeader.find("[data-sort="+o.filepicker.sortField+"] .sort-indicator").addClass("icon-triangle-s");var r=async function(e){return o.filepicker.filesClient.getFolderContents(e).then(((e,t)=>t))};try{var s=await r(e)}catch(e){ee.error("Requested path does not exists, falling back to root"),s=await r("/"),this.$filePicker.data("path","/"),this._changeButtonsText(n,"")}o.filelist=s,i&&i.length>0&&-1===i.indexOf("*")&&(s=s.filter((function(e){return"dir"===e.type||-1!==i.indexOf(e.mimetype)}))),a&&(s=s.filter(a));const c=document.getElementById("showHiddenFiles");"1"!==(null==c?void 0:c.value)&&(s=s.filter((function(e){return!e.name.startsWith(".")})));var d={name:function(e,t){return"dir"===e.type&&"dir"!==t.type?-1:"dir"!==e.type&&"dir"===t.type?1:Se.Util.naturalSortCompare(e.name,t.name)},size:function(e,t){return e.size-t.size},mtime:function(e,t){return e.mtime-t.mtime}},u=d[o.filepicker.sortField]||d.name;s=s.sort((function(e,t){var n=function(e){return e.tags&&e.tags.indexOf(Se.TAG_FAVORITE)>=0};return n(e)&&!n(t)?-1:!n(e)&&n(t)?1:"asc"===o.filepicker.sortOrder?u(e,t):-u(e,t)})),o._fillSlug(),0===s.length?(o.$filePicker.find(".emptycontent").show(),o.$fileListHeader.hide()):(o.$filePicker.find(".emptycontent").hide(),o.$fileListHeader.show()),o.$filelist.empty(),l().each(s,(function(n,i){var a,r;if(i.isEncrypted&&"httpd/unix-directory"===i.mimetype?i.icon=Se.MimeType.getIconUrl("dir-encrypted"):i.icon=Se.MimeType.getIconUrl(i.mimetype),void 0!==i.size&&i.size>=0?(a=Se.Util.humanFileSize(parseInt(i.size,10),!0),r=Math.round(160-Math.pow(i.size/1048576,2))):(a=t("files","Pending"),r=80),i.name.length>=10)var s=Math.min(Math.floor(i.name.length/2),10),c=i.name.substr(0,i.name.length-s),d=i.name.substr(i.name.length-s);else c=i.name,d="";var u=o.$listTmpl.octemplate({type:i.type,dir:e,filename:i.name,filename1:c,filename2:d,date:Se.Util.relativeModifiedDate(i.mtime),size:a,sizeColor:r,icon:i.icon});if("file"===i.type){var p={file:e+"/"+i.name,x:100,y:100},f=new Image,h=Se.generateUrl("/core/preview.png?")+l().param(p);f.onload=function(){f.width>5&&u.find("td.filename").attr("style","background-image:url("+h+")")},f.src=h}o.$filelist.append(u)})),o.$filelistContainer.removeClass("icon-loading")},_fillSlug:function(){var e=this.$dirTree.find(".actions.creatable").detach();this.$dirTree.empty(),this.$dirTree.append("<nav></nav>"),this.$dirTree.append(e);var n=this.$filePicker.data("path"),o=l()('<li data-dir="{dir}" tabindex="0"><a class="{classList}">{name}</a></li>').addClass("crumb"),i=l()('<ul class="breadcrumb"></ul>');if(n){var a=n.split("/");l().each(a,(function(e,t){if(""===(t=a.pop()))return!1;i.prepend(o.octemplate({dir:a.join("/")+"/"+t,name:t}))}))}o.octemplate({dir:"",name:t("core","Home"),classList:"icon-home"},{escapeFunction:null}).addClass("crumb svg crumbhome").prependTo(i),this.$dirTree.find("> nav").prepend(i)},_handleTreeListSelect:function(e,t){var n=e.data,o=l()(e.target).closest(".crumb").data("dir");n._fillFilePicker(o,t);var i=e.target.closest(".oc-dialog"),a=l()(".primary",i);this._changeButtonsText(t,o.split(/[/]+/).pop()),-1!==this.$filePicker.data("mimetype").indexOf("httpd/unix-directory")||this.$filePicker.data("allowDirectoryChooser")?a.prop("disabled",!1):a.prop("disabled",!0)},_handlePickerClick:function(e,t,n){var o=this.$filePicker.closest(".oc-dialog").find(".primary");"file"===t.data("type")?(!0===this.$filePicker.data("multiselect")&&e.ctrlKey||this.$filelist.find(".filepicker_element_selected").removeClass("filepicker_element_selected"),t.toggleClass("filepicker_element_selected"),o.prop("disabled",!1)):"dir"===t.data("type")&&(this._fillFilePicker(this.$filePicker.data("path")+"/"+t.data("entryname"),n),this._changeButtonsText(n,t.data("entryname")),-1!==this.$filePicker.data("mimetype").indexOf("httpd/unix-directory")||this.$filePicker.data("allowDirectoryChooser")?o.prop("disabled",!1):o.prop("disabled",!0))},_changeButtonsText:function(e,n){var o=""===n?t("core","Copy"):t("core","Copy to {folder}",{folder:n}),i=""===n?t("core","Move"):t("core","Move to {folder}",{folder:n}),a=l()(".oc-dialog-buttonrow button");switch(e){case this.FILEPICKER_TYPE_CHOOSE:case this.FILEPICKER_TYPE_CUSTOM:break;case this.FILEPICKER_TYPE_COPY:a.text(o);break;case this.FILEPICKER_TYPE_MOVE:a.text(i);break;case this.FILEPICKER_TYPE_COPY_MOVE:a.eq(0).text(o),a.eq(1).text(i)}}},ne=te,oe=((e,t)=>{let n=e.getElementsByTagName("head")[0].getAttribute("data-requesttoken");return{getToken:()=>n,setToken:e=>{n=e,t("csrf-token-update",{token:n})}}})(document,r.j8),ie=oe.getToken,ae=(oe.setToken,function(e,t){var n,o,i="";if(this.typelessListeners=[],this.closed=!1,this.listeners={},t)for(n in t)i+=n+"="+encodeURIComponent(t[n])+"&";if(i+="requesttoken="+encodeURIComponent(ie()),this.useFallBack||"undefined"==typeof EventSource){var a="oc_eventsource_iframe_"+ae.iframeCount;ae.fallBackSources[ae.iframeCount]=this,this.iframe=l()("<iframe></iframe>"),this.iframe.attr("id",a),this.iframe.hide(),o="&",-1===e.indexOf("?")&&(o="?"),this.iframe.attr("src",e+o+"fallback=true&fallback_id="+ae.iframeCount+"&"+i),l()("body").append(this.iframe),this.useFallBack=!0,ae.iframeCount++}else o="&",-1===e.indexOf("?")&&(o="?"),this.source=new EventSource(e+o+i),this.source.onmessage=function(e){for(var t=0;t<this.typelessListeners.length;t++)this.typelessListeners[t](JSON.parse(e.data))}.bind(this);this.listen("__internal__",function(e){"close"===e&&this.close()}.bind(this))});ae.fallBackSources=[],ae.iframeCount=0,ae.fallBackCallBack=function(e,t,n){ae.fallBackSources[e].fallBackCallBack(t,n)},ae.prototype={typelessListeners:[],iframe:null,listeners:{},useFallBack:!1,fallBackCallBack:function(e,t){var n;if(!this.closed)if(e){if(void 0!==this.listeners.done)for(n=0;n<this.listeners[e].length;n++)this.listeners[e][n](t)}else for(n=0;n<this.typelessListeners.length;n++)this.typelessListeners[n](t)},lastLength:0,listen:function(e,t){t&&t.call&&(e?this.useFallBack?(this.listeners[e]||(this.listeners[e]=[]),this.listeners[e].push(t)):this.source.addEventListener(e,(function(e){void 0!==e.data?t(JSON.parse(e.data)):t("")}),!1):this.typelessListeners.push(t))},close:function(){this.closed=!0,void 0!==this.source&&this.source.close()}};const re=ae;var se=i(42515),le=i(25108);let ce=null,de=null;const ue=function(e){if(ce){const t=ce;ce.trigger(new(l().Event)("beforeHide")),ce.slideUp(50,(function(){t.trigger(new(l().Event)("afterHide")),e&&e.apply(this,arguments)}))}l()(".menutoggle").attr("aria-expanded",!1),de&&de.attr("aria-expanded",!1),l()(".openedMenu").removeClass("openedMenu"),ce=null,de=null},pe=!!window._oc_isadmin;var fe=i(86834),he=i.n(fe),me=i(31352);const ge={load:me.XJ,register:me.z2,_unregister:me.ET,translate:me.Iu,translatePlural:me.uN};he().registerHelper("t",(function(e,t){return(0,me.Iu)(e,t)}));const ve={startSaving(e){this.startAction(e,t("core","Saving …"))},startAction(e,t){l()(e).text(t).removeClass("success").removeClass("error").stop(!0,!0).show()},finishedSaving(e,t){this.finishedAction(e,t)},finishedAction(e,t){"success"===t.status?this.finishedSuccess(e,t.data.message):this.finishedError(e,t.data.message)},finishedSuccess(e,t){l()(e).text(t).addClass("success").removeClass("error").stop(!0,!0).delay(3e3).fadeOut(900).show()},finishedError(e,t){l()(e).text(t).addClass("error").removeClass("success").show()}};var we=i(30381),ye=i.n(we);const be={callback:null,pageLoadTime:null,init(){l()(".password-confirm-required").on("click",f.default.bind(this.requirePasswordConfirmation,this)),this.pageLoadTime=ye().now()},requiresPasswordConfirmation(){const e=this.pageLoadTime-1e3*window.nc_pageLoad,t=ye().now()-(e+1e3*window.nc_lastLogin);return window.backendAllowsPasswordConfirmation&&t>18e5},requirePasswordConfirmation(e,n,o){n=void 0!==n?n:{};const i={title:t("core","Authentication required"),text:t("core","This action requires you to confirm your password"),confirm:t("core","Confirm"),label:t("core","Password"),error:""},a=f.default.extend(i,n),r=this;this.requiresPasswordConfirmation()&&Se.dialogs.prompt(a.text,a.title,(function(e,t){e&&""!==t?r._confirmPassword(t,a):f.default.isFunction(o)&&o()}),!0,a.label,!0).then((function(){const e=l()(".oc-dialog:visible");if(e.find(".ui-icon").remove(),e.addClass("password-confirmation"),""!==a.error){const t=l()("<p></p>").addClass("msg warning").text(a.error);e.find(".oc-dialog-content").append(t)}const t=e.find(".oc-dialog-buttonrow");t.addClass("aside");const n=t.find("button");n.eq(0).hide(),n.eq(1).text(a.confirm)})),this.callback=e},_confirmPassword(e,n){const o=this;l().ajax({url:(0,c.generateUrl)("/login/confirm"),data:{password:e},type:"POST",success(e){window.nc_lastLogin=e.lastLogin,f.default.isFunction(o.callback)&&o.callback()},error(){n.error=t("core","Failed to authenticate, try again"),Se.PasswordConfirmation.requirePasswordConfirmation(o.callback,n)}})}},Ce={_plugins:{},register(e,t){let n=this._plugins[e];n||(n=this._plugins[e]=[]),n.push(t)},getPlugins(e){return this._plugins[e]||[]},attach(e,t,n){const o=this.getPlugins(e);for(let e=0;e<o.length;e++)o[e].attach&&o[e].attach(t,n)},detach(e,t,n){const o=this.getPlugins(e);for(let e=0;e<o.length;e++)o[e].detach&&o[e].detach(t,n)}},_e=window._theme||{},Ae={_handlers:[],_pushState(e,t,n){let o;if(o="string"==typeof e?e:Se.buildQueryString(e),window.history.pushState){if(t=t||location.pathname+"?"+o,navigator.userAgent.toLowerCase().indexOf("firefox")>-1&&parseInt(navigator.userAgent.split("/").pop())<51){const e=document.querySelectorAll('[fill^="url(#"], [stroke^="url(#"], [filter^="url(#invert"]');for(let t,n=0,o=e.length;n<o;n++)t=e[n],t.style.fill=t.style.fill,t.style.stroke=t.style.stroke,t.removeAttribute("filter"),t.setAttribute("filter","url(#invert)")}n?window.history.replaceState(e,"",t):window.history.pushState(e,"",t)}else window.location.hash="?"+o,this._cancelPop=!0},pushState(e,t){this._pushState(e,t,!1)},replaceState(e,t){this._pushState(e,t,!0)},addOnPopStateHandler(e){this._handlers.push(e)},_parseHashQuery(){const e=window.location.hash,t=e.indexOf("?");return t>=0?e.substr(t+1):e.length?e.substr(1):""},_decodeQuery:e=>e.replace(/\+/g," "),parseUrlQuery(){const e=this._parseHashQuery();let t;return e&&(t=Se.parseQueryString(this._decodeQuery(e))),t=f.default.extend(t||{},Se.parseQueryString(this._decodeQuery(location.search))),t||{}},_onPopState(e){if(this._cancelPop)return void(this._cancelPop=!1);let t;if(this._handlers.length){t=e&&e.state,f.default.isString(t)?t=Se.parseQueryString(t):t||(t=this.parseUrlQuery()||{});for(let e=0;e<this._handlers.length;e++)this._handlers[e](t)}}};var Pe=i(91770),ke=i(25108);function xe(e){const t=[];let n,o=0,i=-1,a=0;for(;o<e.length;){n=e.charAt(o);const r=!a&&"."===n||n>="0"&&n<="9";r!==a&&(i++,t[i]="",a=r),t[i]+=n,o++}return t}const Te={History:Ae,humanFileSize:(e,t)=>(0,Pe.sS)(e,t,!0).replace("iB","B"),computerFileSize(e){if("string"!=typeof e)return null;const t=e.toLocaleLowerCase((0,me.aj)()).replaceAll(",",".").trim();let n=null;const o=t.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?)i?b?$/i);return null===o?null:(n=parseFloat(t),isFinite(n)?(o[5]&&(n*={"":1,b:1,k:1024,m:1048576,g:1073741824,t:1099511627776,p:0x4000000000000}[o[5]]),n=Math.round(n),n):null)},formatDate:(e,t)=>(void 0===window.TESTING&&Se.debug&&ke.warn("OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment"),t=t||"LLL",ye()(e).format(t)),relativeModifiedDate(e){void 0===window.TESTING&&Se.debug&&ke.warn("OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment");const n=ye()().diff(ye()(e));return n>=0&&n<45e3?t("core","seconds ago"):ye()(e).fromNow()},getScrollBarWidth(){if(this._scrollBarWidth)return this._scrollBarWidth;const e=document.createElement("p");e.style.width="100%",e.style.height="200px";const t=document.createElement("div");t.style.position="absolute",t.style.top="0px",t.style.left="0px",t.style.visibility="hidden",t.style.width="200px",t.style.height="150px",t.style.overflow="hidden",t.appendChild(e),document.body.appendChild(t);const n=e.offsetWidth;t.style.overflow="scroll";let o=e.offsetWidth;return n===o&&(o=t.clientWidth),document.body.removeChild(t),this._scrollBarWidth=n-o,this._scrollBarWidth},stripTime:e=>new Date(e.getFullYear(),e.getMonth(),e.getDate()),naturalSortCompare(e,t){let n;const o=xe(e),i=xe(t);for(n=0;o[n]&&i[n];n++)if(o[n]!==i[n]){const e=Number(o[n]),t=Number(i[n]);return e==o[n]&&t==i[n]?e-t:o[n].localeCompare(i[n],Se.getLanguage())}return o.length-i.length},waitFor(e,t){const n=function(){!0!==e()&&setTimeout(n,t)};n()},isCookieSetToValue(e,t){const n=document.cookie.split(";");for(let o=0;o<n.length;o++){const i=n[o].split("=");if(i[0].trim()===e&&i[1].trim()===t)return!0}return!1}},Oe=window._oc_debug;let Ee=window._oc_webroot;if(void 0===Ee){Ee=location.pathname;const e=Ee.indexOf("/index.php/");Ee=-1!==e?Ee.substr(0,e):Ee.substr(0,Ee.lastIndexOf("/"))}const je=Ee;var Le=i(25108);const Se={coreApps:["","admin","log","core/search","core","3rdparty"],menuSpeed:50,PERMISSION_ALL:31,PERMISSION_CREATE:4,PERMISSION_DELETE:8,PERMISSION_NONE:0,PERMISSION_READ:1,PERMISSION_SHARE:16,PERMISSION_UPDATE:2,TAG_FAVORITE:"_$!<Favorite>!$_",fileIsBlacklisted:e=>!!e.match(R.blacklist_files_regex),Apps:y,addScript:(e,t,n)=>{let o;OC.debug&&d.warn("OC.addScript is deprecated, use OCP.Loader.loadScript instead");const i=(0,c.generateFilePath)(e,"js",t+".js");return u[i]?n&&n():(o=l().Deferred(),l().getScript(i,(()=>o.resolve())),u[i]=o),u[i]},addStyle:(e,t)=>{OC.debug&&d.warn("OC.addStyle is deprecated, use OCP.Loader.loadStylesheet instead");const n=(0,c.generateFilePath)(e,"css",t+".css");-1===p.indexOf(n)&&(p.push(n),document.createStyleSheet?document.createStyleSheet(n):(t=l()('<link rel="stylesheet" type="text/css" href="'+n+'"/>'),l()("head").append(t)))},AppConfig:A,appConfig:C,appSettings:e=>{if(OC.debug&&P.warn("OC.appSettings is deprecated and will be removed with Nextcloud 18"),void 0===e||void 0===e.appid)throw{name:"MissingParameter",message:"The parameter appid is missing"};var n={scriptName:"settings.php",cache:!0};l().extend(n,e);var o=l()("#appsettings");if(0===o.length)throw{name:"MissingDOMElement",message:'There has be be an element with id "appsettings" for the popup to show.'};var i=l()("#appsettings_popup");if(0===i.length&&(l()("body").prepend('<div class="popup hidden" id="appsettings_popup"></div>'),(i=l()("#appsettings_popup")).addClass(o.hasClass("topright")?"topright":"bottomleft")),i.is(":visible"))i.hide().remove();else{const e=o.hasClass("topright")?"up":"left";l().get((0,c.generateFilePath)(n.appid,"",n.scriptName),(function(o){i.html(o).ready((function(){if(i.prepend('<span class="arrow '+e+'"></span><h2>'+t("core","Settings")+'</h2><a class="close"></a>').show(),i.find(".close").bind("click",(function(){i.remove()})),void 0!==n.loadJS){var o;if(!0===n.loadJS)o="settings.js";else{if("string"!=typeof n.loadJS)throw{name:"InvalidParameter",message:'The "loadJS" parameter must be either boolean or a string.'};o=n.loadJS}n.cache&&l().ajaxSetup({cache:!0}),l().getScript((0,c.generateFilePath)(n.appid,"js",o)).fail((function(e,t,n){throw n}))}})).show()}),"html")}},appswebroots:k,Backbone:$,ContactsMenu:K,config:R,currentUser:G,dialogs:ne,EventSource:re,getCurrentUser:()=>({uid:G,displayName:V}),isUserAdmin:()=>pe,L10N:ge,_ajaxConnectionLostHandler:v,_processAjaxError:e=>{(0!==e.status||"abort"!==e.statusText&&"timeout"!==e.statusText&&!Se._reloadCalled)&&(f.default.contains([302,303,307,401],e.status)&&Se.currentUser?setTimeout((function(){if(!Se._userIsNavigatingAway&&!Se._reloadCalled){let e=0;const t=5,o=setInterval((function(){g.showUpdate(n("core","Problem loading page, reloading in %n second","Problem loading page, reloading in %n seconds",t-e)),e>=t&&(clearInterval(o),Se.reload()),e++}),1e3);Se._reloadCalled=!0}}),100):0===e.status&&setTimeout((function(){Se._userIsNavigatingAway||Se._reloadCalled||Se._ajaxConnectionLostHandler()}),100))},registerXHRForErrorProcessing:e=>{e.addEventListener&&(e.addEventListener("load",(()=>{4===e.readyState&&(e.status>=200&&e.status<300||304===e.status||l()(document).trigger(new(l().Event)("ajaxError"),e))})),e.addEventListener("error",(()=>{l()(document).trigger(new(l().Event)("ajaxError"),e)})))},getCapabilities:()=>(OC.debug&&le.warn("OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities"),(0,se.getCapabilities)()),hideMenus:ue,registerMenu:function(e,t,n,o){t.addClass("menu");const i="A"===e.prop("tagName")||"BUTTON"===e.prop("tagName");e.on(i?"click.menu":"click.menu keyup.menu",(function(i){i.preventDefault(),i.key&&"Enter"!==i.key||(t.is(ce)?ue():(ce&&ue(),!0===o&&t.parent().addClass("openedMenu"),e.attr("aria-expanded",!0),t.slideToggle(50,n),ce=t,de=e))}))},showMenu:(e,t,n)=>{t.is(ce)||(ue(),ce=t,de=e,t.trigger(new(l().Event)("beforeShow")),t.show(),t.trigger(new(l().Event)("afterShow")),f.default.isFunction(n)&&n())},unregisterMenu:(e,t)=>{t.is(ce)&&ue(),e.off("click.menu").removeClass("menutoggle"),t.removeClass("menu")},basename:F.EZ,encodePath:F.Ec,dirname:F.XX,isSamePath:F.Mg,joinPaths:F.RQ,getHost:()=>window.location.host,getHostName:()=>window.location.hostname,getPort:()=>window.location.port,getProtocol:()=>window.location.protocol.split(":")[0],getCanonicalLocale:me.aj,getLocale:me.Kd,getLanguage:me.G3,buildQueryString:e=>e?l().map(e,(function(e,t){let n=encodeURIComponent(t);return null!=e&&(n+="="+encodeURIComponent(e)),n})).join("&"):"",parseQueryString:e=>{let t,n;const o={};let i;if(!e)return null;t=e.indexOf("?"),t>=0&&(e=e.substr(t+1));const a=e.replace(/\+/g,"%20").split("&");for(let e=0;e<a.length;e++){const r=a[e];t=r.indexOf("="),n=t>=0?[r.substr(0,t),r.substr(t+1)]:[r],n.length&&(i=decodeURIComponent(n[0]),i&&(o[i]=n.length>1?decodeURIComponent(n[1]):null))}return o},msg:ve,Notification:g,PasswordConfirmation:be,Plugins:Ce,theme:_e,Util:Te,debug:Oe,filePath:c.generateFilePath,generateUrl:c.generateUrl,get:(Ne=window,e=>{const t=e.split("."),n=t.pop();for(let e=0;e<t.length;e++)if(!(Ne=Ne[t[e]]))return!1;return Ne[n]}),set:(e=>(t,n)=>{const o=t.split("."),i=o.pop();for(let t=0;t<o.length;t++)e[o[t]]||(e[o[t]]={}),e=e[o[t]];return e[i]=n,n})(window),getRootPath:c.getRootUrl,imagePath:c.imagePath,redirect:e=>{window.location=e},reload:()=>{window.location.reload()},requestToken:ie(),linkTo:c.linkTo,linkToOCS:(e,t)=>(0,c.generateOcsUrl)(e,{},{ocsVersion:t||1})+"/",linkToRemote:c.generateRemoteUrl,linkToRemoteBase:e=>(0,c.getRootUrl)()+"/remote.php/"+e,webroot:je};var Ne;(0,r.Ld)("csrf-token-update",(e=>{OC.requestToken=e.token,Le.info("OC.requestToken changed",e.token)}));var Ie=i(79954),Ue=i(97047),$e=i(22660),Fe=i.n($e),Re=i(10204),Me=i.n(Re),Be=i(57290),ze=i.n(Be),De=i(10861),qe=i.n(De);const He={name:"LoginButton",components:{ArrowRight:i(39429).default,NcButton:qe()},props:{value:{type:String,default:t("core","Log in")},valueLoading:{type:String,default:t("core","Logging in …")},loading:{type:Boolean,required:!0},invertedColors:{type:Boolean,default:!1}}};var Ye=i(93379),Ke=i.n(Ye),Ze=i(7795),Ve=i.n(Ze),Ge=i(90569),We=i.n(Ge),Je=i(3565),Qe=i.n(Je),Xe=i(19216),et=i.n(Xe),tt=i(44589),nt=i.n(tt),ot=i(76515),it={};it.styleTagTransform=nt(),it.setAttributes=Qe(),it.insert=We().bind(null,"head"),it.domAPI=Ve(),it.insertStyleElement=et(),Ke()(ot.Z,it),ot.Z&&ot.Z.locals&&ot.Z.locals;var at=i(51900);const rt=(0,at.Z)(He,(function(){var e=this,t=e._self._c;return t("NcButton",{attrs:{type:"primary","native-type":"submit",wide:!0},on:{click:function(t){return e.$emit("click")}},scopedSlots:e._u([{key:"icon",fn:function(){return[e.loading?t("div",{staticClass:"submit-wrapper__icon icon-loading-small-dark"}):t("ArrowRight",{staticClass:"submit-wrapper__icon"})]},proxy:!0}])},[e._v("\n\t"+e._s(e.loading?e.valueLoading:e.value)+"\n\t")])}),[],!1,null,"3fa8511b",null).exports,st={name:"LoginForm",components:{LoginButton:rt,NcPasswordField:Fe(),NcTextField:Me(),NcNoteCard:ze()},props:{username:{type:String,default:""},redirectUrl:{type:[String,Boolean],default:!1},errors:{type:Array,default:()=>[]},messages:{type:Array,default:()=>[]},throttleDelay:{type:Number,default:0},autoCompleteAllowed:{type:Boolean,default:!0},directLogin:{type:Boolean,default:!1}},data(){var e,n;return{loading:!1,timezone:null===(e=new Intl.DateTimeFormat)||void 0===e||null===(n=e.resolvedOptions())||void 0===n?void 0:n.timeZone,timezoneOffset:-(new Date).getTimezoneOffset()/60,headline:t("core","Log in to {productName}",{productName:OC.theme.name}),user:"",password:""}},computed:{isError(){return this.invalidPassword||this.userDisabled||this.throttleDelay>5e3},errorLabel(){return this.invalidPassword?t("core","Wrong username or password."):this.userDisabled?t("core","User disabled"):this.throttleDelay>5e3?t("core","We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds."):void 0},apacheAuthFailed(){return-1!==this.errors.indexOf("apacheAuthFailed")},csrfCheckFailed(){return-1!==this.errors.indexOf("csrfCheckFailed")},internalException(){return-1!==this.errors.indexOf("internalexception")},invalidPassword(){return-1!==this.errors.indexOf("invalidpassword")},userDisabled(){return-1!==this.errors.indexOf("userdisabled")},loadingIcon:()=>(0,c.imagePath)("core","loading-dark.gif"),loginActionUrl:()=>(0,c.generateUrl)("login")},mounted(){""===this.username?this.$refs.user.$refs.inputField.$refs.input.focus():(this.user=this.username,this.$refs.password.$refs.inputField.$refs.input.focus())},methods:{updateUsername(){this.$emit("update:username",this.user)},submit(){this.loading=!0,this.$emit("submit")}}};var lt=i(54572),ct={};ct.styleTagTransform=nt(),ct.setAttributes=Qe(),ct.insert=We().bind(null,"head"),ct.domAPI=Ve(),ct.insertStyleElement=et(),Ke()(lt.Z,ct),lt.Z&&lt.Z.locals&&lt.Z.locals;const dt=(0,at.Z)(st,(function(){var e=this,t=e._self._c;return t("form",{ref:"loginForm",staticClass:"login-form",attrs:{method:"post",name:"login",action:e.loginActionUrl},on:{submit:e.submit}},[t("fieldset",{staticClass:"login-form__fieldset",attrs:{"data-login-form":""}},[e.apacheAuthFailed?t("NcNoteCard",{attrs:{title:e.t("core","Server side authentication failed!"),type:"warning"}},[e._v("\n\t\t\t"+e._s(e.t("core","Please contact your administrator."))+"\n\t\t")]):e._e(),e._v(" "),e.csrfCheckFailed?t("NcNoteCard",{attrs:{heading:e.t("core","Temporary error"),type:"error"}},[e._v("\n\t\t\t"+e._s(e.t("core","Please try again."))+"\n\t\t")]):e._e(),e._v(" "),e.messages.length>0?t("NcNoteCard",e._l(e.messages,(function(n,o){return t("div",{key:o},[e._v("\n\t\t\t\t"+e._s(n)),t("br")])})),0):e._e(),e._v(" "),e.internalException?t("NcNoteCard",{class:e.t("core","An internal error occurred."),attrs:{type:"warning"}},[e._v("\n\t\t\t"+e._s(e.t("core","Please try again or contact your administrator."))+"\n\t\t")]):e._e(),e._v(" "),t("div",{staticClass:"hidden",attrs:{id:"message"}},[t("img",{staticClass:"float-spinner",attrs:{alt:"",src:e.loadingIcon}}),e._v(" "),t("span",{attrs:{id:"messageText"}}),e._v(" "),t("div",{staticStyle:{clear:"both"}})]),e._v(" "),t("h2",{staticClass:"login-form__headline",attrs:{"data-login-form-headline":""},domProps:{innerHTML:e._s(e.headline)}}),e._v(" "),t("NcTextField",{ref:"user",class:{shake:e.invalidPassword},attrs:{id:"user",label:e.t("core","Account name or email"),"label-visible":!0,name:"user",value:e.user,autocapitalize:"none",spellchecking:!1,autocomplete:e.autoCompleteAllowed?"username":"off",required:"","data-login-form-input-user":""},on:{"update:value":function(t){e.user=t},change:e.updateUsername}}),e._v(" "),t("NcPasswordField",{ref:"password",class:{shake:e.invalidPassword},attrs:{id:"password",name:"password","label-visible":!0,value:e.password,spellchecking:!1,autocapitalize:"none",autocomplete:e.autoCompleteAllowed?"current-password":"off",label:e.t("core","Password"),"helper-text":e.errorLabel,error:e.isError,"data-login-form-input-password":"",required:""},on:{"update:value":function(t){e.password=t}}}),e._v(" "),t("LoginButton",{attrs:{"data-login-form-submit":"",loading:e.loading}}),e._v(" "),e.redirectUrl?t("input",{attrs:{type:"hidden",name:"redirect_url"},domProps:{value:e.redirectUrl}}):e._e(),e._v(" "),t("input",{attrs:{type:"hidden",name:"timezone"},domProps:{value:e.timezone}}),e._v(" "),t("input",{attrs:{type:"hidden",name:"timezone_offset"},domProps:{value:e.timezoneOffset}}),e._v(" "),t("input",{attrs:{type:"hidden",name:"requesttoken"},domProps:{value:e.OC.requestToken}}),e._v(" "),e.directLogin?t("input",{attrs:{type:"hidden",name:"direct",value:"1"}}):e._e()],1)])}),[],!1,null,"57e9d1c0",null).exports;var ut=i(4820),pt=i(37838),ft=i(38213),ht=i(25108);class mt extends Error{}const gt={name:"PasswordLessLoginForm",components:{LoginButton:rt,InformationIcon:pt.Z,LockOpenIcon:ft.Z},props:{username:{type:String,default:""},redirectUrl:{type:[String,Boolean],default:!1},autoCompleteAllowed:{type:Boolean,default:!0},isHttps:{type:Boolean,default:!1},isLocalhost:{type:Boolean,default:!1},hasPublicKeyCredential:{type:Boolean,default:!1}},data(){return{user:this.username,loading:!1,validCredentials:!0}},methods:{authenticate(){ht.debug("passwordless login initiated"),this.getAuthenticationData(this.user).then((e=>(ht.debug(e),e))).then(this.sign).then(this.completeAuthentication).catch((e=>{e instanceof mt?this.validCredentials=!1:ht.debug(e)}))},getAuthenticationData(e){const t=function(e){const t=(e=e.replace(/-/g,"+").replace(/_/g,"/")).length%4;if(t){if(1===t)throw new Error("InvalidLengthError: Input base64url string is the wrong length to determine padding");e+=new Array(5-t).join("=")}return window.atob(e)};return function(e){const t=(0,c.generateUrl)("/login/webauthn/start");return ut.default.post(t,{loginName:e}).then((e=>e.data))}(e).then((e=>{if(ht.debug("Obtained PublicKeyCredentialRequestOptions"),ht.debug(e),!Object.prototype.hasOwnProperty.call(e,"allowCredentials"))throw ht.debug("No credentials found."),new mt;return e.challenge=Uint8Array.from(t(e.challenge),(e=>e.charCodeAt(0))),e.allowCredentials=e.allowCredentials.map((function(e){return{...e,id:Uint8Array.from(t(e.id),(e=>e.charCodeAt(0)))}})),ht.debug("Converted PublicKeyCredentialRequestOptions"),ht.debug(e),e})).catch((e=>{throw ht.debug("Error while obtaining data"),e}))},sign(e){const t=function(e){return window.btoa(String.fromCharCode(...e))};return navigator.credentials.get({publicKey:e}).then((e=>{return ht.debug(e),ht.debug(new Uint8Array(e.rawId)),ht.debug(t(new Uint8Array(e.rawId))),{id:e.id,type:e.type,rawId:t(new Uint8Array(e.rawId)),response:{authenticatorData:t(new Uint8Array(e.response.authenticatorData)),clientDataJSON:t(new Uint8Array(e.response.clientDataJSON)),signature:t(new Uint8Array(e.response.signature)),userHandle:e.response.userHandle?(n=new Uint8Array(e.response.userHandle),String.fromCharCode(...n)):null}};var n})).then((e=>(ht.debug(e),e))).catch((e=>{ht.debug("GOT AN ERROR!"),ht.debug(e)}))},completeAuthentication(e){ht.debug("TIME TO COMPLETE");const t=this.redirectUrl;return function(e){const t=(0,c.generateUrl)("/login/webauthn/finish");return ut.default.post(t,{data:e}).then((e=>e.data))}(JSON.stringify(e)).then((e=>{let{defaultRedirectUrl:n}=e;ht.debug("Logged in redirecting"),window.location.href=t||n})).catch((e=>{ht.debug("GOT AN ERROR WHILE SUBMITTING CHALLENGE!"),ht.debug(e)}))},submit(){}}};var vt=i(21280),wt={};wt.styleTagTransform=nt(),wt.setAttributes=Qe(),wt.insert=We().bind(null,"head"),wt.domAPI=Ve(),wt.insertStyleElement=et(),Ke()(vt.Z,wt),vt.Z&&vt.Z.locals&&vt.Z.locals;const yt=(0,at.Z)(gt,(function(){var e=this,t=e._self._c;return(e.isHttps||e.isLocalhost)&&e.hasPublicKeyCredential?t("form",{ref:"loginForm",attrs:{method:"post",name:"login"},on:{submit:function(t){return t.preventDefault(),e.submit.apply(null,arguments)}}},[t("fieldset",[t("p",{staticClass:"grouptop groupbottom"},[t("label",{staticClass:"infield",attrs:{for:"user"}},[e._v(e._s(e.t("core","Username or\temail")))]),e._v(" "),t("input",{directives:[{name:"model",rawName:"v-model",value:e.user,expression:"user"}],ref:"user",attrs:{id:"user",type:"text",name:"user",autocomplete:e.autoCompleteAllowed?"on":"off",placeholder:e.t("core","Username or email"),"aria-label":e.t("core","Username or email"),required:""},domProps:{value:e.user},on:{change:function(t){return e.$emit("update:username",e.user)},input:function(t){t.target.composing||(e.user=t.target.value)}}})]),e._v(" "),e.validCredentials?e._e():t("div",{staticClass:"body-login-container update form__message-box"},[e._v("\n\t\t\t"+e._s(e.t("core","Your account is not setup for passwordless login."))+"\n\t\t")]),e._v(" "),e.validCredentials?t("LoginButton",{attrs:{loading:e.loading},on:{click:e.authenticate}}):e._e()],1)]):e.hasPublicKeyCredential?e.isHttps||e.isLocalhost?e._e():t("div",{staticClass:"body-login-container update"},[t("LockOpenIcon",{attrs:{size:"70"}}),e._v(" "),t("h2",[e._v(e._s(e.t("core","Your connection is not secure")))]),e._v(" "),t("p",{staticClass:"infogroup"},[e._v("\n\t\t"+e._s(e.t("core","Passwordless authentication is only available over a secure connection."))+"\n\t")])],1):t("div",{staticClass:"body-login-container update"},[t("InformationIcon",{attrs:{size:"70"}}),e._v(" "),t("h2",[e._v(e._s(e.t("core","Browser not supported")))]),e._v(" "),t("p",{staticClass:"infogroup"},[e._v("\n\t\t"+e._s(e.t("core","Passwordless authentication is not supported in your browser."))+"\n\t")])],1)}),[],!1,null,"7c43fb49",null).exports;var bt=i(25108);const Ct={name:"ResetPassword",components:{LoginButton:rt,NcNoteCard:ze(),NcTextField:Me()},props:{username:{type:String,required:!0},resetPasswordLink:{type:String,required:!0}},data(){return{error:!1,loading:!1,message:void 0,user:this.username}},watch:{username(e){this.user=e}},methods:{updateUsername(){this.$emit("update:username",this.user)},submit(){this.loading=!0,this.error=!1,this.message="";const e=(0,c.generateUrl)("/lostpassword/email"),t={user:this.user};return ut.default.post(e,t).then((e=>e.data)).then((e=>{if("success"!==e.status)throw new Error("got status ".concat(e.status));this.message="send-success"})).catch((e=>{bt.error("could not send reset email request",e),this.error=!0,this.message="send-error"})).then((()=>{this.loading=!1}))}}};var _t=i(72076),At={};At.styleTagTransform=nt(),At.setAttributes=Qe(),At.insert=We().bind(null,"head"),At.domAPI=Ve(),At.insertStyleElement=et(),Ke()(_t.Z,At),_t.Z&&_t.Z.locals&&_t.Z.locals;const Pt=(0,at.Z)(Ct,(function(){var e=this,t=e._self._c;return t("form",{staticClass:"login-form",on:{submit:function(t){return t.preventDefault(),e.submit.apply(null,arguments)}}},[t("fieldset",{staticClass:"login-form__fieldset"},[t("NcTextField",{attrs:{id:"user",value:e.user,name:"user",autocapitalize:"off",label:e.t("core","Account name or email"),"label-visible":!0,required:""},on:{"update:value":function(t){e.user=t},change:e.updateUsername}}),e._v(" "),t("LoginButton",{attrs:{value:e.t("core","Reset password")}}),e._v(" "),"send-success"===e.message?t("NcNoteCard",{attrs:{type:"success"}},[e._v("\n\t\t\t"+e._s(e.t("core","If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help."))+"\n\t\t")]):"send-error"===e.message?t("NcNoteCard",{attrs:{type:"error"}},[e._v("\n\t\t\t"+e._s(e.t("core","Couldn't send reset email. Please contact your administrator."))+"\n\t\t")]):"reset-error"===e.message?t("NcNoteCard",{attrs:{type:"error"}},[e._v("\n\t\t\t"+e._s(e.t("core","Password cannot be changed. Please contact your administrator."))+"\n\t\t")]):e._e(),e._v(" "),t("a",{staticClass:"login-form__link",attrs:{href:"#"},on:{click:function(t){return t.preventDefault(),e.$emit("abort")}}},[e._v("\n\t\t\t"+e._s(e.t("core","Back to login"))+"\n\t\t")])],1)])}),[],!1,null,"6636f1b2",null).exports,kt={name:"UpdatePassword",components:{LoginButton:rt},props:{username:{type:String,required:!0},resetPasswordTarget:{type:String,required:!0}},data(){return{error:!1,loading:!1,message:void 0,user:this.username,password:"",encrypted:!1,proceed:!1}},watch:{username(e){this.user=e}},methods:{async submit(){this.loading=!0,this.error=!1,this.message="";try{const{data:e}=await ut.default.post(this.resetPasswordTarget,{password:this.password,proceed:this.proceed});if(e&&"success"===e.status)this.message="send-success",this.$emit("update:username",this.user),this.$emit("done");else{if(!e||!e.encryption)throw e&&e.msg?new Error(e.msg):new Error;this.encrypted=!0}}catch(e){this.error=!0,this.message=e.message?e.message:t("core","Password cannot be changed. Please contact your administrator.")}finally{this.loading=!1}}}};var xt=i(74778),Tt={};Tt.styleTagTransform=nt(),Tt.setAttributes=Qe(),Tt.insert=We().bind(null,"head"),Tt.domAPI=Ve(),Tt.insertStyleElement=et(),Ke()(xt.Z,Tt),xt.Z&&xt.Z.locals&&xt.Z.locals;const Ot=(0,at.Z)(kt,(function(){var e=this,t=e._self._c;return t("form",{on:{submit:function(t){return t.preventDefault(),e.submit.apply(null,arguments)}}},[t("fieldset",[t("p",[t("label",{staticClass:"infield",attrs:{for:"password"}},[e._v(e._s(e.t("core","New password")))]),e._v(" "),t("input",{directives:[{name:"model",rawName:"v-model",value:e.password,expression:"password"}],attrs:{id:"password",type:"password",name:"password",autocomplete:"new-password",autocapitalize:"none",autocorrect:"off",required:"",placeholder:e.t("core","New password")},domProps:{value:e.password},on:{input:function(t){t.target.composing||(e.password=t.target.value)}}})]),e._v(" "),e.encrypted?t("div",{staticClass:"update"},[t("p",[e._v("\n\t\t\t\t"+e._s(e.t("core","Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?"))+"\n\t\t\t")]),e._v(" "),t("input",{directives:[{name:"model",rawName:"v-model",value:e.proceed,expression:"proceed"}],staticClass:"checkbox",attrs:{id:"encrypted-continue",type:"checkbox"},domProps:{checked:Array.isArray(e.proceed)?e._i(e.proceed,null)>-1:e.proceed},on:{change:function(t){var n=e.proceed,o=t.target,i=!!o.checked;if(Array.isArray(n)){var a=e._i(n,null);o.checked?a<0&&(e.proceed=n.concat([null])):a>-1&&(e.proceed=n.slice(0,a).concat(n.slice(a+1)))}else e.proceed=i}}}),e._v(" "),t("label",{attrs:{for:"encrypted-continue"}},[e._v("\n\t\t\t\t"+e._s(e.t("core","I know what I'm doing"))+"\n\t\t\t")])]):e._e(),e._v(" "),t("LoginButton",{attrs:{loading:e.loading,value:e.t("core","Reset password"),"value-loading":e.t("core","Resetting password")}}),e._v(" "),e.error&&e.message?t("p",{class:{warning:e.error}},[e._v("\n\t\t\t"+e._s(e.message)+"\n\t\t")]):e._e()],1)])}),[],!1,null,"4dc21d74",null).exports;var Et=i(25108);const jt=Ue.Z.parse(location.search);if("1"===jt.clear)try{window.localStorage.clear(),window.sessionStorage.clear(),Et.debug("Browser storage cleared")}catch(e){Et.error("Could not clear browser storage",e)}const Lt={name:"Login",components:{LoginForm:dt,PasswordLessLoginForm:yt,ResetPassword:Pt,UpdatePassword:Ot,NcButton:qe(),NcNoteCard:ze()},data:()=>({loading:!1,user:(0,Ie.j)("core","loginUsername",""),passwordlessLogin:!1,resetPassword:!1,errors:(0,Ie.j)("core","loginErrors",[]),messages:(0,Ie.j)("core","loginMessages",[]),redirectUrl:(0,Ie.j)("core","loginRedirectUrl",!1),throttleDelay:(0,Ie.j)("core","loginThrottleDelay",0),canResetPassword:(0,Ie.j)("core","loginCanResetPassword",!1),resetPasswordLink:(0,Ie.j)("core","loginResetPasswordLink",""),autoCompleteAllowed:(0,Ie.j)("core","loginAutocomplete",!0),resetPasswordTarget:(0,Ie.j)("core","resetPasswordTarget",""),resetPasswordUser:(0,Ie.j)("core","resetPasswordUser",""),directLogin:"1"===jt.direct,hasPasswordless:(0,Ie.j)("core","webauthn-available",!1),countAlternativeLogins:(0,Ie.j)("core","countAlternativeLogins",!1),alternativeLogins:(0,Ie.j)("core","alternativeLogins",[]),isHttps:"https:"===window.location.protocol,isLocalhost:"localhost"===window.location.hostname,hasPublicKeyCredential:void 0!==window.PublicKeyCredential,hideLoginForm:(0,Ie.j)("core","hideLoginForm",!1)}),methods:{passwordResetFinished(){this.resetPasswordTarget="",this.directLogin=!0}}};var St=i(88095),Nt={};Nt.styleTagTransform=nt(),Nt.setAttributes=Qe(),Nt.insert=We().bind(null,"head"),Nt.domAPI=Ve(),Nt.insertStyleElement=et(),Ke()(St.Z,Nt),St.Z&&St.Z.locals&&St.Z.locals;const It=(0,at.Z)(Lt,(function(){var e=this,t=e._self._c;return t("div",{staticClass:"guest-box login-box"},[!e.hideLoginForm||e.directLogin?[t("transition",{attrs:{name:"fade",mode:"out-in"}},[e.passwordlessLogin||e.resetPassword||""!==e.resetPasswordTarget?!e.loading&&e.passwordlessLogin?t("div",{key:"reset",staticClass:"login-additional"},[t("PasswordLessLoginForm",{attrs:{username:e.user,"redirect-url":e.redirectUrl,"auto-complete-allowed":e.autoCompleteAllowed,"is-https":e.isHttps,"is-localhost":e.isLocalhost,"has-public-key-credential":e.hasPublicKeyCredential},on:{"update:username":function(t){e.user=t},submit:function(t){e.loading=!0}}}),e._v(" "),t("a",{staticClass:"login-box__link",attrs:{href:"#"},on:{click:function(t){t.preventDefault(),e.passwordlessLogin=!1}}},[e._v("\n\t\t\t\t\t"+e._s(e.t("core","Back"))+"\n\t\t\t\t")])],1):!e.loading&&e.canResetPassword?t("div",{key:"reset",staticClass:"login-additional"},[t("div",{staticClass:"lost-password-container"},[e.resetPassword?t("ResetPassword",{attrs:{username:e.user,"reset-password-link":e.resetPasswordLink},on:{"update:username":function(t){e.user=t},abort:function(t){e.resetPassword=!1}}}):e._e()],1)]):""!==e.resetPasswordTarget?t("div",[t("UpdatePassword",{attrs:{username:e.user,"reset-password-target":e.resetPasswordTarget},on:{"update:username":function(t){e.user=t},done:e.passwordResetFinished}})],1):e._e():t("div",[t("LoginForm",{attrs:{username:e.user,"redirect-url":e.redirectUrl,"direct-login":e.directLogin,messages:e.messages,errors:e.errors,"throttle-delay":e.throttleDelay,"auto-complete-allowed":e.autoCompleteAllowed},on:{"update:username":function(t){e.user=t},submit:function(t){e.loading=!0}}}),e._v(" "),e.canResetPassword&&""!==e.resetPasswordLink?t("a",{staticClass:"login-box__link",attrs:{id:"lost-password",href:e.resetPasswordLink}},[e._v("\n\t\t\t\t\t"+e._s(e.t("core","Forgot password?"))+"\n\t\t\t\t")]):e.canResetPassword&&!e.resetPassword?t("a",{staticClass:"login-box__link",attrs:{id:"lost-password",href:e.resetPasswordLink},on:{click:function(t){t.preventDefault(),e.resetPassword=!0}}},[e._v("\n\t\t\t\t\t"+e._s(e.t("core","Forgot password?"))+"\n\t\t\t\t")]):e._e(),e._v(" "),e.hasPasswordless?[e.countAlternativeLogins?t("div",{staticClass:"alternative-logins"},[e.hasPasswordless?t("a",{staticClass:"button",class:{"single-alt-login-option":e.countAlternativeLogins},attrs:{href:"#"},on:{click:function(t){t.preventDefault(),e.passwordlessLogin=!0}}},[e._v("\n\t\t\t\t\t\t\t"+e._s(e.t("core","Log in with a device"))+"\n\t\t\t\t\t\t")]):e._e()]):t("a",{attrs:{href:"#"},on:{click:function(t){t.preventDefault(),e.passwordlessLogin=!0}}},[e._v("\n\t\t\t\t\t\t"+e._s(e.t("core","Log in with a device"))+"\n\t\t\t\t\t")])]:e._e()],2)])]:[t("transition",{attrs:{name:"fade",mode:"out-in"}},[t("NcNoteCard",{attrs:{type:"warning",title:e.t("core","Login form is disabled.")}},[e._v("\n\t\t\t\t"+e._s(e.t("core","Please contact your administrator."))+"\n\t\t\t")])],1)],e._v(" "),t("div",{staticClass:"alternative-logins",attrs:{id:"alternative-logins"}},e._l(e.alternativeLogins,(function(n,o){return t("NcButton",{key:o,class:[n.class],attrs:{type:"secondary",wide:!0,role:"link",href:n.href}},[e._v("\n\t\t\t"+e._s(n.name)+"\n\t\t")])})),1)],2)}),[],!1,null,null,null).exports,Ut={data:()=>({OC:Se}),methods:{t:ge.translate.bind(ge),n:ge.translatePlural.bind(ge)}};a.default.mixin(Ut),(new(a.default.extend(It))).$mount("#login")},76515:(e,t,n)=>{"use strict";n.d(t,{Z:()=>s});var o=n(87537),i=n.n(o),a=n(23645),r=n.n(a)()(i());r.push([e.id,".button-vue[data-v-3fa8511b]{margin-top:.5rem}","",{version:3,sources:["webpack://./core/src/components/login/LoginButton.vue"],names:[],mappings:"AACA,6BACC,gBAAA",sourcesContent:["\n.button-vue {\n\tmargin-top: .5rem;\n}\n"],sourceRoot:""}]);const s=r},54572:(e,t,n)=>{"use strict";n.d(t,{Z:()=>s});var o=n(87537),i=n.n(o),a=n(23645),r=n.n(a)()(i());r.push([e.id,".login-form[data-v-57e9d1c0]{text-align:left;font-size:1rem}.login-form__fieldset[data-v-57e9d1c0]{width:100%;display:flex;flex-direction:column;gap:.5rem}.login-form__headline[data-v-57e9d1c0]{text-align:center;overflow-wrap:anywhere}","",{version:3,sources:["webpack://./core/src/components/login/LoginForm.vue"],names:[],mappings:"AACA,6BACC,eAAA,CACA,cAAA,CAEA,uCACC,UAAA,CACA,YAAA,CACA,qBAAA,CACA,SAAA,CAGD,uCACC,iBAAA,CACA,sBAAA",sourcesContent:["\n.login-form {\n\ttext-align: left;\n\tfont-size: 1rem;\n\n\t&__fieldset {\n\t\twidth: 100%;\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t\tgap: .5rem;\n\t}\n\n\t&__headline {\n\t\ttext-align: center;\n\t\toverflow-wrap: anywhere;\n\t}\n}\n"],sourceRoot:""}]);const s=r},21280:(e,t,n)=>{"use strict";n.d(t,{Z:()=>s});var o=n(87537),i=n.n(o),a=n(23645),r=n.n(a)()(i());r.push([e.id,".body-login-container.update[data-v-7c43fb49]{margin:15px 0}.body-login-container.update.form__message-box[data-v-7c43fb49]{width:240px;margin:5px}","",{version:3,sources:["webpack://./core/src/components/login/PasswordLessLoginForm.vue"],names:[],mappings:"AACA,8CACC,aAAA,CAEA,gEACC,WAAA,CACA,UAAA",sourcesContent:["\n.body-login-container.update {\n\tmargin: 15px 0;\n\n\t&.form__message-box {\n\t\twidth: 240px;\n\t\tmargin: 5px;\n\t}\n}\n"],sourceRoot:""}]);const s=r},72076:(e,t,n)=>{"use strict";n.d(t,{Z:()=>s});var o=n(87537),i=n.n(o),a=n(23645),r=n.n(a)()(i());r.push([e.id,".login-form[data-v-6636f1b2]{text-align:left;font-size:1rem}.login-form__fieldset[data-v-6636f1b2]{width:100%;display:flex;flex-direction:column;gap:.5rem}.login-form__link[data-v-6636f1b2]{display:block;font-weight:normal !important;padding-bottom:1rem;cursor:pointer;font-size:var(--default-font-size);text-align:center;padding:.5rem 1rem 1rem 1rem}","",{version:3,sources:["webpack://./core/src/components/login/ResetPassword.vue"],names:[],mappings:"AACA,6BACC,eAAA,CACA,cAAA,CAEA,uCACC,UAAA,CACA,YAAA,CACA,qBAAA,CACA,SAAA,CAGD,mCACC,aAAA,CACA,6BAAA,CACA,mBAAA,CACA,cAAA,CACA,kCAAA,CACA,iBAAA,CACA,4BAAA",sourcesContent:["\n.login-form {\n\ttext-align: left;\n\tfont-size: 1rem;\n\n\t&__fieldset {\n\t\twidth: 100%;\n\t\tdisplay: flex;\n\t\tflex-direction: column;\n\t\tgap: .5rem;\n\t}\n\n\t&__link {\n\t\tdisplay: block;\n\t\tfont-weight: normal !important;\n\t\tpadding-bottom: 1rem;\n\t\tcursor: pointer;\n\t\tfont-size: var(--default-font-size);\n\t\ttext-align: center;\n\t\tpadding: .5rem 1rem 1rem 1rem;\n\t}\n}\n"],sourceRoot:""}]);const s=r},88095:(e,t,n)=>{"use strict";n.d(t,{Z:()=>s});var o=n(87537),i=n.n(o),a=n(23645),r=n.n(a)()(i());r.push([e.id,"body{font-size:var(--default-font-size)}.login-box{width:320px;box-sizing:border-box}.login-box__link{display:block;padding:1rem;font-size:var(--default-font-size);text-align:center;font-weight:normal !important}.fade-enter-active,.fade-leave-active{transition:opacity .3s}.fade-enter,.fade-leave-to{opacity:0}.alternative-logins{display:flex;flex-direction:column;gap:.75rem}.alternative-logins .button-vue{box-sizing:border-box}","",{version:3,sources:["webpack://./core/src/views/Login.vue"],names:[],mappings:"AACA,KACC,kCAAA,CAGD,WAEC,WAAA,CACA,qBAAA,CAEA,iBACC,aAAA,CACA,YAAA,CACA,kCAAA,CACA,iBAAA,CACA,6BAAA,CAIF,sCACC,sBAAA,CAED,2BACC,SAAA,CAGD,oBACC,YAAA,CACA,qBAAA,CACA,UAAA,CAEA,gCACC,qBAAA",sourcesContent:["\nbody {\n\tfont-size: var(--default-font-size);\n}\n\n.login-box {\n\t// Same size as dashboard panels\n\twidth: 320px;\n\tbox-sizing: border-box;\n\n\t&__link {\n\t\tdisplay: block;\n\t\tpadding: 1rem;\n\t\tfont-size: var(--default-font-size);\n\t\ttext-align: center;\n\t\tfont-weight: normal !important;\n\t}\n}\n\n.fade-enter-active, .fade-leave-active {\n\ttransition: opacity .3s;\n}\n.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {\n\topacity: 0;\n}\n\n.alternative-logins {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 0.75rem;\n\n\t.button-vue {\n\t\tbox-sizing: border-box;\n\t}\n}\n"],sourceRoot:""}]);const s=r},74778:(e,t,n)=>{"use strict";n.d(t,{Z:()=>s});var o=n(87537),i=n.n(o),a=n(23645),r=n.n(a)()(i());r.push([e.id,"\nfieldset[data-v-4dc21d74] {\n\ttext-align: center;\n}\ninput[type=submit][data-v-4dc21d74] {\n\tmargin-top: 20px;\n}\n","",{version:3,sources:["webpack://./core/src/components/login/UpdatePassword.vue"],names:[],mappings:";AA4IA;CACA,kBAAA;AACA;AAEA;CACA,gBAAA;AACA",sourcesContent:["\x3c!--\n  - @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>\n  -\n  - @author Julius Härtl <jus@bitgrid.net>\n  -\n  - @license GNU AGPL version 3 or any later version\n  -\n  - This program is free software: you can redistribute it and/or modify\n  - it under the terms of the GNU Affero General Public License as\n  - published by the Free Software Foundation, either version 3 of the\n  - License, or (at your option) any later version.\n  -\n  - This program is distributed in the hope that it will be useful,\n  - but WITHOUT ANY WARRANTY; without even the implied warranty of\n  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n  - GNU Affero General Public License for more details.\n  -\n  - You should have received a copy of the GNU Affero General Public License\n  - along with this program. If not, see <http://www.gnu.org/licenses/>.\n  -\n  --\x3e\n\n<template>\n\t<form @submit.prevent=\"submit\">\n\t\t<fieldset>\n\t\t\t<p>\n\t\t\t\t<label for=\"password\" class=\"infield\">{{ t('core', 'New password') }}</label>\n\t\t\t\t<input id=\"password\"\n\t\t\t\t\tv-model=\"password\"\n\t\t\t\t\ttype=\"password\"\n\t\t\t\t\tname=\"password\"\n\t\t\t\t\tautocomplete=\"new-password\"\n\t\t\t\t\tautocapitalize=\"none\"\n\t\t\t\t\tautocorrect=\"off\"\n\t\t\t\t\trequired\n\t\t\t\t\t:placeholder=\"t('core', 'New password')\">\n\t\t\t</p>\n\n\t\t\t<div v-if=\"encrypted\" class=\"update\">\n\t\t\t\t<p>\n\t\t\t\t\t{{ t('core', 'Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?') }}\n\t\t\t\t</p>\n\t\t\t\t<input id=\"encrypted-continue\"\n\t\t\t\t\tv-model=\"proceed\"\n\t\t\t\t\ttype=\"checkbox\"\n\t\t\t\t\tclass=\"checkbox\">\n\t\t\t\t<label for=\"encrypted-continue\">\n\t\t\t\t\t{{ t('core', 'I know what I\\'m doing') }}\n\t\t\t\t</label>\n\t\t\t</div>\n\n\t\t\t<LoginButton :loading=\"loading\"\n\t\t\t\t:value=\"t('core', 'Reset password')\"\n\t\t\t\t:value-loading=\"t('core', 'Resetting password')\" />\n\n\t\t\t<p v-if=\"error && message\" :class=\"{warning: error}\">\n\t\t\t\t{{ message }}\n\t\t\t</p>\n\t\t</fieldset>\n\t</form>\n</template>\n\n<script>\nimport Axios from '@nextcloud/axios'\nimport LoginButton from './LoginButton.vue'\n\nexport default {\n\tname: 'UpdatePassword',\n\tcomponents: {\n\t\tLoginButton,\n\t},\n\tprops: {\n\t\tusername: {\n\t\t\ttype: String,\n\t\t\trequired: true,\n\t\t},\n\t\tresetPasswordTarget: {\n\t\t\ttype: String,\n\t\t\trequired: true,\n\t\t},\n\t},\n\tdata() {\n\t\treturn {\n\t\t\terror: false,\n\t\t\tloading: false,\n\t\t\tmessage: undefined,\n\t\t\tuser: this.username,\n\t\t\tpassword: '',\n\t\t\tencrypted: false,\n\t\t\tproceed: false,\n\t\t}\n\t},\n\twatch: {\n\t\tusername(value) {\n\t\t\tthis.user = value\n\t\t},\n\t},\n\tmethods: {\n\t\tasync submit() {\n\t\t\tthis.loading = true\n\t\t\tthis.error = false\n\t\t\tthis.message = ''\n\n\t\t\ttry {\n\t\t\t\tconst { data } = await Axios.post(this.resetPasswordTarget, {\n\t\t\t\t\tpassword: this.password,\n\t\t\t\t\tproceed: this.proceed,\n\t\t\t\t})\n\t\t\t\tif (data && data.status === 'success') {\n\t\t\t\t\tthis.message = 'send-success'\n\t\t\t\t\tthis.$emit('update:username', this.user)\n\t\t\t\t\tthis.$emit('done')\n\t\t\t\t} else if (data && data.encryption) {\n\t\t\t\t\tthis.encrypted = true\n\t\t\t\t} else if (data && data.msg) {\n\t\t\t\t\tthrow new Error(data.msg)\n\t\t\t\t} else {\n\t\t\t\t\tthrow new Error()\n\t\t\t\t}\n\t\t\t} catch (e) {\n\t\t\t\tthis.error = true\n\t\t\t\tthis.message = e.message ? e.message : t('core', 'Password cannot be changed. Please contact your administrator.')\n\t\t\t} finally {\n\t\t\t\tthis.loading = false\n\t\t\t}\n\t\t},\n\t},\n}\n<\/script>\n\n<style scoped>\n\tfieldset {\n\t\ttext-align: center;\n\t}\n\n\tinput[type=submit] {\n\t\tmargin-top: 20px;\n\t}\n</style>\n"],sourceRoot:""}]);const s=r},10944:(e,t,n)=>{var o=n(40202);e.exports=(o.default||o).template({1:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return null!=(a=r(n,"if").call(null!=t?t:e.nullContext||{},null!=(a=null!=t?r(t,"contact"):t)?r(a,"profileUrl"):a,{name:"if",hash:{},fn:e.program(2,i,0),inverse:e.program(5,i,0),data:i,loc:{start:{line:2,column:1},end:{line:10,column:8}}}))?a:""},2:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return null!=(a=r(n,"if").call(null!=t?t:e.nullContext||{},null!=(a=null!=t?r(t,"contact"):t)?r(a,"profileTitle"):a,{name:"if",hash:{},fn:e.program(3,i,0),inverse:e.noop,data:i,loc:{start:{line:3,column:2},end:{line:7,column:9}}}))?a:""},3:function(e,t,n,o,i){var a,r=e.lambda,s=e.escapeExpression,l=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t\t<a class="profile-link--avatar" href="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"profileUrl"):a,t))+'">\n\t\t\t\t<img src="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+'&size=32" class="avatar" srcset="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+"&size=32 1x, "+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+"&size=64 2x, "+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+'&size=128 4x" alt="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatarLabel"):a,t))+'">\n\t\t\t</a>\n'},5:function(e,t,n,o,i){var a,r=e.lambda,s=e.escapeExpression,l=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t<img src="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+'&size=32" class="avatar" srcset="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+"&size=32 1x, "+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+"&size=64 2x, "+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatar"):a,t))+'&size=128 4x" alt="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"avatarLabel"):a,t))+'">\n'},7:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return null!=(a=r(n,"if").call(null!=t?t:e.nullContext||{},null!=(a=null!=t?r(t,"contact"):t)?r(a,"profileUrl"):a,{name:"if",hash:{},fn:e.program(8,i,0),inverse:e.program(11,i,0),data:i,loc:{start:{line:12,column:1},end:{line:20,column:8}}}))?a:""},8:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return null!=(a=r(n,"if").call(null!=t?t:e.nullContext||{},null!=(a=null!=t?r(t,"contact"):t)?r(a,"profileTitle"):a,{name:"if",hash:{},fn:e.program(9,i,0),inverse:e.noop,data:i,loc:{start:{line:13,column:2},end:{line:17,column:9}}}))?a:""},9:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t\t<a class="profile-link--avatar" href="'+e.escapeExpression(e.lambda(null!=(a=null!=t?r(t,"contact"):t)?r(a,"profileUrl"):a,t))+'">\n\t\t\t\t<div class="avatar"></div>\n\t\t\t</a>\n'},11:function(e,t,n,o,i){return'\t\t<div class="avatar"></div>\n'},13:function(e,t,n,o,i){var a,r=null!=t?t:e.nullContext||{},s=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return(null!=(a=s(n,"if").call(r,null!=(a=null!=t?s(t,"contact"):t)?s(a,"profileTitle"):a,{name:"if",hash:{},fn:e.program(14,i,0),inverse:e.noop,data:i,loc:{start:{line:23,column:1},end:{line:29,column:8}}}))?a:"")+(null!=(a=s(n,"if").call(r,null!=(a=null!=t?s(t,"contact"):t)?s(a,"topAction"):a,{name:"if",hash:{},fn:e.program(16,i,0),inverse:e.noop,data:i,loc:{start:{line:30,column:1},end:{line:34,column:8}}}))?a:"")},14:function(e,t,n,o,i){var a,r=e.lambda,s=e.escapeExpression,l=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t<a class="body profile-link--full-name" href="'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"profileUrl"):a,t))+'">\n\t\t\t<div class="full-name">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"fullName"):a,t))+'</div>\n\t\t\t<div class="last-message">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"lastMessage"):a,t))+'</div>\n\t\t\t<div class="email-address">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"emailAddresses"):a,t))+"</div>\n\t\t</a>\n"},16:function(e,t,n,o,i){var a,r=e.lambda,s=e.escapeExpression,l=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t<a class="top-action" href="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"hyperlink"):a,t))+'" title="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"title"):a,t))+'" aria-label="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"title"):a,t))+'">\n\t\t\t<img src="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"icon"):a,t))+'" alt="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"title"):a,t))+'">\n\t\t</a>\n'},18:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return null!=(a=r(n,"if").call(null!=t?t:e.nullContext||{},null!=(a=null!=t?r(t,"contact"):t)?r(a,"topAction"):a,{name:"if",hash:{},fn:e.program(19,i,0),inverse:e.program(21,i,0),data:i,loc:{start:{line:35,column:0},end:{line:50,column:0}}}))?a:""},19:function(e,t,n,o,i){var a,r=e.lambda,s=e.escapeExpression,l=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t<a class="body" href="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"hyperlink"):a,t))+'">\n\t\t<div class="full-name">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"fullName"):a,t))+'</div>\n\t\t<div class="last-message">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"lastMessage"):a,t))+'</div>\n\t\t<div class="email-address">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"emailAddresses"):a,t))+'</div>\n\t</a>\n  \t<a class="top-action" href="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"hyperlink"):a,t))+'" title="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"title"):a,t))+'">\n  \t\t<img src="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"icon"):a,t))+'" alt="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"topAction"):a)?l(a,"title"):a,t))+'">\n\t</a>\n'},21:function(e,t,n,o,i){var a,r=e.lambda,s=e.escapeExpression,l=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t<div class="body">\n\t\t<div class="full-name">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"fullName"):a,t))+'</div>\n\t\t<div class="last-message">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"lastMessage"):a,t))+'</div>\n\t\t<div class="email-address">'+s(r(null!=(a=null!=t?l(t,"contact"):t)?l(a,"emailAddresses"):a,t))+"</div>\n\t</div>\n"},23:function(e,t,n,o,i){var a,r=e.lambda,s=e.escapeExpression,l=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<a class="second-action" href="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"secondAction"):a)?l(a,"hyperlink"):a,t))+'" aria-label="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"secondAction"):a)?l(a,"title"):a,t))+'" title="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"secondAction"):a)?l(a,"title"):a,t))+'">\n\t<img src="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"secondAction"):a)?l(a,"icon"):a,t))+'" alt="'+s(r(null!=(a=null!=(a=null!=t?l(t,"contact"):t)?l(a,"secondAction"):a)?l(a,"title"):a,t))+'">\n</a>\n'},25:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t<button class="other-actions icon-more"></button>\n\t<div class="menu popovermenu">\n\t\t<ul>\n'+(null!=(a=r(n,"each").call(null!=t?t:e.nullContext||{},null!=(a=null!=t?r(t,"contact"):t)?r(a,"actions"):a,{name:"each",hash:{},fn:e.program(26,i,0),inverse:e.noop,data:i,loc:{start:{line:60,column:3},end:{line:67,column:12}}}))?a:"")+"\t\t</ul>\n\t</div>\n"},26:function(e,t,n,o,i){var a,r=null!=t?t:e.nullContext||{},s=e.hooks.helperMissing,l="function",c=e.escapeExpression,d=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'\t\t\t<li>\n\t\t\t\t<a href="'+c(typeof(a=null!=(a=d(n,"hyperlink")||(null!=t?d(t,"hyperlink"):t))?a:s)===l?a.call(r,{name:"hyperlink",hash:{},data:i,loc:{start:{line:62,column:13},end:{line:62,column:26}}}):a)+'">\n\t\t\t\t\t<img src="'+c(typeof(a=null!=(a=d(n,"icon")||(null!=t?d(t,"icon"):t))?a:s)===l?a.call(r,{name:"icon",hash:{},data:i,loc:{start:{line:63,column:15},end:{line:63,column:23}}}):a)+'" alt="">\n\t\t\t\t\t<span>'+c(typeof(a=null!=(a=d(n,"title")||(null!=t?d(t,"title"):t))?a:s)===l?a.call(r,{name:"title",hash:{},data:i,loc:{start:{line:64,column:11},end:{line:64,column:20}}}):a)+"</span>\n\t\t\t\t</a>\n\t\t\t</li>\n"},compiler:[8,">= 4.3.0"],main:function(e,t,n,o,i){var a,r=null!=t?t:e.nullContext||{},s=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return(null!=(a=s(n,"if").call(r,null!=(a=null!=t?s(t,"contact"):t)?s(a,"avatar"):a,{name:"if",hash:{},fn:e.program(1,i,0),inverse:e.program(7,i,0),data:i,loc:{start:{line:1,column:0},end:{line:21,column:7}}}))?a:"")+(null!=(a=s(n,"if").call(r,null!=(a=null!=t?s(t,"contact"):t)?s(a,"profileUrl"):a,{name:"if",hash:{},fn:e.program(13,i,0),inverse:e.program(18,i,0),data:i,loc:{start:{line:22,column:0},end:{line:50,column:7}}}))?a:"")+(null!=(a=s(n,"if").call(r,null!=(a=null!=t?s(t,"contact"):t)?s(a,"hasTwoActions"):a,{name:"if",hash:{},fn:e.program(23,i,0),inverse:e.noop,data:i,loc:{start:{line:51,column:0},end:{line:55,column:7}}}))?a:"")+(null!=(a=s(n,"if").call(r,null!=(a=null!=t?s(t,"contact"):t)?s(a,"hasManyActions"):a,{name:"if",hash:{},fn:e.program(25,i,0),inverse:e.noop,data:i,loc:{start:{line:56,column:0},end:{line:70,column:7}}}))?a:"")},useData:!0})},20421:(e,t,n)=>{var o=n(40202);e.exports=(o.default||o).template({compiler:[8,">= 4.3.0"],main:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<div class="emptycontent">\n\t<div class="icon-search"></div>\n\t<h2>'+e.escapeExpression("function"==typeof(a=null!=(a=r(n,"couldNotLoadText")||(null!=t?r(t,"couldNotLoadText"):t))?a:e.hooks.helperMissing)?a.call(null!=t?t:e.nullContext||{},{name:"couldNotLoadText",hash:{},data:i,loc:{start:{line:3,column:5},end:{line:3,column:25}}}):a)+"</h2>\n</div>\n"},useData:!0})},34083:(e,t,n)=>{var o=n(40202);e.exports=(o.default||o).template({1:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<div class="emptycontent">\n\t<div class="icon-search"></div>\n\t<h2>'+e.escapeExpression("function"==typeof(a=null!=(a=r(n,"noContactsFoundText")||(null!=t?r(t,"noContactsFoundText"):t))?a:e.hooks.helperMissing)?a.call(null!=t?t:e.nullContext||{},{name:"noContactsFoundText",hash:{},data:i,loc:{start:{line:4,column:5},end:{line:4,column:28}}}):a)+"</h2>\n</div>\n"},3:function(e,t,n,o,i){var a,r=null!=t?t:e.nullContext||{},s=e.hooks.helperMissing,l="function",c=e.escapeExpression,d=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<div class="footer"><a href="'+c(typeof(a=null!=(a=d(n,"contactsAppURL")||(null!=t?d(t,"contactsAppURL"):t))?a:s)===l?a.call(r,{name:"contactsAppURL",hash:{},data:i,loc:{start:{line:9,column:29},end:{line:9,column:47}}}):a)+'">'+c(typeof(a=null!=(a=d(n,"showAllContactsText")||(null!=t?d(t,"showAllContactsText"):t))?a:s)===l?a.call(r,{name:"showAllContactsText",hash:{},data:i,loc:{start:{line:9,column:49},end:{line:9,column:72}}}):a)+"</a></div>\n"},5:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return null!=(a=r(n,"if").call(null!=t?t:e.nullContext||{},null!=t?r(t,"canInstallApp"):t,{name:"if",hash:{},fn:e.program(6,i,0),inverse:e.noop,data:i,loc:{start:{line:10,column:0},end:{line:12,column:0}}}))?a:""},6:function(e,t,n,o,i){var a,r=null!=t?t:e.nullContext||{},s=e.hooks.helperMissing,l="function",c=e.escapeExpression,d=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<div class="footer"><a href="'+c(typeof(a=null!=(a=d(n,"contactsAppMgmtURL")||(null!=t?d(t,"contactsAppMgmtURL"):t))?a:s)===l?a.call(r,{name:"contactsAppMgmtURL",hash:{},data:i,loc:{start:{line:11,column:29},end:{line:11,column:51}}}):a)+'">'+c(typeof(a=null!=(a=d(n,"contactsAppMgmtText")||(null!=t?d(t,"contactsAppMgmtText"):t))?a:s)===l?a.call(r,{name:"contactsAppMgmtText",hash:{},data:i,loc:{start:{line:11,column:53},end:{line:11,column:76}}}):a)+"</a></div>\n"},compiler:[8,">= 4.3.0"],main:function(e,t,n,o,i){var a,r=null!=t?t:e.nullContext||{},s=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return(null!=(a=s(n,"unless").call(r,null!=(a=null!=t?s(t,"contacts"):t)?s(a,"length"):a,{name:"unless",hash:{},fn:e.program(1,i,0),inverse:e.noop,data:i,loc:{start:{line:1,column:0},end:{line:6,column:11}}}))?a:"")+'<div id="contactsmenu-contacts"></div>\n'+(null!=(a=s(n,"if").call(r,null!=t?s(t,"contactsAppEnabled"):t,{name:"if",hash:{},fn:e.program(3,i,0),inverse:e.program(5,i,0),data:i,loc:{start:{line:8,column:0},end:{line:12,column:7}}}))?a:"")},useData:!0})},95386:(e,t,n)=>{var o=n(40202);e.exports=(o.default||o).template({compiler:[8,">= 4.3.0"],main:function(e,t,n,o,i){var a,r=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<div class="emptycontent">\n\t<div class="icon-loading"></div>\n\t<h2>'+e.escapeExpression("function"==typeof(a=null!=(a=r(n,"loadingText")||(null!=t?r(t,"loadingText"):t))?a:e.hooks.helperMissing)?a.call(null!=t?t:e.nullContext||{},{name:"loadingText",hash:{},data:i,loc:{start:{line:3,column:5},end:{line:3,column:20}}}):a)+"</h2>\n</div>\n"},useData:!0})},66115:(e,t,n)=>{var o=n(40202);e.exports=(o.default||o).template({compiler:[8,">= 4.3.0"],main:function(e,t,n,o,i){var a,r=null!=t?t:e.nullContext||{},s=e.hooks.helperMissing,l="function",c=e.escapeExpression,d=e.lookupProperty||function(e,t){if(Object.prototype.hasOwnProperty.call(e,t))return e[t]};return'<label class="hidden-visually" for="contactsmenu-search">'+c(typeof(a=null!=(a=d(n,"searchContactsText")||(null!=t?d(t,"searchContactsText"):t))?a:s)===l?a.call(r,{name:"searchContactsText",hash:{},data:i,loc:{start:{line:1,column:57},end:{line:1,column:79}}}):a)+'</label>\n<input id="contactsmenu-search" type="search" placeholder="'+c(typeof(a=null!=(a=d(n,"searchContactsText")||(null!=t?d(t,"searchContactsText"):t))?a:s)===l?a.call(r,{name:"searchContactsText",hash:{},data:i,loc:{start:{line:2,column:59},end:{line:2,column:81}}}):a)+'" value="'+c(typeof(a=null!=(a=d(n,"searchTerm")||(null!=t?d(t,"searchTerm"):t))?a:s)===l?a.call(r,{name:"searchTerm",hash:{},data:i,loc:{start:{line:2,column:90},end:{line:2,column:104}}}):a)+'">\n<div class="content">\n</div>\n'},useData:!0})},46700:(e,t,n)=>{var o={"./af":42786,"./af.js":42786,"./ar":30867,"./ar-dz":14130,"./ar-dz.js":14130,"./ar-kw":96135,"./ar-kw.js":96135,"./ar-ly":56440,"./ar-ly.js":56440,"./ar-ma":47702,"./ar-ma.js":47702,"./ar-sa":16040,"./ar-sa.js":16040,"./ar-tn":37100,"./ar-tn.js":37100,"./ar.js":30867,"./az":31083,"./az.js":31083,"./be":9808,"./be.js":9808,"./bg":68338,"./bg.js":68338,"./bm":67438,"./bm.js":67438,"./bn":8905,"./bn-bd":76225,"./bn-bd.js":76225,"./bn.js":8905,"./bo":11560,"./bo.js":11560,"./br":1278,"./br.js":1278,"./bs":80622,"./bs.js":80622,"./ca":2468,"./ca.js":2468,"./cs":5822,"./cs.js":5822,"./cv":50877,"./cv.js":50877,"./cy":47373,"./cy.js":47373,"./da":24780,"./da.js":24780,"./de":59740,"./de-at":60217,"./de-at.js":60217,"./de-ch":60894,"./de-ch.js":60894,"./de.js":59740,"./dv":5300,"./dv.js":5300,"./el":50837,"./el.js":50837,"./en-au":78348,"./en-au.js":78348,"./en-ca":77925,"./en-ca.js":77925,"./en-gb":22243,"./en-gb.js":22243,"./en-ie":46436,"./en-ie.js":46436,"./en-il":47207,"./en-il.js":47207,"./en-in":44175,"./en-in.js":44175,"./en-nz":76319,"./en-nz.js":76319,"./en-sg":31662,"./en-sg.js":31662,"./eo":92915,"./eo.js":92915,"./es":55655,"./es-do":55251,"./es-do.js":55251,"./es-mx":96112,"./es-mx.js":96112,"./es-us":71146,"./es-us.js":71146,"./es.js":55655,"./et":5603,"./et.js":5603,"./eu":77763,"./eu.js":77763,"./fa":76959,"./fa.js":76959,"./fi":11897,"./fi.js":11897,"./fil":42549,"./fil.js":42549,"./fo":94694,"./fo.js":94694,"./fr":94470,"./fr-ca":63049,"./fr-ca.js":63049,"./fr-ch":52330,"./fr-ch.js":52330,"./fr.js":94470,"./fy":5044,"./fy.js":5044,"./ga":29295,"./ga.js":29295,"./gd":2101,"./gd.js":2101,"./gl":38794,"./gl.js":38794,"./gom-deva":27884,"./gom-deva.js":27884,"./gom-latn":23168,"./gom-latn.js":23168,"./gu":95349,"./gu.js":95349,"./he":24206,"./he.js":24206,"./hi":30094,"./hi.js":30094,"./hr":30316,"./hr.js":30316,"./hu":22138,"./hu.js":22138,"./hy-am":11423,"./hy-am.js":11423,"./id":29218,"./id.js":29218,"./is":90135,"./is.js":90135,"./it":90626,"./it-ch":10150,"./it-ch.js":10150,"./it.js":90626,"./ja":39183,"./ja.js":39183,"./jv":24286,"./jv.js":24286,"./ka":12105,"./ka.js":12105,"./kk":47772,"./kk.js":47772,"./km":18758,"./km.js":18758,"./kn":79282,"./kn.js":79282,"./ko":33730,"./ko.js":33730,"./ku":1408,"./ku.js":1408,"./ky":33291,"./ky.js":33291,"./lb":36841,"./lb.js":36841,"./lo":55466,"./lo.js":55466,"./lt":57010,"./lt.js":57010,"./lv":37595,"./lv.js":37595,"./me":39861,"./me.js":39861,"./mi":35493,"./mi.js":35493,"./mk":95966,"./mk.js":95966,"./ml":87341,"./ml.js":87341,"./mn":5115,"./mn.js":5115,"./mr":10370,"./mr.js":10370,"./ms":9847,"./ms-my":41237,"./ms-my.js":41237,"./ms.js":9847,"./mt":72126,"./mt.js":72126,"./my":56165,"./my.js":56165,"./nb":64924,"./nb.js":64924,"./ne":16744,"./ne.js":16744,"./nl":93901,"./nl-be":59814,"./nl-be.js":59814,"./nl.js":93901,"./nn":83877,"./nn.js":83877,"./oc-lnc":92135,"./oc-lnc.js":92135,"./pa-in":15858,"./pa-in.js":15858,"./pl":64495,"./pl.js":64495,"./pt":89520,"./pt-br":57971,"./pt-br.js":57971,"./pt.js":89520,"./ro":96459,"./ro.js":96459,"./ru":21793,"./ru.js":21793,"./sd":40950,"./sd.js":40950,"./se":10490,"./se.js":10490,"./si":90124,"./si.js":90124,"./sk":64249,"./sk.js":64249,"./sl":14985,"./sl.js":14985,"./sq":51104,"./sq.js":51104,"./sr":49131,"./sr-cyrl":79915,"./sr-cyrl.js":79915,"./sr.js":49131,"./ss":85893,"./ss.js":85893,"./sv":98760,"./sv.js":98760,"./sw":91172,"./sw.js":91172,"./ta":27333,"./ta.js":27333,"./te":23110,"./te.js":23110,"./tet":52095,"./tet.js":52095,"./tg":27321,"./tg.js":27321,"./th":9041,"./th.js":9041,"./tk":19005,"./tk.js":19005,"./tl-ph":75768,"./tl-ph.js":75768,"./tlh":89444,"./tlh.js":89444,"./tr":72397,"./tr.js":72397,"./tzl":28254,"./tzl.js":28254,"./tzm":51106,"./tzm-latn":30699,"./tzm-latn.js":30699,"./tzm.js":51106,"./ug-cn":9288,"./ug-cn.js":9288,"./uk":67691,"./uk.js":67691,"./ur":13795,"./ur.js":13795,"./uz":6791,"./uz-latn":60588,"./uz-latn.js":60588,"./uz.js":6791,"./vi":65666,"./vi.js":65666,"./x-pseudo":14378,"./x-pseudo.js":14378,"./yo":75805,"./yo.js":75805,"./zh-cn":83839,"./zh-cn.js":83839,"./zh-hk":55726,"./zh-hk.js":55726,"./zh-mo":99807,"./zh-mo.js":99807,"./zh-tw":74152,"./zh-tw.js":74152};function i(e){var t=a(e);return n(t)}function a(e){if(!n.o(o,e)){var t=new Error("Cannot find module '"+e+"'");throw t.code="MODULE_NOT_FOUND",t}return o[e]}i.keys=function(){return Object.keys(o)},i.resolve=a,e.exports=i,i.id=46700}},r={};function s(e){var t=r[e];if(void 0!==t)return t.exports;var n=r[e]={id:e,loaded:!1,exports:{}};return a[e].call(n.exports,n,n.exports,s),n.loaded=!0,n.exports}s.m=a,e=[],s.O=(t,n,o,i)=>{if(!n){var a=1/0;for(d=0;d<e.length;d++){n=e[d][0],o=e[d][1],i=e[d][2];for(var r=!0,l=0;l<n.length;l++)(!1&i||a>=i)&&Object.keys(s.O).every((e=>s.O[e](n[l])))?n.splice(l--,1):(r=!1,i<a&&(a=i));if(r){e.splice(d--,1);var c=o();void 0!==c&&(t=c)}}return t}i=i||0;for(var d=e.length;d>0&&e[d-1][2]>i;d--)e[d]=e[d-1];e[d]=[n,o,i]},s.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return s.d(t,{a:t}),t},s.d=(e,t)=>{for(var n in t)s.o(t,n)&&!s.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},s.f={},s.e=e=>Promise.all(Object.keys(s.f).reduce(((t,n)=>(s.f[n](e,t),t)),[])),s.u=e=>e+"-"+e+".js?v=00434e4baa0d8e7b79f1",s.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),s.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),o={},i="nextcloud:",s.l=(e,t,n,a)=>{if(o[e])o[e].push(t);else{var r,l;if(void 0!==n)for(var c=document.getElementsByTagName("script"),d=0;d<c.length;d++){var u=c[d];if(u.getAttribute("src")==e||u.getAttribute("data-webpack")==i+n){r=u;break}}r||(l=!0,(r=document.createElement("script")).charset="utf-8",r.timeout=120,s.nc&&r.setAttribute("nonce",s.nc),r.setAttribute("data-webpack",i+n),r.src=e),o[e]=[t];var p=(t,n)=>{r.onerror=r.onload=null,clearTimeout(f);var i=o[e];if(delete o[e],r.parentNode&&r.parentNode.removeChild(r),i&&i.forEach((e=>e(n))),t)return t(n)},f=setTimeout(p.bind(null,void 0,{type:"timeout",target:r}),12e4);r.onerror=p.bind(null,r.onerror),r.onload=p.bind(null,r.onload),l&&document.head.appendChild(r)}},s.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},s.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),s.j=4577,(()=>{var e;s.g.importScripts&&(e=s.g.location+"");var t=s.g.document;if(!e&&t&&(t.currentScript&&(e=t.currentScript.src),!e)){var n=t.getElementsByTagName("script");n.length&&(e=n[n.length-1].src)}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),s.p=e})(),(()=>{s.b=document.baseURI||self.location.href;var e={4577:0};s.f.j=(t,n)=>{var o=s.o(e,t)?e[t]:void 0;if(0!==o)if(o)n.push(o[2]);else{var i=new Promise(((n,i)=>o=e[t]=[n,i]));n.push(o[2]=i);var a=s.p+s.u(t),r=new Error;s.l(a,(n=>{if(s.o(e,t)&&(0!==(o=e[t])&&(e[t]=void 0),o)){var i=n&&("load"===n.type?"missing":n.type),a=n&&n.target&&n.target.src;r.message="Loading chunk "+t+" failed.\n("+i+": "+a+")",r.name="ChunkLoadError",r.type=i,r.request=a,o[1](r)}}),"chunk-"+t,t)}},s.O.j=t=>0===e[t];var t=(t,n)=>{var o,i,a=n[0],r=n[1],l=n[2],c=0;if(a.some((t=>0!==e[t]))){for(o in r)s.o(r,o)&&(s.m[o]=r[o]);if(l)var d=l(s)}for(t&&t(n);c<a.length;c++)i=a[c],s.o(e,i)&&e[i]&&e[i][0](),e[i]=0;return s.O(d)},n=self.webpackChunknextcloud=self.webpackChunknextcloud||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),s.nc=void 0;var l=s.O(void 0,[7874],(()=>s(83508)));l=s.O(l)})();
-//# sourceMappingURL=core-login.js.map?v=d74eb8e914809448329e
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./core/src/OC/admin.js":
+/*!******************************!*\
+  !*** ./core/src/OC/admin.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isUserAdmin": () => (/* binding */ isUserAdmin)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const isAdmin = !!window._oc_isadmin;
+
+/**
+ * Returns whether the current user is an administrator
+ *
+ * @return {boolean} true if the user is an admin, false otherwise
+ * @since 9.0.0
+ */
+const isUserAdmin = () => isAdmin;
+
+/***/ }),
+
+/***/ "./core/src/OC/appconfig.js":
+/*!**********************************!*\
+  !*** ./core/src/OC/appconfig.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AppConfig": () => (/* binding */ AppConfig),
+/* harmony export */   "appConfig": () => (/* binding */ appConfig)
+/* harmony export */ });
+/* harmony import */ var _OCP_appconfig_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../OCP/appconfig.js */ "./core/src/OCP/appconfig.js");
+/**
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* eslint-disable */
+
+const appConfig = window.oc_appconfig || {};
+
+/**
+ * @namespace
+ * @deprecated 16.0.0 Use OCP.AppConfig instead
+ */
+const AppConfig = {
+  /**
+   * @deprecated Use OCP.AppConfig.getValue() instead
+   */
+  getValue: function (app, key, defaultValue, callback) {
+    (0,_OCP_appconfig_js__WEBPACK_IMPORTED_MODULE_0__.getValue)(app, key, defaultValue, {
+      success: callback
+    });
+  },
+  /**
+   * @deprecated Use OCP.AppConfig.setValue() instead
+   */
+  setValue: function (app, key, value) {
+    (0,_OCP_appconfig_js__WEBPACK_IMPORTED_MODULE_0__.setValue)(app, key, value);
+  },
+  /**
+   * @deprecated Use OCP.AppConfig.getApps() instead
+   */
+  getApps: function (callback) {
+    (0,_OCP_appconfig_js__WEBPACK_IMPORTED_MODULE_0__.getApps)({
+      success: callback
+    });
+  },
+  /**
+   * @deprecated Use OCP.AppConfig.getKeys() instead
+   */
+  getKeys: function (app, callback) {
+    (0,_OCP_appconfig_js__WEBPACK_IMPORTED_MODULE_0__.getKeys)(app, {
+      success: callback
+    });
+  },
+  /**
+   * @deprecated Use OCP.AppConfig.deleteKey() instead
+   */
+  deleteKey: function (app, key) {
+    (0,_OCP_appconfig_js__WEBPACK_IMPORTED_MODULE_0__.deleteKey)(app, key);
+  }
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/apps.js":
+/*!*****************************!*\
+  !*** ./core/src/OC/apps.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "registerAppsSlideToggle": () => (/* binding */ registerAppsSlideToggle)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * @copyright Bernhard Posselt 2014
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+let dynamicSlideToggleEnabled = false;
+const Apps = {
+  enableDynamicSlideToggle() {
+    dynamicSlideToggleEnabled = true;
+  }
+};
+
+/**
+ * Shows the #app-sidebar and add .with-app-sidebar to subsequent siblings
+ *
+ * @param {object} [$el] sidebar element to show, defaults to $('#app-sidebar')
+ */
+Apps.showAppSidebar = function ($el) {
+  const $appSidebar = $el || jquery__WEBPACK_IMPORTED_MODULE_0___default()('#app-sidebar');
+  $appSidebar.removeClass('disappear').show();
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#app-content').trigger(new (jquery__WEBPACK_IMPORTED_MODULE_0___default().Event)('appresized'));
+};
+
+/**
+ * Shows the #app-sidebar and removes .with-app-sidebar from subsequent
+ * siblings
+ *
+ * @param {object} [$el] sidebar element to hide, defaults to $('#app-sidebar')
+ */
+Apps.hideAppSidebar = function ($el) {
+  const $appSidebar = $el || jquery__WEBPACK_IMPORTED_MODULE_0___default()('#app-sidebar');
+  $appSidebar.hide().addClass('disappear');
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#app-content').trigger(new (jquery__WEBPACK_IMPORTED_MODULE_0___default().Event)('appresized'));
+};
+
+/**
+ * Provides a way to slide down a target area through a button and slide it
+ * up if the user clicks somewhere else. Used for the news app settings and
+ * add new field.
+ *
+ * Usage:
+ * <button data-apps-slide-toggle=".slide-area">slide</button>
+ * <div class=".slide-area" class="hidden">I'm sliding up</div>
+ */
+const registerAppsSlideToggle = () => {
+  let buttons = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-apps-slide-toggle]');
+  if (buttons.length === 0) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#app-navigation').addClass('without-app-settings');
+  }
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).click(function (event) {
+    if (dynamicSlideToggleEnabled) {
+      buttons = jquery__WEBPACK_IMPORTED_MODULE_0___default()('[data-apps-slide-toggle]');
+    }
+    buttons.each(function (index, button) {
+      const areaSelector = jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).data('apps-slide-toggle');
+      const area = jquery__WEBPACK_IMPORTED_MODULE_0___default()(areaSelector);
+
+      /**
+       *
+       */
+      function hideArea() {
+        area.slideUp(OC.menuSpeed * 4, function () {
+          area.trigger(new (jquery__WEBPACK_IMPORTED_MODULE_0___default().Event)('hide'));
+        });
+        area.removeClass('opened');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).removeClass('opened');
+      }
+
+      /**
+       *
+       */
+      function showArea() {
+        area.slideDown(OC.menuSpeed * 4, function () {
+          area.trigger(new (jquery__WEBPACK_IMPORTED_MODULE_0___default().Event)('show'));
+        });
+        area.addClass('opened');
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).addClass('opened');
+        const input = jquery__WEBPACK_IMPORTED_MODULE_0___default()(areaSelector + ' [autofocus]');
+        if (input.length === 1) {
+          input.focus();
+        }
+      }
+
+      // do nothing if the area is animated
+      if (!area.is(':animated')) {
+        // button toggles the area
+        if (jquery__WEBPACK_IMPORTED_MODULE_0___default()(button).is(jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).closest('[data-apps-slide-toggle]'))) {
+          if (area.is(':visible')) {
+            hideArea();
+          } else {
+            showArea();
+          }
+
+          // all other areas that have not been clicked but are open
+          // should be slid up
+        } else {
+          const closest = jquery__WEBPACK_IMPORTED_MODULE_0___default()(event.target).closest(areaSelector);
+          if (area.is(':visible') && closest[0] !== area[0]) {
+            hideArea();
+          }
+        }
+      }
+    });
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Apps);
+
+/***/ }),
+
+/***/ "./core/src/OC/appsettings.js":
+/*!************************************!*\
+  !*** ./core/src/OC/appsettings.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "appSettings": () => (/* binding */ appSettings)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _routing_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routing.js */ "./core/src/OC/routing.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* eslint-disable */
+
+
+
+
+/**
+ * Opens a popup with the setting for an app.
+ * @param {string} appid The ID of the app e.g. 'calendar', 'contacts' or 'files'.
+ * @param {boolean|string} loadJS If true 'js/settings.js' is loaded. If it's a string
+ * it will attempt to load a script by that name in the 'js' directory.
+ * @param {boolean} [cache] If true the javascript file won't be forced refreshed. Defaults to true.
+ * @param {string} [scriptName] The name of the PHP file to load. Defaults to 'settings.php' in
+ * the root of the app directory hierarchy.
+ *
+ * @deprecated 17.0.0 this method is unused and will be removed with Nextcloud 18
+ */
+const appSettings = args => {
+  OC.debug && console.warn('OC.appSettings is deprecated and will be removed with Nextcloud 18');
+  if (typeof args === 'undefined' || typeof args.appid === 'undefined') {
+    throw {
+      name: 'MissingParameter',
+      message: 'The parameter appid is missing'
+    };
+  }
+  var props = {
+    scriptName: 'settings.php',
+    cache: true
+  };
+  jquery__WEBPACK_IMPORTED_MODULE_0___default().extend(props, args);
+  var settings = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#appsettings');
+  if (settings.length === 0) {
+    throw {
+      name: 'MissingDOMElement',
+      message: 'There has be be an element with id "appsettings" for the popup to show.'
+    };
+  }
+  var popup = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#appsettings_popup');
+  if (popup.length === 0) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
+    popup = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#appsettings_popup');
+    popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
+  }
+  if (popup.is(':visible')) {
+    popup.hide().remove();
+  } else {
+    const arrowclass = settings.hasClass('topright') ? 'up' : 'left';
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateFilePath)(props.appid, '', props.scriptName), function (data) {
+      popup.html(data).ready(function () {
+        popup.prepend('<span class="arrow ' + arrowclass + '"></span><h2>' + t('core', 'Settings') + '</h2><a class="close"></a>').show();
+        popup.find('.close').bind('click', function () {
+          popup.remove();
+        });
+        if (typeof props.loadJS !== 'undefined') {
+          var scriptname;
+          if (props.loadJS === true) {
+            scriptname = 'settings.js';
+          } else if (typeof props.loadJS === 'string') {
+            scriptname = props.loadJS;
+          } else {
+            throw {
+              name: 'InvalidParameter',
+              message: 'The "loadJS" parameter must be either boolean or a string.'
+            };
+          }
+          if (props.cache) {
+            jquery__WEBPACK_IMPORTED_MODULE_0___default().ajaxSetup({
+              cache: true
+            });
+          }
+          jquery__WEBPACK_IMPORTED_MODULE_0___default().getScript((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateFilePath)(props.appid, 'js', scriptname)).fail(function (jqxhr, settings, e) {
+            throw e;
+          });
+        }
+      }).show();
+    }, 'html');
+  }
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/appswebroots.js":
+/*!*************************************!*\
+  !*** ./core/src/OC/appswebroots.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const appswebroots = window._oc_appswebroots !== undefined ? window._oc_appswebroots : false;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (appswebroots);
+
+/***/ }),
+
+/***/ "./core/src/OC/backbone-webdav.js":
+/*!****************************************!*\
+  !*** ./core/src/OC/backbone-webdav.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "davCall": () => (/* binding */ davCall),
+/* harmony export */   "davSync": () => (/* binding */ davSync)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var davclient_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! davclient.js */ "./node_modules/davclient.js/lib/client.js");
+/* harmony import */ var davclient_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(davclient_js__WEBPACK_IMPORTED_MODULE_1__);
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * Copyright (c) 2015
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* eslint-disable */
+
+
+const methodMap = {
+  create: 'POST',
+  update: 'PROPPATCH',
+  patch: 'PROPPATCH',
+  delete: 'DELETE',
+  read: 'PROPFIND'
+};
+
+// Throw an error when a URL is needed, and none is supplied.
+function urlError() {
+  throw new Error('A "url" property or function must be specified');
+}
+
+/**
+ * Convert a single propfind result to JSON
+ *
+ * @param {Object} result
+ * @param {Object} davProperties properties mapping
+ */
+function parsePropFindResult(result, davProperties) {
+  if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isArray(result)) {
+    return underscore__WEBPACK_IMPORTED_MODULE_0__["default"].map(result, function (subResult) {
+      return parsePropFindResult(subResult, davProperties);
+    });
+  }
+  var props = {
+    href: result.href
+  };
+  underscore__WEBPACK_IMPORTED_MODULE_0__["default"].each(result.propStat, function (propStat) {
+    if (propStat.status !== 'HTTP/1.1 200 OK') {
+      return;
+    }
+    for (var key in propStat.properties) {
+      var propKey = key;
+      if (key in davProperties) {
+        propKey = davProperties[key];
+      }
+      props[propKey] = propStat.properties[key];
+    }
+  });
+  if (!props.id) {
+    // parse id from href
+    props.id = parseIdFromLocation(props.href);
+  }
+  return props;
+}
+
+/**
+ * Parse ID from location
+ *
+ * @param {string} url url
+ * @returns {string} id
+ */
+function parseIdFromLocation(url) {
+  var queryPos = url.indexOf('?');
+  if (queryPos > 0) {
+    url = url.substr(0, queryPos);
+  }
+  var parts = url.split('/');
+  var result;
+  do {
+    result = parts[parts.length - 1];
+    parts.pop();
+    // note: first result can be empty when there is a trailing slash,
+    // so we take the part before that
+  } while (!result && parts.length > 0);
+  return result;
+}
+function isSuccessStatus(status) {
+  return status >= 200 && status <= 299;
+}
+function convertModelAttributesToDavProperties(attrs, davProperties) {
+  var props = {};
+  var key;
+  for (key in attrs) {
+    var changedProp = davProperties[key];
+    var value = attrs[key];
+    if (!changedProp) {
+      console.warn('No matching DAV property for property "' + key);
+      changedProp = key;
+    }
+    if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isBoolean(value) || underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isNumber(value)) {
+      // convert to string
+      value = '' + value;
+    }
+    props[changedProp] = value;
+  }
+  return props;
+}
+function callPropFind(client, options, model, headers) {
+  return client.propFind(options.url, underscore__WEBPACK_IMPORTED_MODULE_0__["default"].values(options.davProperties) || [], options.depth, headers).then(function (response) {
+    if (isSuccessStatus(response.status)) {
+      if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(options.success)) {
+        var propsMapping = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].invert(options.davProperties);
+        var results = parsePropFindResult(response.body, propsMapping);
+        if (options.depth > 0) {
+          // discard root entry
+          results.shift();
+        }
+        options.success(results);
+      }
+    } else if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(options.error)) {
+      options.error(response);
+    }
+  });
+}
+function callPropPatch(client, options, model, headers) {
+  return client.propPatch(options.url, convertModelAttributesToDavProperties(model.changed, options.davProperties), headers).then(function (result) {
+    if (isSuccessStatus(result.status)) {
+      if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(options.success)) {
+        // pass the object's own values because the server
+        // does not return the updated model
+        options.success(model.toJSON());
+      }
+    } else if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(options.error)) {
+      options.error(result);
+    }
+  });
+}
+function callMkCol(client, options, model, headers) {
+  // call MKCOL without data, followed by PROPPATCH
+  return client.request(options.type, options.url, headers, null).then(function (result) {
+    if (!isSuccessStatus(result.status)) {
+      if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(options.error)) {
+        options.error(result);
+      }
+      return;
+    }
+    callPropPatch(client, options, model, headers);
+  });
+}
+function callMethod(client, options, model, headers) {
+  headers['Content-Type'] = 'application/json';
+  return client.request(options.type, options.url, headers, options.data).then(function (result) {
+    if (!isSuccessStatus(result.status)) {
+      if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(options.error)) {
+        options.error(result);
+      }
+      return;
+    }
+    if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(options.success)) {
+      if (options.type === 'PUT' || options.type === 'POST' || options.type === 'MKCOL') {
+        // pass the object's own values because the server
+        // does not return anything
+        var responseJson = result.body || model.toJSON();
+        var locationHeader = result.xhr.getResponseHeader('Content-Location');
+        if (options.type === 'POST' && locationHeader) {
+          responseJson.id = parseIdFromLocation(locationHeader);
+        }
+        options.success(responseJson);
+        return;
+      }
+      // if multi-status, parse
+      if (result.status === 207) {
+        var propsMapping = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].invert(options.davProperties);
+        options.success(parsePropFindResult(result.body, propsMapping));
+      } else {
+        options.success(result.body);
+      }
+    }
+  });
+}
+const davCall = (options, model) => {
+  var client = new davclient_js__WEBPACK_IMPORTED_MODULE_1__.dav.Client({
+    baseUrl: options.url,
+    xmlNamespaces: underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
+      'DAV:': 'd',
+      'http://owncloud.org/ns': 'oc'
+    }, options.xmlNamespaces || {})
+  });
+  client.resolveUrl = function () {
+    return options.url;
+  };
+  var headers = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
+    'X-Requested-With': 'XMLHttpRequest',
+    'requesttoken': OC.requestToken
+  }, options.headers);
+  if (options.type === 'PROPFIND') {
+    return callPropFind(client, options, model, headers);
+  } else if (options.type === 'PROPPATCH') {
+    return callPropPatch(client, options, model, headers);
+  } else if (options.type === 'MKCOL') {
+    return callMkCol(client, options, model, headers);
+  } else {
+    return callMethod(client, options, model, headers);
+  }
+};
+
+/**
+ * DAV transport
+ */
+const davSync = Backbone => (method, model, options) => {
+  var params = {
+    type: methodMap[method] || method
+  };
+  var isCollection = model instanceof Backbone.Collection;
+  if (method === 'update') {
+    // if a model has an inner collection, it must define an
+    // attribute "hasInnerCollection" that evaluates to true
+    if (model.hasInnerCollection) {
+      // if the model itself is a Webdav collection, use MKCOL
+      params.type = 'MKCOL';
+    } else if (model.usePUT || model.collection && model.collection.usePUT) {
+      // use PUT instead of PROPPATCH
+      params.type = 'PUT';
+    }
+  }
+
+  // Ensure that we have a URL.
+  if (!options.url) {
+    params.url = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].result(model, 'url') || urlError();
+  }
+
+  // Ensure that we have the appropriate request data.
+  if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+    params.data = JSON.stringify(options.attrs || model.toJSON(options));
+  }
+
+  // Don't process data on a non-GET request.
+  if (params.type !== 'PROPFIND') {
+    params.processData = false;
+  }
+  if (params.type === 'PROPFIND' || params.type === 'PROPPATCH') {
+    var davProperties = model.davProperties;
+    if (!davProperties && model.model) {
+      // use dav properties from model in case of collection
+      davProperties = model.model.prototype.davProperties;
+    }
+    if (davProperties) {
+      if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(davProperties)) {
+        params.davProperties = davProperties.call(model);
+      } else {
+        params.davProperties = davProperties;
+      }
+    }
+    params.davProperties = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend(params.davProperties || {}, options.davProperties);
+    if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isUndefined(options.depth)) {
+      if (isCollection) {
+        options.depth = 1;
+      } else {
+        options.depth = 0;
+      }
+    }
+  }
+
+  // Pass along `textStatus` and `errorThrown` from jQuery.
+  var error = options.error;
+  options.error = function (xhr, textStatus, errorThrown) {
+    options.textStatus = textStatus;
+    options.errorThrown = errorThrown;
+    if (error) {
+      error.call(options.context, xhr, textStatus, errorThrown);
+    }
+  };
+
+  // Make the request, allowing the user to override any Ajax options.
+  var xhr = options.xhr = Backbone.davCall(underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend(params, options), model);
+  model.trigger('request', model, xhr, options);
+  return xhr;
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/backbone.js":
+/*!*********************************!*\
+  !*** ./core/src/OC/backbone.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _backbone_webdav_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./backbone-webdav.js */ "./core/src/OC/backbone-webdav.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+const Backbone = backbone__WEBPACK_IMPORTED_MODULE_0___default().noConflict();
+
+// Patch Backbone for DAV
+Object.assign(Backbone, {
+  davCall: _backbone_webdav_js__WEBPACK_IMPORTED_MODULE_1__.davCall,
+  davSync: (0,_backbone_webdav_js__WEBPACK_IMPORTED_MODULE_1__.davSync)(Backbone)
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Backbone);
+
+/***/ }),
+
+/***/ "./core/src/OC/capabilities.js":
+/*!*************************************!*\
+  !*** ./core/src/OC/capabilities.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getCapabilities": () => (/* binding */ getCapabilities)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/capabilities */ "./node_modules/@nextcloud/capabilities/dist/index.js");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+/**
+ * Returns the capabilities
+ *
+ * @return {Array} capabilities
+ *
+ * @since 14.0.0
+ */
+const getCapabilities = () => {
+  OC.debug && console.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities');
+  return (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_0__.getCapabilities)();
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/config.js":
+/*!*******************************!*\
+  !*** ./core/src/OC/config.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const config = window._oc_config || {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (config);
+
+/***/ }),
+
+/***/ "./core/src/OC/constants.js":
+/*!**********************************!*\
+  !*** ./core/src/OC/constants.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PERMISSION_ALL": () => (/* binding */ PERMISSION_ALL),
+/* harmony export */   "PERMISSION_CREATE": () => (/* binding */ PERMISSION_CREATE),
+/* harmony export */   "PERMISSION_DELETE": () => (/* binding */ PERMISSION_DELETE),
+/* harmony export */   "PERMISSION_NONE": () => (/* binding */ PERMISSION_NONE),
+/* harmony export */   "PERMISSION_READ": () => (/* binding */ PERMISSION_READ),
+/* harmony export */   "PERMISSION_SHARE": () => (/* binding */ PERMISSION_SHARE),
+/* harmony export */   "PERMISSION_UPDATE": () => (/* binding */ PERMISSION_UPDATE),
+/* harmony export */   "TAG_FAVORITE": () => (/* binding */ TAG_FAVORITE),
+/* harmony export */   "coreApps": () => (/* binding */ coreApps),
+/* harmony export */   "menuSpeed": () => (/* binding */ menuSpeed)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const coreApps = ['', 'admin', 'log', 'core/search', 'core', '3rdparty'];
+const menuSpeed = 50;
+const PERMISSION_NONE = 0;
+const PERMISSION_CREATE = 4;
+const PERMISSION_READ = 1;
+const PERMISSION_UPDATE = 2;
+const PERMISSION_DELETE = 8;
+const PERMISSION_SHARE = 16;
+const PERMISSION_ALL = 31;
+const TAG_FAVORITE = '_$!<Favorite>!$_';
+
+/***/ }),
+
+/***/ "./core/src/OC/contactsmenu.js":
+/*!*************************************!*\
+  !*** ./core/src/OC/contactsmenu.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.js */ "./core/src/OC/index.js");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* eslint-disable */
+
+
+
+
+
+/**
+ * @class Contact
+ */
+const Contact = backbone__WEBPACK_IMPORTED_MODULE_2__.Model.extend({
+  defaults: {
+    fullName: '',
+    lastMessage: '',
+    actions: [],
+    hasOneAction: false,
+    hasTwoActions: false,
+    hasManyActions: false
+  },
+  /**
+   * @returns {undefined}
+   */
+  initialize: function () {
+    // Add needed property for easier template rendering
+    if (this.get('actions').length === 0) {
+      this.set('hasOneAction', true);
+    } else if (this.get('actions').length === 1) {
+      this.set('hasTwoActions', true);
+      this.set('secondAction', this.get('actions')[0]);
+    } else {
+      this.set('hasManyActions', true);
+    }
+    const fullName = this.get('fullName');
+    if (this.get('avatar') && fullName) {
+      this.set('avatarLabel', t('core', 'Avatar of {fullName}', {
+        fullName
+      }));
+    }
+  }
+});
+
+/**
+ * @class ContactCollection
+ * @private
+ */
+const ContactCollection = backbone__WEBPACK_IMPORTED_MODULE_2__.Collection.extend({
+  model: Contact
+});
+
+/**
+ * @class ContactsListView
+ * @private
+ */
+const ContactsListView = backbone__WEBPACK_IMPORTED_MODULE_2__.View.extend({
+  /** @type {ContactCollection} */
+  _collection: undefined,
+  /** @type {array} */
+  _subViews: [],
+  /** @type {string} */
+  tagName: 'ul',
+  /**
+   * @param {object} options
+   * @returns {undefined}
+   */
+  initialize: function (options) {
+    this._collection = options.collection;
+  },
+  /**
+   * @returns {self}
+   */
+  render: function () {
+    var self = this;
+    self.$el.html('');
+    self._subViews = [];
+    self._collection.forEach(function (contact) {
+      var item = new ContactsListItemView({
+        model: contact
+      });
+      item.render();
+      self.$el.append(item.$el);
+      item.on('toggle:actionmenu', self._onChildActionMenuToggle, self);
+      self._subViews.push(item);
+    });
+    return self;
+  },
+  /**
+   * Event callback to propagate opening (another) entry's action menu
+   *
+   * @param {type} $src
+   * @returns {undefined}
+   */
+  _onChildActionMenuToggle: function ($src) {
+    this._subViews.forEach(function (view) {
+      view.trigger('parent:toggle:actionmenu', $src);
+    });
+  }
+});
+
+/**
+ * @class ContactsListItemView
+ * @private
+ */
+const ContactsListItemView = backbone__WEBPACK_IMPORTED_MODULE_2__.View.extend({
+  /** @type {string} */
+  className: 'contact',
+  /** @type {string} */
+  tagName: 'li',
+  /** @type {undefined|function} */
+  _template: undefined,
+  /** @type {Contact} */
+  _model: undefined,
+  /** @type {boolean} */
+  _actionMenuShown: false,
+  events: {
+    'click .icon-more': '_onToggleActionsMenu'
+  },
+  contactTemplate: __webpack_require__(/*! ./contactsmenu/contact.handlebars */ "./core/src/OC/contactsmenu/contact.handlebars"),
+  /**
+   * @param {object} data
+   * @returns {undefined}
+   */
+  template: function (data) {
+    return this.contactTemplate(data);
+  },
+  /**
+   * @param {object} options
+   * @returns {undefined}
+   */
+  initialize: function (options) {
+    this._model = options.model;
+    this.on('parent:toggle:actionmenu', this._onOtherActionMenuOpened, this);
+  },
+  /**
+   * @returns {self}
+   */
+  render: function () {
+    this.$el.html(this.template({
+      contact: this._model.toJSON()
+    }));
+    this.delegateEvents();
+
+    // Show placeholder if no avatar is available (avatar is rendered as img, not div)
+    this.$('div.avatar').imageplaceholder(this._model.get('fullName'));
+    return this;
+  },
+  /**
+   * Toggle the visibility of the action popover menu
+   *
+   * @private
+   * @returns {undefined}
+   */
+  _onToggleActionsMenu: function () {
+    this._actionMenuShown = !this._actionMenuShown;
+    if (this._actionMenuShown) {
+      this.$('.menu').show();
+    } else {
+      this.$('.menu').hide();
+    }
+    this.trigger('toggle:actionmenu', this.$el);
+  },
+  /**
+   * @private
+   * @argument {jQuery} $src
+   * @returns {undefined}
+   */
+  _onOtherActionMenuOpened: function ($src) {
+    if (this.$el.is($src)) {
+      // Ignore
+      return;
+    }
+    this._actionMenuShown = false;
+    this.$('.menu').hide();
+  }
+});
+
+/**
+ * @class ContactsMenuView
+ * @private
+ */
+const ContactsMenuView = backbone__WEBPACK_IMPORTED_MODULE_2__.View.extend({
+  /** @type {undefined|function} */
+  _loadingTemplate: undefined,
+  /** @type {undefined|function} */
+  _errorTemplate: undefined,
+  /** @type {undefined|function} */
+  _contentTemplate: undefined,
+  /** @type {undefined|function} */
+  _contactsTemplate: undefined,
+  /** @type {undefined|ContactCollection} */
+  _contacts: undefined,
+  /** @type {string} */
+  _searchTerm: '',
+  events: {
+    'input #contactsmenu-search': '_onSearch'
+  },
+  templates: {
+    loading: __webpack_require__(/*! ./contactsmenu/loading.handlebars */ "./core/src/OC/contactsmenu/loading.handlebars"),
+    error: __webpack_require__(/*! ./contactsmenu/error.handlebars */ "./core/src/OC/contactsmenu/error.handlebars"),
+    menu: __webpack_require__(/*! ./contactsmenu/menu.handlebars */ "./core/src/OC/contactsmenu/menu.handlebars"),
+    list: __webpack_require__(/*! ./contactsmenu/list.handlebars */ "./core/src/OC/contactsmenu/list.handlebars")
+  },
+  /**
+   * @returns {undefined}
+   */
+  _onSearch: underscore__WEBPACK_IMPORTED_MODULE_0__["default"].debounce(function (e) {
+    var searchTerm = this.$('#contactsmenu-search').val();
+    // IE11 triggers an 'input' event after the view has been rendered
+    // resulting in an endless loading loop. To prevent this, we remember
+    // the last search term to savely ignore some events
+    // See https://github.com/nextcloud/server/issues/5281
+    if (searchTerm !== this._searchTerm) {
+      this.trigger('search', this.$('#contactsmenu-search').val());
+      this._searchTerm = searchTerm;
+    }
+  }, 700),
+  /**
+   * @param {object} data
+   * @returns {string}
+   */
+  loadingTemplate: function (data) {
+    return this.templates.loading(data);
+  },
+  /**
+   * @param {object} data
+   * @returns {string}
+   */
+  errorTemplate: function (data) {
+    return this.templates.error(underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
+      couldNotLoadText: t('core', 'Could not load your contacts')
+    }, data));
+  },
+  /**
+   * @param {object} data
+   * @returns {string}
+   */
+  contentTemplate: function (data) {
+    return this.templates.menu(underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
+      searchContactsText: t('core', 'Search contacts …')
+    }, data));
+  },
+  /**
+   * @param {object} data
+   * @returns {string}
+   */
+  contactsTemplate: function (data) {
+    return this.templates.list(underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend({
+      noContactsFoundText: t('core', 'No contacts found'),
+      showAllContactsText: t('core', 'Show all contacts …'),
+      contactsAppMgmtText: t('core', 'Install the Contacts app')
+    }, data));
+  },
+  /**
+   * @param {object} options
+   * @returns {undefined}
+   */
+  initialize: function (options) {
+    this.options = options;
+  },
+  /**
+   * @param {string} text
+   * @returns {undefined}
+   */
+  showLoading: function (text) {
+    this.render();
+    this._contacts = undefined;
+    this.$('.content').html(this.loadingTemplate({
+      loadingText: text
+    }));
+  },
+  /**
+   * @returns {undefined}
+   */
+  showError: function () {
+    this.render();
+    this._contacts = undefined;
+    this.$('.content').html(this.errorTemplate());
+  },
+  /**
+   * @param {object} viewData
+   * @param {string} searchTerm
+   * @returns {undefined}
+   */
+  showContacts: function (viewData, searchTerm) {
+    this._contacts = viewData.contacts;
+    this.render({
+      contacts: viewData.contacts
+    });
+    var list = new ContactsListView({
+      collection: viewData.contacts
+    });
+    list.render();
+    this.$('.content').html(this.contactsTemplate({
+      contacts: viewData.contacts,
+      searchTerm: searchTerm,
+      contactsAppEnabled: viewData.contactsAppEnabled,
+      contactsAppURL: _index_js__WEBPACK_IMPORTED_MODULE_3__["default"].generateUrl('/apps/contacts'),
+      canInstallApp: _index_js__WEBPACK_IMPORTED_MODULE_3__["default"].isUserAdmin(),
+      contactsAppMgmtURL: _index_js__WEBPACK_IMPORTED_MODULE_3__["default"].generateUrl('/settings/apps/social/contacts')
+    }));
+    this.$('#contactsmenu-contacts').html(list.$el);
+  },
+  /**
+   * @param {object} data
+   * @returns {self}
+   */
+  render: function (data) {
+    var searchVal = this.$('#contactsmenu-search').val();
+    this.$el.html(this.contentTemplate(data));
+
+    // Focus search
+    this.$('#contactsmenu-search').val(searchVal);
+    this.$('#contactsmenu-search').focus();
+    return this;
+  }
+});
+
+/**
+ * @param {Object} options
+ * @param {string} options.el
+ * @class ContactsMenu
+ * @memberOf OC
+ */
+const ContactsMenu = function (options) {
+  this.initialize(options);
+};
+ContactsMenu.prototype = {
+  /** @type {string} */
+  $el: undefined,
+  /** @type {ContactsMenuView} */
+  _view: undefined,
+  /** @type {Promise} */
+  _contactsPromise: undefined,
+  /**
+   * @param {Object} options
+   * @param {string} options.el - the selector of the element to render the menu in
+   * @returns {undefined}
+   */
+  initialize: function (options) {
+    this.$el = jquery__WEBPACK_IMPORTED_MODULE_1___default()(options.el);
+    this._view = new ContactsMenuView({
+      el: this.$el
+    });
+    this._view.on('search', function (searchTerm) {
+      this.loadContacts(searchTerm);
+    }, this);
+  },
+  /**
+   * @private
+   * @param {string|undefined} searchTerm
+   * @returns {Promise}
+   */
+  _getContacts: function (searchTerm) {
+    var url = _index_js__WEBPACK_IMPORTED_MODULE_3__["default"].generateUrl('/contactsmenu/contacts');
+    return Promise.resolve(jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax(url, {
+      method: 'POST',
+      data: {
+        filter: searchTerm
+      }
+    }));
+  },
+  /**
+   * @param {string|undefined} searchTerm
+   * @returns {undefined}
+   */
+  loadContacts: function (searchTerm) {
+    var self = this;
+    if (!self._contactsPromise) {
+      self._contactsPromise = self._getContacts(searchTerm);
+    }
+    if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isUndefined(searchTerm) || searchTerm === '') {
+      self._view.showLoading(t('core', 'Loading your contacts …'));
+    } else {
+      self._view.showLoading(t('core', 'Looking for {term} …', {
+        term: searchTerm
+      }));
+    }
+    return self._contactsPromise.then(function (data) {
+      // Convert contact entries to Backbone collection
+      data.contacts = new ContactCollection(data.contacts);
+      self._view.showContacts(data, searchTerm);
+    }, function (e) {
+      self._view.showError();
+      console.error('There was an error loading your contacts', e);
+    }).then(function () {
+      // Delete promise, so that contacts are fetched again when the
+      // menu is opened the next time.
+      delete self._contactsPromise;
+    }).catch(console.error.bind(this));
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContactsMenu);
+
+/***/ }),
+
+/***/ "./core/src/OC/currentuser.js":
+/*!************************************!*\
+  !*** ./core/src/OC/currentuser.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "currentUser": () => (/* binding */ currentUser),
+/* harmony export */   "getCurrentUser": () => (/* binding */ getCurrentUser)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Joas Schilling <coding@schilljs.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const rawUid = document.getElementsByTagName('head')[0].getAttribute('data-user');
+const displayName = document.getElementsByTagName('head')[0].getAttribute('data-user-displayname');
+const currentUser = rawUid !== undefined ? rawUid : false;
+const getCurrentUser = () => {
+  return {
+    uid: currentUser,
+    displayName
+  };
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/debug.js":
+/*!******************************!*\
+  !*** ./core/src/OC/debug.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "debug": () => (/* binding */ debug)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const base = window._oc_debug;
+const debug = base;
+
+/***/ }),
+
+/***/ "./core/src/OC/dialogs.js":
+/*!********************************!*\
+  !*** ./core/src/OC/dialogs.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.js */ "./core/src/OC/index.js");
+/* harmony import */ var _OCA_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../OCA/index.js */ "./core/src/OCA/index.js");
+/* harmony import */ var _Util_a11y_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Util/a11y.js */ "./core/src/Util/a11y.js");
+/* harmony import */ var _nextcloud_dialogs_legacy_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/dialogs/legacy.js */ "./node_modules/@nextcloud/dialogs/dist/legacy.mjs");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
+ *
+ * @author Bartek Przybylski <bart.p.pl@gmail.com>
+ * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Florian Schunk <florian.schunk@rwth-aachen.de>
+ * @author Gary Kim <gary@garykim.dev>
+ * @author Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Loïc Hermann <loic.hermann@sciam.fr>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Olivier Paroz <github@oparoz.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sujith Haridasan <Sujith_Haridasan@mentor.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* eslint-disable */
+
+
+
+
+
+
+
+/**
+ * this class to ease the usage of jquery dialogs
+ */
+const Dialogs = {
+  // dialog button types
+  YES_NO_BUTTONS: 70,
+  OK_BUTTONS: 71,
+  FILEPICKER_TYPE_CHOOSE: 1,
+  FILEPICKER_TYPE_MOVE: 2,
+  FILEPICKER_TYPE_COPY: 3,
+  FILEPICKER_TYPE_COPY_MOVE: 4,
+  FILEPICKER_TYPE_CUSTOM: 5,
+  // used to name each dialog
+  dialogsCounter: 0,
+  /**
+   * displays alert dialog
+   * @param {string} text content of dialog
+   * @param {string} title dialog title
+   * @param {function} callback which will be triggered when user presses OK
+   * @param {boolean} [modal] make the dialog modal
+   */
+  alert: function (text, title, callback, modal) {
+    this.message(text, title, 'alert', Dialogs.OK_BUTTON, callback, modal);
+  },
+  /**
+   * displays info dialog
+   * @param {string} text content of dialog
+   * @param {string} title dialog title
+   * @param {function} callback which will be triggered when user presses OK
+   * @param {boolean} [modal] make the dialog modal
+   */
+  info: function (text, title, callback, modal) {
+    this.message(text, title, 'info', Dialogs.OK_BUTTON, callback, modal);
+  },
+  /**
+   * displays confirmation dialog
+   * @param {string} text content of dialog
+   * @param {string} title dialog title
+   * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
+   * @param {boolean} [modal] make the dialog modal
+   * @returns {Promise}
+   */
+  confirm: function (text, title, callback, modal) {
+    return this.message(text, title, 'notice', Dialogs.YES_NO_BUTTONS, callback, modal);
+  },
+  /**
+   * displays confirmation dialog
+   * @param {string} text content of dialog
+   * @param {string} title dialog title
+   * @param {(number|{type: number, confirm: string, cancel: string, confirmClasses: string})} buttons text content of buttons
+   * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
+   * @param {boolean} [modal] make the dialog modal
+   * @returns {Promise}
+   */
+  confirmDestructive: function (text, title, buttons, callback, modal) {
+    return this.message(text, title, 'none', buttons, callback, modal === undefined ? true : modal);
+  },
+  /**
+   * displays confirmation dialog
+   * @param {string} text content of dialog
+   * @param {string} title dialog title
+   * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
+   * @param {boolean} [modal] make the dialog modal
+   * @returns {Promise}
+   */
+  confirmHtml: function (text, title, callback, modal) {
+    return this.message(text, title, 'notice', Dialogs.YES_NO_BUTTONS, callback, modal, true);
+  },
+  /**
+   * displays prompt dialog
+   * @param {string} text content of dialog
+   * @param {string} title dialog title
+   * @param {function} callback which will be triggered when user presses OK (true or false would be passed to callback respectively)
+   * @param {boolean} [modal] make the dialog modal
+   * @param {string} name name of the input field
+   * @param {boolean} password whether the input should be a password input
+   * @returns {Promise}
+   */
+  prompt: function (text, title, callback, modal, name, password) {
+    return jquery__WEBPACK_IMPORTED_MODULE_1___default().when(this._getMessageTemplate()).then(function ($tmpl) {
+      var dialogName = 'oc-dialog-' + Dialogs.dialogsCounter + '-content';
+      var dialogId = '#' + dialogName;
+      var $dlg = $tmpl.octemplate({
+        dialog_name: dialogName,
+        title: title,
+        message: text,
+        type: 'notice'
+      });
+      var input = jquery__WEBPACK_IMPORTED_MODULE_1___default()('<input/>');
+      input.attr('type', password ? 'password' : 'text').attr('id', dialogName + '-input').attr('placeholder', name);
+      var label = jquery__WEBPACK_IMPORTED_MODULE_1___default()('<label/>').attr('for', dialogName + '-input').text(name + ': ');
+      $dlg.append(label);
+      $dlg.append(input);
+      if (modal === undefined) {
+        modal = false;
+      }
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('body').append($dlg);
+
+      // wrap callback in _.once():
+      // only call callback once and not twice (button handler and close
+      // event) but call it for the close event, if ESC or the x is hit
+      if (callback !== undefined) {
+        callback = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].once(callback);
+      }
+      var buttonlist = [{
+        text: t('core', 'No'),
+        click: function () {
+          if (callback !== undefined) {
+            // eslint-disable-next-line standard/no-callback-literal
+            callback(false, input.val());
+          }
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+        }
+      }, {
+        text: t('core', 'Yes'),
+        click: function () {
+          if (callback !== undefined) {
+            // eslint-disable-next-line standard/no-callback-literal
+            callback(true, input.val());
+          }
+          jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+        },
+        defaultButton: true
+      }];
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog({
+        closeOnEscape: true,
+        modal: modal,
+        buttons: buttonlist,
+        close: function () {
+          // callback is already fired if Yes/No is clicked directly
+          if (callback !== undefined) {
+            // eslint-disable-next-line standard/no-callback-literal
+            callback(false, input.val());
+          }
+        }
+      });
+      input.focus();
+      Dialogs.dialogsCounter++;
+    });
+  },
+  /**
+   * show a file picker to pick a file from
+   *
+   * In order to pick several types of mime types they need to be passed as an
+   * array of strings.
+   *
+   * When no mime type filter is given only files can be selected. In order to
+   * be able to select both files and folders "['*', 'httpd/unix-directory']"
+   * should be used instead.
+   *
+   * @param {string} title dialog title
+   * @param {function} callback which will be triggered when user presses Choose
+   * @param {boolean} [multiselect] whether it should be possible to select multiple files
+   * @param {string[]} [mimetypeFilter] mimetype to filter by - directories will always be included
+   * @param {boolean} [modal] make the dialog modal
+   * @param {string} [type] Type of file picker : Choose, copy, move, copy and move
+   * @param {string} [path] path to the folder that the the file can be picket from
+   * @param {Object} [options] additonal options that need to be set
+   * @param {Function} [options.filter] filter function for advanced filtering
+   */
+  filepicker: _nextcloud_dialogs_legacy_js__WEBPACK_IMPORTED_MODULE_5__.filepicker,
+  /**
+   * Show the legacy file picker to pick a file from
+   *
+   * In order to pick several types of mime types they need to be passed as an
+   * array of strings.
+   *
+   * When no mime type filter is given only files can be selected. In order to
+   * be able to select both files and folders "['*', 'httpd/unix-directory']"
+   * should be used instead.
+   *
+   * @deprecated since 27.1.0
+   *
+   * @param {string} title dialog title
+   * @param {function} callback which will be triggered when user presses Choose
+   * @param {boolean} [multiselect] whether it should be possible to select multiple files
+   * @param {string[]} [mimetypeFilter] mimetype to filter by - directories will always be included
+   * @param {boolean} [modal] make the dialog modal
+   * @param {string} [type] Type of file picker : Choose, copy, move, copy and move
+   * @param {string} [path] path to the folder that the the file can be picket from
+   * @param {Object} [options] additonal options that need to be set
+   * @param {Function} [options.filter] filter function for advanced filtering
+   */
+  legacyFilepicker: function (title, callback, multiselect, mimetypeFilter, modal, type, path, options) {
+    var self = this;
+    this.filepicker.sortField = 'name';
+    this.filepicker.sortOrder = 'asc';
+    // avoid opening the picker twice
+    if (this.filepicker.loading) {
+      return;
+    }
+    if (type === undefined) {
+      type = this.FILEPICKER_TYPE_CHOOSE;
+    }
+    var emptyText = t('core', 'No files in here');
+    var newText = t('files', 'New folder');
+    if (type === this.FILEPICKER_TYPE_COPY || type === this.FILEPICKER_TYPE_MOVE || type === this.FILEPICKER_TYPE_COPY_MOVE) {
+      emptyText = t('core', 'No more subfolders in here');
+    }
+    this.filepicker.loading = true;
+    this.filepicker.filesClient = _OCA_index_js__WEBPACK_IMPORTED_MODULE_3__["default"].Sharing && _OCA_index_js__WEBPACK_IMPORTED_MODULE_3__["default"].Sharing.PublicApp && _OCA_index_js__WEBPACK_IMPORTED_MODULE_3__["default"].Sharing.PublicApp.fileList ? _OCA_index_js__WEBPACK_IMPORTED_MODULE_3__["default"].Sharing.PublicApp.fileList.filesClient : _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Files.getClient();
+    this.filelist = null;
+    path = path || '';
+    options = Object.assign({
+      allowDirectoryChooser: false
+    }, options);
+    jquery__WEBPACK_IMPORTED_MODULE_1___default().when(this._getFilePickerTemplate()).then(function ($tmpl) {
+      var _options$target, _options;
+      self.filepicker.loading = false;
+      var dialogName = 'oc-dialog-filepicker-content';
+      if (self.$filePicker) {
+        self.$filePicker.ocdialog('close');
+      }
+      if (mimetypeFilter === undefined || mimetypeFilter === null) {
+        mimetypeFilter = [];
+      }
+      if (typeof mimetypeFilter === 'string') {
+        mimetypeFilter = [mimetypeFilter];
+      }
+      self.$filePicker = $tmpl.octemplate({
+        dialog_name: dialogName,
+        title: title,
+        emptytext: emptyText,
+        newtext: newText,
+        nameCol: t('core', 'Name'),
+        sizeCol: t('core', 'Size'),
+        modifiedCol: t('core', 'Modified')
+      }).data('path', path).data('multiselect', multiselect).data('mimetype', mimetypeFilter).data('allowDirectoryChooser', options.allowDirectoryChooser);
+      if (typeof options.filter === 'function') {
+        self.$filePicker.data('filter', options.filter);
+      }
+      if (modal === undefined) {
+        modal = false;
+      }
+      if (multiselect === undefined) {
+        multiselect = false;
+      }
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()((_options$target = (_options = options) === null || _options === void 0 ? void 0 : _options.target) !== null && _options$target !== void 0 ? _options$target : 'body').prepend(self.$filePicker);
+      self.$showGridView = jquery__WEBPACK_IMPORTED_MODULE_1___default()('button#picker-showgridview');
+      self.$showGridView.on('click keydown', function (event) {
+        if ((0,_Util_a11y_js__WEBPACK_IMPORTED_MODULE_4__.isA11yActivation)(event)) {
+          self._onGridviewChange();
+        }
+      });
+      self._getGridSettings();
+      var newButton = self.$filePicker.find('.actions.creatable .button-add');
+      if (type === self.FILEPICKER_TYPE_CHOOSE && !options.allowDirectoryChooser) {
+        self.$filePicker.find('.actions.creatable').hide();
+      }
+      newButton.on('focus', function () {
+        self.$filePicker.ocdialog('setEnterCallback', function (event) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          newButton.click();
+        });
+      });
+      newButton.on('blur', function () {
+        self.$filePicker.ocdialog('unsetEnterCallback');
+      });
+      _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].registerMenu(newButton, self.$filePicker.find('.menu'), function () {
+        $input.tooltip('hide');
+        $input.focus();
+        self.$filePicker.ocdialog('setEnterCallback', function (event) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          self.$filePicker.submit();
+        });
+        var newName = $input.val();
+        var lastPos = newName.lastIndexOf('.');
+        if (lastPos === -1) {
+          lastPos = newName.length;
+        }
+        $input.selectRange(0, lastPos);
+      });
+      var $form = self.$filePicker.find('.filenameform');
+      var $input = $form.find('input[type=\'text\']');
+      var $submit = $form.find('input[type=\'submit\']');
+      $input.on('keydown', function (event) {
+        if ((0,_Util_a11y_js__WEBPACK_IMPORTED_MODULE_4__.isA11yActivation)(event)) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          $form.submit();
+        }
+      });
+      $submit.on('click', function (event) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+        $form.submit();
+      });
+
+      /**
+       * Checks whether the given file name is valid.
+       *
+       * @param name file name to check
+       * @return true if the file name is valid.
+       * @throws a string exception with an error message if
+       * the file name is not valid
+       *
+       * NOTE: This function is duplicated in the files app:
+       * https://github.com/nextcloud/server/blob/b9bc2417e7a8dc81feb0abe20359bedaf864f790/apps/files/js/files.js#L127-L148
+       */
+      var isFileNameValid = function (name) {
+        var trimmedName = name.trim();
+        if (trimmedName === '.' || trimmedName === '..') {
+          throw t('files', '"{name}" is an invalid file name.', {
+            name: name
+          });
+        } else if (trimmedName.length === 0) {
+          throw t('files', 'File name cannot be empty.');
+        } else if (trimmedName.indexOf('/') !== -1) {
+          throw t('files', '"/" is not allowed inside a file name.');
+        } else if (!!trimmedName.match(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].config.blacklist_files_regex)) {
+          throw t('files', '"{name}" is not an allowed filetype', {
+            name: name
+          });
+        }
+        return true;
+      };
+      var checkInput = function () {
+        var filename = $input.val();
+        try {
+          if (!isFileNameValid(filename)) {
+            // isFileNameValid(filename) throws an exception itself
+          } else if (self.filelist.find(function (file) {
+            return file.name === this;
+          }, filename)) {
+            throw t('files', '{newName} already exists', {
+              newName: filename
+            }, undefined, {
+              escape: false
+            });
+          } else {
+            return true;
+          }
+        } catch (error) {
+          $input.attr('title', error);
+          $input.tooltip({
+            placement: 'right',
+            trigger: 'manual',
+            'container': '.newFolderMenu'
+          });
+          $input.tooltip('_fixTitle');
+          $input.tooltip('show');
+          $input.addClass('error');
+        }
+        return false;
+      };
+      $form.on('submit', function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+        if (checkInput()) {
+          var newname = $input.val();
+          self.filepicker.filesClient.createDirectory(self.$filePicker.data('path') + "/" + newname).always(function (status) {
+            self._fillFilePicker(self.$filePicker.data('path') + "/" + newname, type);
+          });
+          _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].hideMenus();
+          self.$filePicker.ocdialog('unsetEnterCallback');
+          self.$filePicker.click();
+          $input.val(newText);
+        }
+      });
+      $input.on('input', function (event) {
+        $input.tooltip('hide');
+      });
+      self.$filePicker.ready(function () {
+        self.$fileListHeader = self.$filePicker.find('.filelist thead tr');
+        self.$filelist = self.$filePicker.find('.filelist tbody');
+        self.$filelistContainer = self.$filePicker.find('.filelist-container');
+        self.$dirTree = self.$filePicker.find('.dirtree');
+        self.$dirTree.on('click keydown', '.crumb', self, function (event) {
+          if ((0,_Util_a11y_js__WEBPACK_IMPORTED_MODULE_4__.isA11yActivation)(event)) {
+            self._handleTreeListSelect(event, type);
+          }
+        });
+        self.$filelist.on('click keydown', 'tr', function (event) {
+          if ((0,_Util_a11y_js__WEBPACK_IMPORTED_MODULE_4__.isA11yActivation)(event)) {
+            self._handlePickerClick(event, jquery__WEBPACK_IMPORTED_MODULE_1___default()(this), type);
+          }
+        });
+        self.$fileListHeader.on('click keydown', 'a', function (event) {
+          if ((0,_Util_a11y_js__WEBPACK_IMPORTED_MODULE_4__.isA11yActivation)(event)) {
+            var dir = self.$filePicker.data('path');
+            self.filepicker.sortField = jquery__WEBPACK_IMPORTED_MODULE_1___default()(event.currentTarget).data('sort');
+            self.filepicker.sortOrder = self.filepicker.sortOrder === 'asc' ? 'desc' : 'asc';
+            self._fillFilePicker(dir, type);
+          }
+        });
+        self._fillFilePicker(path, type);
+      });
+
+      // build buttons
+      var functionToCall = function (returnType) {
+        if (callback !== undefined) {
+          var datapath;
+          if (multiselect === true) {
+            datapath = [];
+            self.$filelist.find('tr.filepicker_element_selected').each(function (index, element) {
+              datapath.push(self.$filePicker.data('path') + '/' + jquery__WEBPACK_IMPORTED_MODULE_1___default()(element).data('entryname'));
+            });
+          } else {
+            datapath = self.$filePicker.data('path');
+            var selectedName = self.$filelist.find('tr.filepicker_element_selected').data('entryname');
+            if (selectedName) {
+              datapath += '/' + selectedName;
+            }
+          }
+          callback(datapath, returnType);
+          self.$filePicker.ocdialog('close');
+        }
+      };
+      var chooseCallback = function () {
+        functionToCall(Dialogs.FILEPICKER_TYPE_CHOOSE);
+      };
+      var copyCallback = function () {
+        functionToCall(Dialogs.FILEPICKER_TYPE_COPY);
+      };
+      var moveCallback = function () {
+        functionToCall(Dialogs.FILEPICKER_TYPE_MOVE);
+      };
+      var buttonlist = [];
+      if (type === Dialogs.FILEPICKER_TYPE_CHOOSE) {
+        buttonlist.push({
+          text: t('core', 'Choose'),
+          click: chooseCallback,
+          defaultButton: true
+        });
+      } else if (type === Dialogs.FILEPICKER_TYPE_CUSTOM) {
+        options.buttons.forEach(function (button) {
+          buttonlist.push({
+            text: button.text,
+            click: function () {
+              functionToCall(button.type);
+            },
+            defaultButton: button.defaultButton
+          });
+        });
+      } else {
+        if (type === Dialogs.FILEPICKER_TYPE_COPY || type === Dialogs.FILEPICKER_TYPE_COPY_MOVE) {
+          buttonlist.push({
+            text: t('core', 'Copy'),
+            click: copyCallback,
+            defaultButton: false
+          });
+        }
+        if (type === Dialogs.FILEPICKER_TYPE_MOVE || type === Dialogs.FILEPICKER_TYPE_COPY_MOVE) {
+          buttonlist.push({
+            text: t('core', 'Move'),
+            click: moveCallback,
+            defaultButton: true
+          });
+        }
+      }
+      self.$filePicker.ocdialog({
+        closeOnEscape: true,
+        // max-width of 600
+        width: 600,
+        height: 500,
+        modal: modal,
+        buttons: buttonlist,
+        style: {
+          buttons: 'aside'
+        },
+        close: function () {
+          try {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).ocdialog('destroy').remove();
+          } catch (e) {}
+          self.$filePicker = null;
+        }
+      });
+
+      // We can access primary class only from oc-dialog.
+      // Hence this is one of the approach to get the choose button.
+      var getOcDialog = self.$filePicker.closest('.oc-dialog');
+      var buttonEnableDisable = getOcDialog.find('.primary');
+      if (self.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 || self.$filePicker.data('allowDirectoryChooser')) {
+        buttonEnableDisable.prop('disabled', false);
+      } else {
+        buttonEnableDisable.prop('disabled', true);
+      }
+    }).fail(function (status, error) {
+      // If the method is called while navigating away
+      // from the page, it is probably not needed ;)
+      self.filepicker.loading = false;
+      if (status !== 0) {
+        alert(t('core', 'Error loading file picker template: {error}', {
+          error: error
+        }));
+      }
+    });
+  },
+  /**
+   * Displays raw dialog
+   * You better use a wrapper instead ...
+   */
+  message: function (content, title, dialogType, buttons, callback, modal, allowHtml) {
+    return jquery__WEBPACK_IMPORTED_MODULE_1___default().when(this._getMessageTemplate()).then(function ($tmpl) {
+      var dialogName = 'oc-dialog-' + Dialogs.dialogsCounter + '-content';
+      var dialogId = '#' + dialogName;
+      var $dlg = $tmpl.octemplate({
+        dialog_name: dialogName,
+        title: title,
+        message: content,
+        type: dialogType
+      }, allowHtml ? {
+        escapeFunction: ''
+      } : {});
+      if (modal === undefined) {
+        modal = false;
+      }
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('body').append($dlg);
+      var buttonlist = [];
+      switch (buttons) {
+        case Dialogs.YES_NO_BUTTONS:
+          buttonlist = [{
+            text: t('core', 'No'),
+            click: function () {
+              if (callback !== undefined) {
+                callback(false);
+              }
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+            }
+          }, {
+            text: t('core', 'Yes'),
+            click: function () {
+              if (callback !== undefined) {
+                callback(true);
+              }
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+            },
+            defaultButton: true
+          }];
+          break;
+        case Dialogs.OK_BUTTON:
+          var functionToCall = function () {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+            if (callback !== undefined) {
+              callback();
+            }
+          };
+          buttonlist[0] = {
+            text: t('core', 'OK'),
+            click: functionToCall,
+            defaultButton: true
+          };
+          break;
+        default:
+          if (typeof buttons === 'object') {
+            switch (buttons.type) {
+              case Dialogs.YES_NO_BUTTONS:
+                buttonlist = [{
+                  text: buttons.cancel || t('core', 'No'),
+                  click: function () {
+                    if (callback !== undefined) {
+                      callback(false);
+                    }
+                    jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+                  }
+                }, {
+                  text: buttons.confirm || t('core', 'Yes'),
+                  click: function () {
+                    if (callback !== undefined) {
+                      callback(true);
+                    }
+                    jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+                  },
+                  defaultButton: true,
+                  classes: buttons.confirmClasses
+                }];
+                break;
+            }
+          }
+          break;
+      }
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog({
+        closeOnEscape: true,
+        closeCallback: () => {
+          callback && callback(false);
+        },
+        modal: modal,
+        buttons: buttonlist
+      });
+      Dialogs.dialogsCounter++;
+    }).fail(function (status, error) {
+      // If the method is called while navigating away from
+      // the page, we still want to deliver the message.
+      if (status === 0) {
+        alert(title + ': ' + content);
+      } else {
+        alert(t('core', 'Error loading message template: {error}', {
+          error: error
+        }));
+      }
+    });
+  },
+  _fileexistsshown: false,
+  /**
+   * Displays file exists dialog
+   * @param {object} data upload object
+   * @param {object} original file with name, size and mtime
+   * @param {object} replacement file with name, size and mtime
+   * @param {object} controller with onCancel, onSkip, onReplace and onRename methods
+   * @returns {Promise} jquery promise that resolves after the dialog template was loaded
+   */
+  fileexists: function (data, original, replacement, controller) {
+    var self = this;
+    var dialogDeferred = new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Deferred)();
+    var getCroppedPreview = function (file) {
+      var deferred = new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Deferred)();
+      // Only process image files.
+      var type = file.type && file.type.split('/').shift();
+      if (window.FileReader && type === 'image') {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var blob = new Blob([e.target.result]);
+          window.URL = window.URL || window.webkitURL;
+          var originalUrl = window.URL.createObjectURL(blob);
+          var image = new Image();
+          image.src = originalUrl;
+          image.onload = function () {
+            var url = crop(image);
+            deferred.resolve(url);
+          };
+        };
+        reader.readAsArrayBuffer(file);
+      } else {
+        deferred.reject();
+      }
+      return deferred;
+    };
+    var crop = function (img) {
+      var canvas = document.createElement('canvas');
+      var targetSize = 96;
+      var width = img.width;
+      var height = img.height;
+      var x;
+      var y;
+      var size;
+
+      // Calculate the width and height, constraining the proportions
+      if (width > height) {
+        y = 0;
+        x = (width - height) / 2;
+      } else {
+        y = (height - width) / 2;
+        x = 0;
+      }
+      size = Math.min(width, height);
+
+      // Set canvas size to the cropped area
+      canvas.width = size;
+      canvas.height = size;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, x, y, size, size, 0, 0, size, size);
+
+      // Resize the canvas to match the destination (right size uses 96px)
+      resampleHermite(canvas, size, size, targetSize, targetSize);
+      return canvas.toDataURL('image/png', 0.7);
+    };
+
+    /**
+     * Fast image resize/resample using Hermite filter with JavaScript.
+     *
+     * @author: ViliusL
+     *
+     * @param {*} canvas
+     * @param {number} W
+     * @param {number} H
+     * @param {number} W2
+     * @param {number} H2
+     */
+    var resampleHermite = function (canvas, W, H, W2, H2) {
+      W2 = Math.round(W2);
+      H2 = Math.round(H2);
+      var img = canvas.getContext('2d').getImageData(0, 0, W, H);
+      var img2 = canvas.getContext('2d').getImageData(0, 0, W2, H2);
+      var data = img.data;
+      var data2 = img2.data;
+      var ratio_w = W / W2;
+      var ratio_h = H / H2;
+      var ratio_w_half = Math.ceil(ratio_w / 2);
+      var ratio_h_half = Math.ceil(ratio_h / 2);
+      for (var j = 0; j < H2; j++) {
+        for (var i = 0; i < W2; i++) {
+          var x2 = (i + j * W2) * 4;
+          var weight = 0;
+          var weights = 0;
+          var weights_alpha = 0;
+          var gx_r = 0;
+          var gx_g = 0;
+          var gx_b = 0;
+          var gx_a = 0;
+          var center_y = (j + 0.5) * ratio_h;
+          for (var yy = Math.floor(j * ratio_h); yy < (j + 1) * ratio_h; yy++) {
+            var dy = Math.abs(center_y - (yy + 0.5)) / ratio_h_half;
+            var center_x = (i + 0.5) * ratio_w;
+            var w0 = dy * dy; // pre-calc part of w
+            for (var xx = Math.floor(i * ratio_w); xx < (i + 1) * ratio_w; xx++) {
+              var dx = Math.abs(center_x - (xx + 0.5)) / ratio_w_half;
+              var w = Math.sqrt(w0 + dx * dx);
+              if (w >= -1 && w <= 1) {
+                // hermite filter
+                weight = 2 * w * w * w - 3 * w * w + 1;
+                if (weight > 0) {
+                  dx = 4 * (xx + yy * W);
+                  // alpha
+                  gx_a += weight * data[dx + 3];
+                  weights_alpha += weight;
+                  // colors
+                  if (data[dx + 3] < 255) {
+                    weight = weight * data[dx + 3] / 250;
+                  }
+                  gx_r += weight * data[dx];
+                  gx_g += weight * data[dx + 1];
+                  gx_b += weight * data[dx + 2];
+                  weights += weight;
+                }
+              }
+            }
+          }
+          data2[x2] = gx_r / weights;
+          data2[x2 + 1] = gx_g / weights;
+          data2[x2 + 2] = gx_b / weights;
+          data2[x2 + 3] = gx_a / weights_alpha;
+        }
+      }
+      canvas.getContext('2d').clearRect(0, 0, Math.max(W, W2), Math.max(H, H2));
+      canvas.width = W2;
+      canvas.height = H2;
+      canvas.getContext('2d').putImageData(img2, 0, 0);
+    };
+    var addConflict = function ($conflicts, original, replacement) {
+      var $conflict = $conflicts.find('.template').clone().removeClass('template').addClass('conflict');
+      var $originalDiv = $conflict.find('.original');
+      var $replacementDiv = $conflict.find('.replacement');
+      $conflict.data('data', data);
+      $conflict.find('.filename').text(original.name);
+      $originalDiv.find('.size').text(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Util.humanFileSize(original.size));
+      $originalDiv.find('.mtime').text(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Util.formatDate(original.mtime));
+      // ie sucks
+      if (replacement.size && replacement.lastModified) {
+        $replacementDiv.find('.size').text(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Util.humanFileSize(replacement.size));
+        $replacementDiv.find('.mtime').text(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Util.formatDate(replacement.lastModified));
+      }
+      var path = original.directory + '/' + original.name;
+      var urlSpec = {
+        file: path,
+        x: 96,
+        y: 96,
+        c: original.etag,
+        forceIcon: 0
+      };
+      var previewpath = Files.generatePreviewUrl(urlSpec);
+      // Escaping single quotes
+      previewpath = previewpath.replace(/'/g, '%27');
+      $originalDiv.find('.icon').css({
+        'background-image': "url('" + previewpath + "')"
+      });
+      getCroppedPreview(replacement).then(function (path) {
+        $replacementDiv.find('.icon').css('background-image', 'url(' + path + ')');
+      }, function () {
+        path = _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].MimeType.getIconUrl(replacement.type);
+        $replacementDiv.find('.icon').css('background-image', 'url(' + path + ')');
+      });
+      // connect checkboxes with labels
+      var checkboxId = $conflicts.find('.conflict').length;
+      $originalDiv.find('input:checkbox').attr('id', 'checkbox_original_' + checkboxId);
+      $replacementDiv.find('input:checkbox').attr('id', 'checkbox_replacement_' + checkboxId);
+      $conflicts.append($conflict);
+
+      // set more recent mtime bold
+      // ie sucks
+      if (replacement.lastModified > original.mtime) {
+        $replacementDiv.find('.mtime').css('font-weight', 'bold');
+      } else if (replacement.lastModified < original.mtime) {
+        $originalDiv.find('.mtime').css('font-weight', 'bold');
+      } else {
+        // TODO add to same mtime collection?
+      }
+
+      // set bigger size bold
+      if (replacement.size && replacement.size > original.size) {
+        $replacementDiv.find('.size').css('font-weight', 'bold');
+      } else if (replacement.size && replacement.size < original.size) {
+        $originalDiv.find('.size').css('font-weight', 'bold');
+      } else {
+        // TODO add to same size collection?
+      }
+
+      // TODO show skip action for files with same size and mtime in bottom row
+
+      // always keep readonly files
+
+      if (original.status === 'readonly') {
+        $originalDiv.addClass('readonly').find('input[type="checkbox"]').prop('checked', true).prop('disabled', true);
+        $originalDiv.find('.message').text(t('core', 'read-only'));
+      }
+    };
+    // var selection = controller.getSelection(data.originalFiles);
+    // if (selection.defaultAction) {
+    //	controller[selection.defaultAction](data);
+    // } else {
+    var dialogName = 'oc-dialog-fileexists-content';
+    var dialogId = '#' + dialogName;
+    if (this._fileexistsshown) {
+      // add conflict
+
+      var $conflicts = jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId + ' .conflicts');
+      addConflict($conflicts, original, replacement);
+      var count = jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId + ' .conflict').length;
+      var title = n('core', '{count} file conflict', '{count} file conflicts', count, {
+        count: count
+      });
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).parent().children('.oc-dialog-title').text(title);
+
+      // recalculate dimensions
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()(window).trigger('resize');
+      dialogDeferred.resolve();
+    } else {
+      // create dialog
+      this._fileexistsshown = true;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().when(this._getFileExistsTemplate()).then(function ($tmpl) {
+        var title = t('core', 'One file conflict');
+        var $dlg = $tmpl.octemplate({
+          dialog_name: dialogName,
+          title: title,
+          type: 'fileexists',
+          allnewfiles: t('core', 'New Files'),
+          allexistingfiles: t('core', 'Already existing files'),
+          why: t('core', 'Which files do you want to keep?'),
+          what: t('core', 'If you select both versions, the copied file will have a number added to its name.')
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('body').append($dlg);
+        if (original && replacement) {
+          var $conflicts = $dlg.find('.conflicts');
+          addConflict($conflicts, original, replacement);
+        }
+        var buttonlist = [{
+          text: t('core', 'Cancel'),
+          classes: 'cancel',
+          click: function () {
+            if (typeof controller.onCancel !== 'undefined') {
+              controller.onCancel(data);
+            }
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+          }
+        }, {
+          text: t('core', 'Continue'),
+          classes: 'continue',
+          click: function () {
+            if (typeof controller.onContinue !== 'undefined') {
+              controller.onContinue(jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId + ' .conflict'));
+            }
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog('close');
+          }
+        }];
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).ocdialog({
+          width: 500,
+          closeOnEscape: true,
+          modal: true,
+          buttons: buttonlist,
+          closeButton: null,
+          close: function () {
+            self._fileexistsshown = false;
+            try {
+              jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).ocdialog('destroy').remove();
+            } catch (e) {
+              // ignore
+            }
+          }
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).css('height', 'auto');
+        var $primaryButton = $dlg.closest('.oc-dialog').find('button.continue');
+        $primaryButton.prop('disabled', true);
+        function updatePrimaryButton() {
+          var checkedCount = $dlg.find('.conflicts .checkbox:checked').length;
+          $primaryButton.prop('disabled', checkedCount === 0);
+        }
+
+        // add checkbox toggling actions
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allnewfiles').on('click', function () {
+          var $checkboxes = jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.conflict .replacement input[type="checkbox"]');
+          $checkboxes.prop('checked', jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).prop('checked'));
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allexistingfiles').on('click', function () {
+          var $checkboxes = jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.conflict .original:not(.readonly) input[type="checkbox"]');
+          $checkboxes.prop('checked', jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).prop('checked'));
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.conflicts').on('click', '.replacement,.original:not(.readonly)', function () {
+          var $checkbox = jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).find('input[type="checkbox"]');
+          $checkbox.prop('checked', !$checkbox.prop('checked'));
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.conflicts').on('click', '.replacement input[type="checkbox"],.original:not(.readonly) input[type="checkbox"]', function () {
+          var $checkbox = jquery__WEBPACK_IMPORTED_MODULE_1___default()(this);
+          $checkbox.prop('checked', !$checkbox.prop('checked'));
+        });
+
+        // update counters
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).on('click', '.replacement,.allnewfiles', function () {
+          var count = jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.conflict .replacement input[type="checkbox"]:checked').length;
+          if (count === jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId + ' .conflict').length) {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allnewfiles').prop('checked', true);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allnewfiles + .count').text(t('core', '(all selected)'));
+          } else if (count > 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allnewfiles').prop('checked', false);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allnewfiles + .count').text(t('core', '({count} selected)', {
+              count: count
+            }));
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allnewfiles').prop('checked', false);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allnewfiles + .count').text('');
+          }
+          updatePrimaryButton();
+        });
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).on('click', '.original,.allexistingfiles', function () {
+          var count = jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.conflict .original input[type="checkbox"]:checked').length;
+          if (count === jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId + ' .conflict').length) {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allexistingfiles').prop('checked', true);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allexistingfiles + .count').text(t('core', '(all selected)'));
+          } else if (count > 0) {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allexistingfiles').prop('checked', false);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allexistingfiles + .count').text(t('core', '({count} selected)', {
+              count: count
+            }));
+          } else {
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allexistingfiles').prop('checked', false);
+            jquery__WEBPACK_IMPORTED_MODULE_1___default()(dialogId).find('.allexistingfiles + .count').text('');
+          }
+          updatePrimaryButton();
+        });
+        dialogDeferred.resolve();
+      }).fail(function () {
+        dialogDeferred.reject();
+        alert(t('core', 'Error loading file exists template'));
+      });
+    }
+    // }
+    return dialogDeferred.promise();
+  },
+  // get the gridview setting and set the input accordingly
+  _getGridSettings: function () {
+    const self = this;
+    jquery__WEBPACK_IMPORTED_MODULE_1___default().get(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].generateUrl('/apps/files/api/v1/showgridview'), function (response) {
+      self.$showGridView.removeClass('icon-toggle-filelist icon-toggle-pictures').addClass(response.gridview ? 'icon-toggle-filelist' : 'icon-toggle-pictures');
+      self.$showGridView.attr('aria-label', response.gridview ? t('files', 'Show list view') : t('files', 'Show grid view'));
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('.list-container').toggleClass('view-grid', response.gridview);
+    });
+  },
+  _onGridviewChange: function () {
+    const isGridView = this.$showGridView.hasClass('icon-toggle-filelist');
+    // only save state if user is logged in
+    if (_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].currentUser) {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().post(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].generateUrl('/apps/files/api/v1/showgridview'), {
+        show: !isGridView
+      });
+    }
+    this.$showGridView.removeClass('icon-toggle-filelist icon-toggle-pictures').addClass(isGridView ? 'icon-toggle-pictures' : 'icon-toggle-filelist');
+    this.$showGridView.attr('aria-label', isGridView ? t('files', 'Show grid view') : t('files', 'Show list view'));
+    this.$filePicker.find('.list-container').toggleClass('view-grid', !isGridView);
+  },
+  _getFilePickerTemplate: function () {
+    var defer = jquery__WEBPACK_IMPORTED_MODULE_1___default().Deferred();
+    if (!this.$filePickerTemplate) {
+      var self = this;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().get(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].filePath('core', 'templates', 'filepicker.html'), function (tmpl) {
+        self.$filePickerTemplate = jquery__WEBPACK_IMPORTED_MODULE_1___default()(tmpl);
+        self.$listTmpl = self.$filePickerTemplate.find('.filelist tbody tr:first-child').detach();
+        defer.resolve(self.$filePickerTemplate);
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        defer.reject(jqXHR.status, errorThrown);
+      });
+    } else {
+      defer.resolve(this.$filePickerTemplate);
+    }
+    return defer.promise();
+  },
+  _getMessageTemplate: function () {
+    var defer = jquery__WEBPACK_IMPORTED_MODULE_1___default().Deferred();
+    if (!this.$messageTemplate) {
+      var self = this;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().get(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].filePath('core', 'templates', 'message.html'), function (tmpl) {
+        self.$messageTemplate = jquery__WEBPACK_IMPORTED_MODULE_1___default()(tmpl);
+        defer.resolve(self.$messageTemplate);
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        defer.reject(jqXHR.status, errorThrown);
+      });
+    } else {
+      defer.resolve(this.$messageTemplate);
+    }
+    return defer.promise();
+  },
+  _getFileExistsTemplate: function () {
+    var defer = jquery__WEBPACK_IMPORTED_MODULE_1___default().Deferred();
+    if (!this.$fileexistsTemplate) {
+      var self = this;
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().get(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].filePath('files', 'templates', 'fileexists.html'), function (tmpl) {
+        self.$fileexistsTemplate = jquery__WEBPACK_IMPORTED_MODULE_1___default()(tmpl);
+        defer.resolve(self.$fileexistsTemplate);
+      }).fail(function () {
+        defer.reject();
+      });
+    } else {
+      defer.resolve(this.$fileexistsTemplate);
+    }
+    return defer.promise();
+  },
+  /**
+   * fills the filepicker with files
+   */
+  _fillFilePicker: async function (dir, type) {
+    var self = this;
+    this.$filelist.empty();
+    this.$filePicker.find('.emptycontent').hide();
+    this.$filelistContainer.addClass('icon-loading');
+    this.$filePicker.data('path', dir);
+    var filter = this.$filePicker.data('mimetype');
+    var advancedFilter = this.$filePicker.data('filter');
+    if (typeof filter === 'string') {
+      filter = [filter];
+    }
+    self.$fileListHeader.find('.sort-indicator').addClass('hidden').removeClass('icon-triangle-n').removeClass('icon-triangle-s');
+    self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').removeClass('hidden');
+    if (self.filepicker.sortOrder === 'asc') {
+      self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-n');
+    } else {
+      self.$fileListHeader.find('[data-sort=' + self.filepicker.sortField + '] .sort-indicator').addClass('icon-triangle-s');
+    }
+
+    // Wrap within a method because a promise cannot return multiple values
+    // But the client impleemntation still does it...
+    var getFolderContents = async function (dir) {
+      return self.filepicker.filesClient.getFolderContents(dir).then((status, files) => {
+        return files;
+      });
+    };
+    try {
+      var files = await getFolderContents(dir);
+    } catch (error) {
+      // fallback to root if requested dir is non-existent
+      console.error('Requested path does not exists, falling back to root');
+      var files = await getFolderContents('/');
+      this.$filePicker.data('path', '/');
+      this._changeButtonsText(type, '');
+    }
+    self.filelist = files;
+    if (filter && filter.length > 0 && filter.indexOf('*') === -1) {
+      files = files.filter(function (file) {
+        return file.type === 'dir' || filter.indexOf(file.mimetype) !== -1;
+      });
+    }
+    if (advancedFilter) {
+      files = files.filter(advancedFilter);
+    }
+
+    // Check if the showHidden input field exist and if it exist follow it
+    // Otherwise just show the hidden files
+    const showHiddenInput = document.getElementById('showHiddenFiles');
+    if ((showHiddenInput === null || showHiddenInput === void 0 ? void 0 : showHiddenInput.value) !== "1") {
+      files = files.filter(function (file) {
+        return !file.name.startsWith('.');
+      });
+    }
+    var Comparators = {
+      name: function (fileInfo1, fileInfo2) {
+        if (fileInfo1.type === 'dir' && fileInfo2.type !== 'dir') {
+          return -1;
+        }
+        if (fileInfo1.type !== 'dir' && fileInfo2.type === 'dir') {
+          return 1;
+        }
+        return _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Util.naturalSortCompare(fileInfo1.name, fileInfo2.name);
+      },
+      size: function (fileInfo1, fileInfo2) {
+        return fileInfo1.size - fileInfo2.size;
+      },
+      mtime: function (fileInfo1, fileInfo2) {
+        return fileInfo1.mtime - fileInfo2.mtime;
+      }
+    };
+    var comparator = Comparators[self.filepicker.sortField] || Comparators.name;
+    files = files.sort(function (file1, file2) {
+      var isFavorite = function (fileInfo) {
+        return fileInfo.tags && fileInfo.tags.indexOf(_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].TAG_FAVORITE) >= 0;
+      };
+      if (isFavorite(file1) && !isFavorite(file2)) {
+        return -1;
+      } else if (!isFavorite(file1) && isFavorite(file2)) {
+        return 1;
+      }
+      return self.filepicker.sortOrder === 'asc' ? comparator(file1, file2) : -comparator(file1, file2);
+    });
+    self._fillSlug();
+    if (files.length === 0) {
+      self.$filePicker.find('.emptycontent').show();
+      self.$fileListHeader.hide();
+    } else {
+      self.$filePicker.find('.emptycontent').hide();
+      self.$fileListHeader.show();
+    }
+    self.$filelist.empty();
+    jquery__WEBPACK_IMPORTED_MODULE_1___default().each(files, function (idx, entry) {
+      if (entry.isEncrypted && entry.mimetype === 'httpd/unix-directory') {
+        entry.icon = _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].MimeType.getIconUrl('dir-encrypted');
+      } else {
+        entry.icon = _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].MimeType.getIconUrl(entry.mimetype);
+      }
+      var simpleSize, sizeColor;
+      if (typeof entry.size !== 'undefined' && entry.size >= 0) {
+        simpleSize = _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Util.humanFileSize(parseInt(entry.size, 10), true);
+        sizeColor = Math.round(160 - Math.pow(entry.size / (1024 * 1024), 2));
+      } else {
+        simpleSize = t('files', 'Pending');
+        sizeColor = 80;
+      }
+
+      // split the filename in half if the size is bigger than 20 char
+      // for ellipsis
+      if (entry.name.length >= 10) {
+        // leave maximum 10 letters
+        var split = Math.min(Math.floor(entry.name.length / 2), 10);
+        var filename1 = entry.name.substr(0, entry.name.length - split);
+        var filename2 = entry.name.substr(entry.name.length - split);
+      } else {
+        var filename1 = entry.name;
+        var filename2 = '';
+      }
+      var $row = self.$listTmpl.octemplate({
+        type: entry.type,
+        dir: dir,
+        filename: entry.name,
+        filename1: filename1,
+        filename2: filename2,
+        date: _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].Util.relativeModifiedDate(entry.mtime),
+        size: simpleSize,
+        sizeColor: sizeColor,
+        icon: entry.icon
+      });
+      if (entry.type === 'file') {
+        var urlSpec = {
+          file: dir + '/' + entry.name,
+          x: 100,
+          y: 100
+        };
+        var img = new Image();
+        var previewUrl = _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].generateUrl('/core/preview.png?') + jquery__WEBPACK_IMPORTED_MODULE_1___default().param(urlSpec);
+        img.onload = function () {
+          if (img.width > 5) {
+            $row.find('td.filename').attr('style', 'background-image:url(' + previewUrl + ')');
+          }
+        };
+        img.src = previewUrl;
+      }
+      self.$filelist.append($row);
+    });
+    self.$filelistContainer.removeClass('icon-loading');
+  },
+  /**
+   * fills the tree list with directories
+   */
+  _fillSlug: function () {
+    var addButton = this.$dirTree.find('.actions.creatable').detach();
+    this.$dirTree.empty();
+    var self = this;
+    self.$dirTree.append('<nav></nav>');
+    self.$dirTree.append(addButton);
+    var dir;
+    var path = this.$filePicker.data('path');
+    var $template = jquery__WEBPACK_IMPORTED_MODULE_1___default()('<li data-dir="{dir}" tabindex="0"><a class="{classList}">{name}</a></li>').addClass('crumb');
+    var $breadcrumbs = jquery__WEBPACK_IMPORTED_MODULE_1___default()('<ul class="breadcrumb"></ul>');
+    if (path) {
+      var paths = path.split('/');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().each(paths, function (index, dir) {
+        dir = paths.pop();
+        if (dir === '') {
+          return false;
+        }
+        $breadcrumbs.prepend($template.octemplate({
+          dir: paths.join('/') + '/' + dir,
+          name: dir
+        }));
+      });
+    }
+    $template.octemplate({
+      dir: '',
+      name: t('core', 'Home'),
+      classList: 'icon-home'
+    }, {
+      escapeFunction: null
+    }).addClass('crumb svg crumbhome').prependTo($breadcrumbs);
+    this.$dirTree.find('> nav').prepend($breadcrumbs);
+  },
+  /**
+   * handle selection made in the tree list
+   */
+  _handleTreeListSelect: function (event, type) {
+    var self = event.data;
+    var dir = jquery__WEBPACK_IMPORTED_MODULE_1___default()(event.target).closest('.crumb').data('dir');
+    self._fillFilePicker(dir, type);
+    var getOcDialog = event.target.closest('.oc-dialog');
+    var buttonEnableDisable = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.primary', getOcDialog);
+    this._changeButtonsText(type, dir.split(/[/]+/).pop());
+    if (this.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 || this.$filePicker.data('allowDirectoryChooser')) {
+      buttonEnableDisable.prop('disabled', false);
+    } else {
+      buttonEnableDisable.prop('disabled', true);
+    }
+  },
+  /**
+   * handle clicks made in the filepicker
+   */
+  _handlePickerClick: function (event, $element, type) {
+    var getOcDialog = this.$filePicker.closest('.oc-dialog');
+    var buttonEnableDisable = getOcDialog.find('.primary');
+    if ($element.data('type') === 'file') {
+      if (this.$filePicker.data('multiselect') !== true || !event.ctrlKey) {
+        this.$filelist.find('.filepicker_element_selected').removeClass('filepicker_element_selected');
+      }
+      $element.toggleClass('filepicker_element_selected');
+      buttonEnableDisable.prop('disabled', false);
+    } else if ($element.data('type') === 'dir') {
+      this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'), type);
+      this._changeButtonsText(type, $element.data('entryname'));
+      if (this.$filePicker.data('mimetype').indexOf('httpd/unix-directory') !== -1 || this.$filePicker.data('allowDirectoryChooser')) {
+        buttonEnableDisable.prop('disabled', false);
+      } else {
+        buttonEnableDisable.prop('disabled', true);
+      }
+    }
+  },
+  /**
+   * Handle
+   * @param type of action
+   * @param dir on which to change buttons text
+   * @private
+   */
+  _changeButtonsText: function (type, dir) {
+    var copyText = dir === '' ? t('core', 'Copy') : t('core', 'Copy to {folder}', {
+      folder: dir
+    });
+    var moveText = dir === '' ? t('core', 'Move') : t('core', 'Move to {folder}', {
+      folder: dir
+    });
+    var buttons = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.oc-dialog-buttonrow button');
+    switch (type) {
+      case this.FILEPICKER_TYPE_CHOOSE:
+        break;
+      case this.FILEPICKER_TYPE_CUSTOM:
+        break;
+      case this.FILEPICKER_TYPE_COPY:
+        buttons.text(copyText);
+        break;
+      case this.FILEPICKER_TYPE_MOVE:
+        buttons.text(moveText);
+        break;
+      case this.FILEPICKER_TYPE_COPY_MOVE:
+        buttons.eq(0).text(copyText);
+        buttons.eq(1).text(moveText);
+        break;
+    }
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dialogs);
+
+/***/ }),
+
+/***/ "./core/src/OC/eventsource.js":
+/*!************************************!*\
+  !*** ./core/src/OC/eventsource.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _requesttoken_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./requesttoken.js */ "./core/src/OC/requesttoken.js");
+/**
+ * @copyright 2012 Robin Appelman icewind1991@gmail.com
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* eslint-disable */
+
+
+
+/**
+ * Create a new event source
+ * @param {string} src
+ * @param {object} [data] to be send as GET
+ *
+ * @constructs OCEventSource
+ */
+const OCEventSource = function (src, data) {
+  var dataStr = '';
+  var name;
+  var joinChar;
+  this.typelessListeners = [];
+  this.closed = false;
+  this.listeners = {};
+  if (data) {
+    for (name in data) {
+      dataStr += name + '=' + encodeURIComponent(data[name]) + '&';
+    }
+  }
+  dataStr += 'requesttoken=' + encodeURIComponent((0,_requesttoken_js__WEBPACK_IMPORTED_MODULE_1__.getToken)());
+  if (!this.useFallBack && typeof EventSource !== 'undefined') {
+    joinChar = '&';
+    if (src.indexOf('?') === -1) {
+      joinChar = '?';
+    }
+    this.source = new EventSource(src + joinChar + dataStr);
+    this.source.onmessage = function (e) {
+      for (var i = 0; i < this.typelessListeners.length; i++) {
+        this.typelessListeners[i](JSON.parse(e.data));
+      }
+    }.bind(this);
+  } else {
+    var iframeId = 'oc_eventsource_iframe_' + OCEventSource.iframeCount;
+    OCEventSource.fallBackSources[OCEventSource.iframeCount] = this;
+    this.iframe = jquery__WEBPACK_IMPORTED_MODULE_0___default()('<iframe></iframe>');
+    this.iframe.attr('id', iframeId);
+    this.iframe.hide();
+    joinChar = '&';
+    if (src.indexOf('?') === -1) {
+      joinChar = '?';
+    }
+    this.iframe.attr('src', src + joinChar + 'fallback=true&fallback_id=' + OCEventSource.iframeCount + '&' + dataStr);
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').append(this.iframe);
+    this.useFallBack = true;
+    OCEventSource.iframeCount++;
+  }
+  // add close listener
+  this.listen('__internal__', function (data) {
+    if (data === 'close') {
+      this.close();
+    }
+  }.bind(this));
+};
+OCEventSource.fallBackSources = [];
+OCEventSource.iframeCount = 0; // number of fallback iframes
+OCEventSource.fallBackCallBack = function (id, type, data) {
+  OCEventSource.fallBackSources[id].fallBackCallBack(type, data);
+};
+OCEventSource.prototype = {
+  typelessListeners: [],
+  iframe: null,
+  listeners: {},
+  // only for fallback
+  useFallBack: false,
+  /**
+   * Fallback callback for browsers that don't have the
+   * native EventSource object.
+   *
+   * Calls the registered listeners.
+   *
+   * @private
+   * @param {String} type event type
+   * @param {Object} data received data
+   */
+  fallBackCallBack: function (type, data) {
+    var i;
+    // ignore messages that might appear after closing
+    if (this.closed) {
+      return;
+    }
+    if (type) {
+      if (typeof this.listeners.done !== 'undefined') {
+        for (i = 0; i < this.listeners[type].length; i++) {
+          this.listeners[type][i](data);
+        }
+      }
+    } else {
+      for (i = 0; i < this.typelessListeners.length; i++) {
+        this.typelessListeners[i](data);
+      }
+    }
+  },
+  lastLength: 0,
+  // for fallback
+  /**
+   * Listen to a given type of events.
+   *
+   * @param {String} type event type
+   * @param {Function} callback event callback
+   */
+  listen: function (type, callback) {
+    if (callback && callback.call) {
+      if (type) {
+        if (this.useFallBack) {
+          if (!this.listeners[type]) {
+            this.listeners[type] = [];
+          }
+          this.listeners[type].push(callback);
+        } else {
+          this.source.addEventListener(type, function (e) {
+            if (typeof e.data !== 'undefined') {
+              callback(JSON.parse(e.data));
+            } else {
+              callback('');
+            }
+          }, false);
+        }
+      } else {
+        this.typelessListeners.push(callback);
+      }
+    }
+  },
+  /**
+   * Closes this event source.
+   */
+  close: function () {
+    this.closed = true;
+    if (typeof this.source !== 'undefined') {
+      this.source.close();
+    }
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (OCEventSource);
+
+/***/ }),
+
+/***/ "./core/src/OC/get_set.js":
+/*!********************************!*\
+  !*** ./core/src/OC/get_set.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "get": () => (/* binding */ get),
+/* harmony export */   "set": () => (/* binding */ set)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const get = context => name => {
+  const namespaces = name.split('.');
+  const tail = namespaces.pop();
+  for (let i = 0; i < namespaces.length; i++) {
+    context = context[namespaces[i]];
+    if (!context) {
+      return false;
+    }
+  }
+  return context[tail];
+};
+
+/**
+ * Set a variable by name
+ *
+ * @param {string} context context
+ * @return {Function} setter
+ * @deprecated 19.0.0 use https://lodash.com/docs#set
+ */
+const set = context => (name, value) => {
+  const namespaces = name.split('.');
+  const tail = namespaces.pop();
+  for (let i = 0; i < namespaces.length; i++) {
+    if (!context[namespaces[i]]) {
+      context[namespaces[i]] = {};
+    }
+    context = context[namespaces[i]];
+  }
+  context[tail] = value;
+  return value;
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/host.js":
+/*!*****************************!*\
+  !*** ./core/src/OC/host.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getHost": () => (/* binding */ getHost),
+/* harmony export */   "getHostName": () => (/* binding */ getHostName),
+/* harmony export */   "getPort": () => (/* binding */ getPort),
+/* harmony export */   "getProtocol": () => (/* binding */ getProtocol)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const getProtocol = () => window.location.protocol.split(':')[0];
+
+/**
+ * Returns the host used to access this Nextcloud instance
+ * Host is sometimes the same as the hostname but now always.
+ *
+ * Examples:
+ * http://example.com => example.com
+ * https://example.com => example.com
+ * http://example.com:8080 => example.com:8080
+ *
+ * @return {string} host
+ *
+ * @since 8.2.0
+ * @deprecated 17.0.0 use window.location.host directly
+ */
+const getHost = () => window.location.host;
+
+/**
+ * Returns the hostname used to access this Nextcloud instance
+ * The hostname is always stripped of the port
+ *
+ * @return {string} hostname
+ * @since 9.0.0
+ * @deprecated 17.0.0 use window.location.hostname directly
+ */
+const getHostName = () => window.location.hostname;
+
+/**
+ * Returns the port number used to access this Nextcloud instance
+ *
+ * @return {number} port number
+ *
+ * @since 8.2.0
+ * @deprecated 17.0.0 use window.location.port directly
+ */
+const getPort = () => window.location.port;
+
+/***/ }),
+
+/***/ "./core/src/OC/index.js":
+/*!******************************!*\
+  !*** ./core/src/OC/index.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _legacy_loader_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./legacy-loader.js */ "./core/src/OC/legacy-loader.js");
+/* harmony import */ var _xhr_error_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./xhr-error.js */ "./core/src/OC/xhr-error.js");
+/* harmony import */ var _apps_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./apps.js */ "./core/src/OC/apps.js");
+/* harmony import */ var _appconfig_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./appconfig.js */ "./core/src/OC/appconfig.js");
+/* harmony import */ var _appsettings_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./appsettings.js */ "./core/src/OC/appsettings.js");
+/* harmony import */ var _appswebroots_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./appswebroots.js */ "./core/src/OC/appswebroots.js");
+/* harmony import */ var _backbone_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./backbone.js */ "./core/src/OC/backbone.js");
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.js");
+/* harmony import */ var _query_string_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./query-string.js */ "./core/src/OC/query-string.js");
+/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./config.js */ "./core/src/OC/config.js");
+/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./constants.js */ "./core/src/OC/constants.js");
+/* harmony import */ var _contactsmenu_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./contactsmenu.js */ "./core/src/OC/contactsmenu.js");
+/* harmony import */ var _currentuser_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./currentuser.js */ "./core/src/OC/currentuser.js");
+/* harmony import */ var _dialogs_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./dialogs.js */ "./core/src/OC/dialogs.js");
+/* harmony import */ var _eventsource_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./eventsource.js */ "./core/src/OC/eventsource.js");
+/* harmony import */ var _get_set_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./get_set.js */ "./core/src/OC/get_set.js");
+/* harmony import */ var _capabilities_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./capabilities.js */ "./core/src/OC/capabilities.js");
+/* harmony import */ var _host_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./host.js */ "./core/src/OC/host.js");
+/* harmony import */ var _requesttoken_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./requesttoken.js */ "./core/src/OC/requesttoken.js");
+/* harmony import */ var _menu_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./menu.js */ "./core/src/OC/menu.js");
+/* harmony import */ var _admin_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./admin.js */ "./core/src/OC/admin.js");
+/* harmony import */ var _l10n_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./l10n.js */ "./core/src/OC/l10n.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _routing_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./routing.js */ "./core/src/OC/routing.js");
+/* harmony import */ var _msg_js__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./msg.js */ "./core/src/OC/msg.js");
+/* harmony import */ var _notification_js__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./notification.js */ "./core/src/OC/notification.js");
+/* harmony import */ var _password_confirmation_js__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./password-confirmation.js */ "./core/src/OC/password-confirmation.js");
+/* harmony import */ var _plugins_js__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./plugins.js */ "./core/src/OC/plugins.js");
+/* harmony import */ var _theme_js__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./theme.js */ "./core/src/OC/theme.js");
+/* harmony import */ var _util_js__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./util.js */ "./core/src/OC/util.js");
+/* harmony import */ var _debug_js__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./debug.js */ "./core/src/OC/debug.js");
+/* harmony import */ var _navigation_js__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./navigation.js */ "./core/src/OC/navigation.js");
+/* harmony import */ var _webroot_js__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./webroot.js */ "./core/src/OC/webroot.js");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** @namespace OC */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /*
+   * Constants
+   */
+  coreApps: _constants_js__WEBPACK_IMPORTED_MODULE_11__.coreApps,
+  menuSpeed: _constants_js__WEBPACK_IMPORTED_MODULE_11__.menuSpeed,
+  PERMISSION_ALL: _constants_js__WEBPACK_IMPORTED_MODULE_11__.PERMISSION_ALL,
+  PERMISSION_CREATE: _constants_js__WEBPACK_IMPORTED_MODULE_11__.PERMISSION_CREATE,
+  PERMISSION_DELETE: _constants_js__WEBPACK_IMPORTED_MODULE_11__.PERMISSION_DELETE,
+  PERMISSION_NONE: _constants_js__WEBPACK_IMPORTED_MODULE_11__.PERMISSION_NONE,
+  PERMISSION_READ: _constants_js__WEBPACK_IMPORTED_MODULE_11__.PERMISSION_READ,
+  PERMISSION_SHARE: _constants_js__WEBPACK_IMPORTED_MODULE_11__.PERMISSION_SHARE,
+  PERMISSION_UPDATE: _constants_js__WEBPACK_IMPORTED_MODULE_11__.PERMISSION_UPDATE,
+  TAG_FAVORITE: _constants_js__WEBPACK_IMPORTED_MODULE_11__.TAG_FAVORITE,
+  /*
+   * Deprecated helpers to be removed
+   */
+  /**
+   * Check if a user file is allowed to be handled.
+   *
+   * @param {string} file to check
+   * @return {boolean}
+   * @deprecated 17.0.0
+   */
+  fileIsBlacklisted: file => !!file.match(_config_js__WEBPACK_IMPORTED_MODULE_10__["default"].blacklist_files_regex),
+  Apps: _apps_js__WEBPACK_IMPORTED_MODULE_3__["default"],
+  addScript: _legacy_loader_js__WEBPACK_IMPORTED_MODULE_1__.addScript,
+  addStyle: _legacy_loader_js__WEBPACK_IMPORTED_MODULE_1__.addStyle,
+  AppConfig: _appconfig_js__WEBPACK_IMPORTED_MODULE_4__.AppConfig,
+  appConfig: _appconfig_js__WEBPACK_IMPORTED_MODULE_4__.appConfig,
+  appSettings: _appsettings_js__WEBPACK_IMPORTED_MODULE_5__.appSettings,
+  appswebroots: _appswebroots_js__WEBPACK_IMPORTED_MODULE_6__["default"],
+  Backbone: _backbone_js__WEBPACK_IMPORTED_MODULE_7__["default"],
+  ContactsMenu: _contactsmenu_js__WEBPACK_IMPORTED_MODULE_12__["default"],
+  config: _config_js__WEBPACK_IMPORTED_MODULE_10__["default"],
+  /**
+   * Currently logged in user or null if none
+   *
+   * @type {string}
+   * @deprecated use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
+   */
+  currentUser: _currentuser_js__WEBPACK_IMPORTED_MODULE_13__.currentUser,
+  dialogs: _dialogs_js__WEBPACK_IMPORTED_MODULE_14__["default"],
+  EventSource: _eventsource_js__WEBPACK_IMPORTED_MODULE_15__["default"],
+  /**
+   * Returns the currently logged in user or null if there is no logged in
+   * user (public page mode)
+   *
+   * @since 9.0.0
+   * @deprecated 19.0.0 use `getCurrentUser` from https://www.npmjs.com/package/@nextcloud/auth
+   */
+  getCurrentUser: _currentuser_js__WEBPACK_IMPORTED_MODULE_13__.getCurrentUser,
+  isUserAdmin: _admin_js__WEBPACK_IMPORTED_MODULE_21__.isUserAdmin,
+  L10N: _l10n_js__WEBPACK_IMPORTED_MODULE_22__["default"],
+  /**
+   * Ajax error handlers
+   *
+   * @todo remove from here and keep internally -> requires new tests
+   */
+  _ajaxConnectionLostHandler: _xhr_error_js__WEBPACK_IMPORTED_MODULE_2__.ajaxConnectionLostHandler,
+  _processAjaxError: _xhr_error_js__WEBPACK_IMPORTED_MODULE_2__.processAjaxError,
+  registerXHRForErrorProcessing: _xhr_error_js__WEBPACK_IMPORTED_MODULE_2__.registerXHRForErrorProcessing,
+  /**
+   * Capabilities
+   *
+   * @type {Array}
+   * @deprecated 20.0.0 use @nextcloud/capabilities instead
+   */
+  getCapabilities: _capabilities_js__WEBPACK_IMPORTED_MODULE_17__.getCapabilities,
+  /*
+   * Legacy menu helpers
+   */
+  hideMenus: _menu_js__WEBPACK_IMPORTED_MODULE_20__.hideMenus,
+  registerMenu: _menu_js__WEBPACK_IMPORTED_MODULE_20__.registerMenu,
+  showMenu: _menu_js__WEBPACK_IMPORTED_MODULE_20__.showMenu,
+  unregisterMenu: _menu_js__WEBPACK_IMPORTED_MODULE_20__.unregisterMenu,
+  /*
+   * Path helpers
+   */
+  /**
+   * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+   */
+  basename: _nextcloud_paths__WEBPACK_IMPORTED_MODULE_8__.basename,
+  /**
+   * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+   */
+  encodePath: _nextcloud_paths__WEBPACK_IMPORTED_MODULE_8__.encodePath,
+  /**
+   * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+   */
+  dirname: _nextcloud_paths__WEBPACK_IMPORTED_MODULE_8__.dirname,
+  /**
+   * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+   */
+  isSamePath: _nextcloud_paths__WEBPACK_IMPORTED_MODULE_8__.isSamePath,
+  /**
+   * @deprecated 18.0.0 use https://www.npmjs.com/package/@nextcloud/paths
+   */
+  joinPaths: _nextcloud_paths__WEBPACK_IMPORTED_MODULE_8__.joinPaths,
+  /**
+   * Host (url) helpers
+   */
+  getHost: _host_js__WEBPACK_IMPORTED_MODULE_18__.getHost,
+  getHostName: _host_js__WEBPACK_IMPORTED_MODULE_18__.getHostName,
+  getPort: _host_js__WEBPACK_IMPORTED_MODULE_18__.getPort,
+  getProtocol: _host_js__WEBPACK_IMPORTED_MODULE_18__.getProtocol,
+  /**
+   * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
+   */
+  getCanonicalLocale: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_23__.getCanonicalLocale,
+  /**
+   * @deprecated 26.0.0 use `getLocale` from https://www.npmjs.com/package/@nextcloud/l10n
+   */
+  getLocale: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_23__.getLocale,
+  /**
+   * @deprecated 26.0.0 use `getLanguage` from https://www.npmjs.com/package/@nextcloud/l10n
+   */
+  getLanguage: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_23__.getLanguage,
+  /**
+   * Query string helpers
+   */
+  buildQueryString: _query_string_js__WEBPACK_IMPORTED_MODULE_9__.build,
+  parseQueryString: _query_string_js__WEBPACK_IMPORTED_MODULE_9__.parse,
+  msg: _msg_js__WEBPACK_IMPORTED_MODULE_26__["default"],
+  Notification: _notification_js__WEBPACK_IMPORTED_MODULE_27__["default"],
+  PasswordConfirmation: _password_confirmation_js__WEBPACK_IMPORTED_MODULE_28__["default"],
+  Plugins: _plugins_js__WEBPACK_IMPORTED_MODULE_29__["default"],
+  theme: _theme_js__WEBPACK_IMPORTED_MODULE_30__.theme,
+  Util: _util_js__WEBPACK_IMPORTED_MODULE_31__["default"],
+  debug: _debug_js__WEBPACK_IMPORTED_MODULE_32__.debug,
+  /**
+   * @deprecated 19.0.0 use `generateFilePath` from https://www.npmjs.com/package/@nextcloud/router
+   */
+  filePath: _nextcloud_router__WEBPACK_IMPORTED_MODULE_24__.generateFilePath,
+  /**
+   * @deprecated 19.0.0 use `generateUrl` from https://www.npmjs.com/package/@nextcloud/router
+   */
+  generateUrl: _nextcloud_router__WEBPACK_IMPORTED_MODULE_24__.generateUrl,
+  /**
+   * @deprecated 19.0.0 use https://lodash.com/docs#get
+   */
+  get: (0,_get_set_js__WEBPACK_IMPORTED_MODULE_16__.get)(window),
+  /**
+   * @deprecated 19.0.0 use https://lodash.com/docs#set
+   */
+  set: (0,_get_set_js__WEBPACK_IMPORTED_MODULE_16__.set)(window),
+  /**
+   * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
+   */
+  getRootPath: _nextcloud_router__WEBPACK_IMPORTED_MODULE_24__.getRootUrl,
+  /**
+   * @deprecated 19.0.0 use `imagePath` from https://www.npmjs.com/package/@nextcloud/router
+   */
+  imagePath: _nextcloud_router__WEBPACK_IMPORTED_MODULE_24__.imagePath,
+  redirect: _navigation_js__WEBPACK_IMPORTED_MODULE_33__.redirect,
+  reload: _navigation_js__WEBPACK_IMPORTED_MODULE_33__.reload,
+  requestToken: (0,_requesttoken_js__WEBPACK_IMPORTED_MODULE_19__.getToken)(),
+  /**
+   * @deprecated 19.0.0 use `linkTo` from https://www.npmjs.com/package/@nextcloud/router
+   */
+  linkTo: _nextcloud_router__WEBPACK_IMPORTED_MODULE_24__.linkTo,
+  /**
+   * @param {string} service service name
+   * @param {number} version OCS API version
+   * @return {string} OCS API base path
+   * @deprecated 19.0.0 use `generateOcsUrl` from https://www.npmjs.com/package/@nextcloud/router
+   */
+  linkToOCS: (service, version) => {
+    return (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_24__.generateOcsUrl)(service, {}, {
+      ocsVersion: version || 1
+    }) + '/';
+  },
+  /**
+   * @deprecated 19.0.0 use `generateRemoteUrl` from https://www.npmjs.com/package/@nextcloud/router
+   */
+  linkToRemote: _nextcloud_router__WEBPACK_IMPORTED_MODULE_24__.generateRemoteUrl,
+  linkToRemoteBase: _routing_js__WEBPACK_IMPORTED_MODULE_25__.linkToRemoteBase,
+  /**
+   * Relative path to Nextcloud root.
+   * For example: "/nextcloud"
+   *
+   * @type {string}
+   *
+   * @deprecated 19.0.0 use `getRootUrl` from https://www.npmjs.com/package/@nextcloud/router
+   * @see OC#getRootPath
+   */
+  webroot: _webroot_js__WEBPACK_IMPORTED_MODULE_34__["default"]
+});
+
+// Keep the request token prop in sync
+(0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('csrf-token-update', e => {
+  OC.requestToken = e.token;
+
+  // Logging might help debug (Sentry) issues
+  console.info('OC.requestToken changed', e.token);
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/l10n.js":
+/*!*****************************!*\
+  !*** ./core/src/OC/l10n.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "./node_modules/handlebars/dist/cjs/handlebars.runtime.js");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/**
+ * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
+ * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vincent Petry <vincent@nextcloud.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+/**
+ * L10N namespace with localization functions.
+ *
+ * @namespace OC.L10n
+ * @deprecated 26.0.0 use https://www.npmjs.com/package/@nextcloud/l10n
+ */
+const L10n = {
+  /**
+   * Load an app's translation bundle if not loaded already.
+   *
+   * @deprecated 26.0.0 use `loadTranslations` from https://www.npmjs.com/package/@nextcloud/l10n
+   *
+   * @param {string} appName name of the app
+   * @param {Function} callback callback to be called when
+   * the translations are loaded
+   * @return {Promise} promise
+   */
+  load: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.loadTranslations,
+  /**
+   * Register an app's translation bundle.
+   *
+   * @deprecated 26.0.0 use `register` from https://www.npmjs.com/package/@nextcloud/l10
+   *
+   * @param {string} appName name of the app
+   * @param {Object<string, string>} bundle bundle
+   */
+  register: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.register,
+  /**
+   * @private
+   * @deprecated 26.0.0 use `unregister` from https://www.npmjs.com/package/@nextcloud/l10n
+   */
+  _unregister: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.unregister,
+  /**
+   * Translate a string
+   *
+   * @deprecated 26.0.0 use `translate` from https://www.npmjs.com/package/@nextcloud/l10n
+   *
+   * @param {string} app the id of the app for which to translate the string
+   * @param {string} text the string to translate
+   * @param {object} [vars] map of placeholder key to value
+   * @param {number} [count] number to replace %n with
+   * @param {Array} [options] options array
+   * @param {boolean} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
+   * @param {boolean} [options.sanitize=true] enable/disable sanitization (by default enabled)
+   * @return {string}
+   */
+  translate: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate,
+  /**
+   * Translate a plural string
+   *
+   * @deprecated 26.0.0 use `translatePlural` from https://www.npmjs.com/package/@nextcloud/l10n
+   *
+   * @param {string} app the id of the app for which to translate the string
+   * @param {string} textSingular the string to translate for exactly one object
+   * @param {string} textPlural the string to translate for n objects
+   * @param {number} count number to determine whether to use singular or plural
+   * @param {object} [vars] map of placeholder key to value
+   * @param {Array} [options] options array
+   * @param {boolean} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
+   * @return {string} Translated string
+   */
+  translatePlural: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translatePlural
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (L10n);
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('t', function (app, text) {
+  return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)(app, text);
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/legacy-loader.js":
+/*!**************************************!*\
+  !*** ./core/src/OC/legacy-loader.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addScript": () => (/* binding */ addScript),
+/* harmony export */   "addStyle": () => (/* binding */ addStyle)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/** @typedef {import('jquery')} jQuery */
+
+
+const loadedScripts = {};
+const loadedStyles = [];
+
+/**
+ * Load a script for the server and load it. If the script is already loaded,
+ * the event handler will be called directly
+ *
+ * @param {string} app the app id to which the script belongs
+ * @param {string} script the filename of the script
+ * @param {Function} ready event handler to be called when the script is loaded
+ * @return {jQuery.Deferred}
+ * @deprecated 16.0.0 Use OCP.Loader.loadScript
+ */
+const addScript = (app, script, ready) => {
+  OC.debug && console.warn('OC.addScript is deprecated, use OCP.Loader.loadScript instead');
+  let deferred;
+  const path = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateFilePath)(app, 'js', script + '.js');
+  if (!loadedScripts[path]) {
+    deferred = jquery__WEBPACK_IMPORTED_MODULE_0___default().Deferred();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().getScript(path, () => deferred.resolve());
+    loadedScripts[path] = deferred;
+  } else {
+    if (ready) {
+      ready();
+    }
+  }
+  return loadedScripts[path];
+};
+
+/**
+ * Loads a CSS file
+ *
+ * @param {string} app the app id to which the css style belongs
+ * @param {string} style the filename of the css file
+ * @deprecated 16.0.0 Use OCP.Loader.loadStylesheet
+ */
+const addStyle = (app, style) => {
+  OC.debug && console.warn('OC.addStyle is deprecated, use OCP.Loader.loadStylesheet instead');
+  const path = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateFilePath)(app, 'css', style + '.css');
+  if (loadedStyles.indexOf(path) === -1) {
+    loadedStyles.push(path);
+    if (document.createStyleSheet) {
+      document.createStyleSheet(path);
+    } else {
+      style = jquery__WEBPACK_IMPORTED_MODULE_0___default()('<link rel="stylesheet" type="text/css" href="' + path + '"/>');
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('head').append(style);
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/menu.js":
+/*!*****************************!*\
+  !*** ./core/src/OC/menu.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "currentMenu": () => (/* binding */ currentMenu),
+/* harmony export */   "currentMenuToggle": () => (/* binding */ currentMenuToggle),
+/* harmony export */   "hideMenus": () => (/* binding */ hideMenus),
+/* harmony export */   "registerMenu": () => (/* binding */ registerMenu),
+/* harmony export */   "showMenu": () => (/* binding */ showMenu),
+/* harmony export */   "unregisterMenu": () => (/* binding */ unregisterMenu)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants.js */ "./core/src/OC/constants.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+/** @typedef {import('jquery')} jQuery */
+
+
+let currentMenu = null;
+let currentMenuToggle = null;
+
+/**
+ * For menu toggling
+ *
+ * @param {jQuery} $toggle the toggle element
+ * @param {jQuery} $menuEl the menu container element
+ * @param {Function | undefined} toggle callback invoked everytime the menu is opened
+ * @param {boolean} headerMenu is this a top right header menu?
+ * @return {void}
+ */
+const registerMenu = function ($toggle, $menuEl, toggle, headerMenu) {
+  $menuEl.addClass('menu');
+  const isClickableElement = $toggle.prop('tagName') === 'A' || $toggle.prop('tagName') === 'BUTTON';
+
+  // On link and button, the enter key trigger a click event
+  // Only use the click to avoid two fired events
+  $toggle.on(isClickableElement ? 'click.menu' : 'click.menu keyup.menu', function (event) {
+    // prevent the link event (append anchor to URL)
+    event.preventDefault();
+
+    // allow enter key as a trigger
+    if (event.key && event.key !== 'Enter') {
+      return;
+    }
+    if ($menuEl.is(currentMenu)) {
+      hideMenus();
+      return;
+    } else if (currentMenu) {
+      // another menu was open?
+      // close it
+      hideMenus();
+    }
+    if (headerMenu === true) {
+      $menuEl.parent().addClass('openedMenu');
+    }
+
+    // Set menu to expanded
+    $toggle.attr('aria-expanded', true);
+    $menuEl.slideToggle(_constants_js__WEBPACK_IMPORTED_MODULE_2__.menuSpeed, toggle);
+    currentMenu = $menuEl;
+    currentMenuToggle = $toggle;
+  });
+};
+
+/**
+ * Unregister a previously registered menu
+ *
+ * @param {jQuery} $toggle the toggle element
+ * @param {jQuery} $menuEl the menu container element
+ */
+const unregisterMenu = ($toggle, $menuEl) => {
+  // close menu if opened
+  if ($menuEl.is(currentMenu)) {
+    hideMenus();
+  }
+  $toggle.off('click.menu').removeClass('menutoggle');
+  $menuEl.removeClass('menu');
+};
+
+/**
+ * Hides any open menus
+ *
+ * @param {Function} complete callback when the hiding animation is done
+ */
+const hideMenus = function (complete) {
+  if (currentMenu) {
+    const lastMenu = currentMenu;
+    currentMenu.trigger(new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Event)('beforeHide'));
+    currentMenu.slideUp(_constants_js__WEBPACK_IMPORTED_MODULE_2__.menuSpeed, function () {
+      lastMenu.trigger(new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Event)('afterHide'));
+      if (complete) {
+        complete.apply(this, arguments);
+      }
+    });
+  }
+
+  // Set menu to closed
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('.menutoggle').attr('aria-expanded', false);
+  if (currentMenuToggle) {
+    currentMenuToggle.attr('aria-expanded', false);
+  }
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('.openedMenu').removeClass('openedMenu');
+  currentMenu = null;
+  currentMenuToggle = null;
+};
+
+/**
+ * Shows a given element as menu
+ *
+ * @param {object} [$toggle=null] menu toggle
+ * @param {object} $menuEl menu element
+ * @param {Function} complete callback when the showing animation is done
+ */
+const showMenu = ($toggle, $menuEl, complete) => {
+  if ($menuEl.is(currentMenu)) {
+    return;
+  }
+  hideMenus();
+  currentMenu = $menuEl;
+  currentMenuToggle = $toggle;
+  $menuEl.trigger(new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Event)('beforeShow'));
+  $menuEl.show();
+  $menuEl.trigger(new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Event)('afterShow'));
+  // no animation
+  if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(complete)) {
+    complete();
+  }
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/msg.js":
+/*!****************************!*\
+  !*** ./core/src/OC/msg.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author rakekniven <mark.ziegler@rakekniven.de>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+/**
+ * A little class to manage a status field for a "saving" process.
+ * It can be used to display a starting message (e.g. "Saving...") and then
+ * replace it with a green success message or a red error message.
+ *
+ * @namespace OC.msg
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * Displayes a "Saving..." message in the given message placeholder
+   *
+   * @param {object} selector    Placeholder to display the message in
+   */
+  startSaving(selector) {
+    this.startAction(selector, t('core', 'Saving …'));
+  },
+  /**
+   * Displayes a custom message in the given message placeholder
+   *
+   * @param {object} selector    Placeholder to display the message in
+   * @param {string} message    Plain text message to display (no HTML allowed)
+   */
+  startAction(selector, message) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).text(message).removeClass('success').removeClass('error').stop(true, true).show();
+  },
+  /**
+   * Displayes an success/error message in the given selector
+   *
+   * @param {object} selector    Placeholder to display the message in
+   * @param {object} response    Response of the server
+   * @param {object} response.data    Data of the servers response
+   * @param {string} response.data.message    Plain text message to display (no HTML allowed)
+   * @param {string} response.status    is being used to decide whether the message
+   * is displayed as an error/success
+   */
+  finishedSaving(selector, response) {
+    this.finishedAction(selector, response);
+  },
+  /**
+   * Displayes an success/error message in the given selector
+   *
+   * @param {object} selector    Placeholder to display the message in
+   * @param {object} response    Response of the server
+   * @param {object} response.data Data of the servers response
+   * @param {string} response.data.message Plain text message to display (no HTML allowed)
+   * @param {string} response.status is being used to decide whether the message
+   * is displayed as an error/success
+   */
+  finishedAction(selector, response) {
+    if (response.status === 'success') {
+      this.finishedSuccess(selector, response.data.message);
+    } else {
+      this.finishedError(selector, response.data.message);
+    }
+  },
+  /**
+   * Displayes an success message in the given selector
+   *
+   * @param {object} selector Placeholder to display the message in
+   * @param {string} message Plain text success message to display (no HTML allowed)
+   */
+  finishedSuccess(selector, message) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).text(message).addClass('success').removeClass('error').stop(true, true).delay(3000).fadeOut(900).show();
+  },
+  /**
+   * Displayes an error message in the given selector
+   *
+   * @param {object} selector Placeholder to display the message in
+   * @param {string} message Plain text error message to display (no HTML allowed)
+   */
+  finishedError(selector, message) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(selector).text(message).addClass('error').removeClass('success').show();
+  }
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/navigation.js":
+/*!***********************************!*\
+  !*** ./core/src/OC/navigation.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "redirect": () => (/* binding */ redirect),
+/* harmony export */   "reload": () => (/* binding */ reload)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const redirect = targetURL => {
+  window.location = targetURL;
+};
+
+/**
+ * Reloads the current page
+ *
+ * @deprecated 17.0.0 use window.location.reload directly
+ */
+const reload = () => {
+  window.location.reload();
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/notification.js":
+/*!*************************************!*\
+  !*** ./core/src/OC/notification.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author npmbuildbot[bot] "npmbuildbot[bot]@users.noreply.github.com"
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+/** @typedef {import('jquery')} jQuery */
+
+
+
+/**
+ * @todo Write documentation
+ * @deprecated 17.0.0 use the `@nextcloud/dialogs` package instead
+ * @namespace OC.Notification
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  updatableNotification: null,
+  getDefaultNotificationFunction: null,
+  /**
+   * @param {Function} callback callback function
+   * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
+   */
+  setDefault(callback) {
+    this.getDefaultNotificationFunction = callback;
+  },
+  /**
+   * Hides a notification.
+   *
+   * If a row is given, only hide that one.
+   * If no row is given, hide all notifications.
+   *
+   * @param {jQuery} [$row] notification row
+   * @param {Function} [callback] callback
+   * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
+   */
+  hide($row, callback) {
+    if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction($row)) {
+      // first arg is the callback
+      callback = $row;
+      $row = undefined;
+    }
+    if (!$row) {
+      console.error('Missing argument $row in OC.Notification.hide() call, caller needs to be adjusted to only dismiss its own notification');
+      return;
+    }
+
+    // remove the row directly
+    $row.each(function () {
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()(this)[0].toastify) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()(this)[0].toastify.hideToast();
+      } else {
+        console.error('cannot hide toast because object is not set');
+      }
+      if (this === this.updatableNotification) {
+        this.updatableNotification = null;
+      }
+    });
+    if (callback) {
+      callback.call();
+    }
+    if (this.getDefaultNotificationFunction) {
+      this.getDefaultNotificationFunction();
+    }
+  },
+  /**
+   * Shows a notification as HTML without being sanitized before.
+   * If you pass unsanitized user input this may lead to a XSS vulnerability.
+   * Consider using show() instead of showHTML()
+   *
+   * @param {string} html Message to display
+   * @param {object} [options] options
+   * @param {string} [options.type] notification type
+   * @param {number} [options.timeout=0] timeout value, defaults to 0 (permanent)
+   * @return {jQuery} jQuery element for notification row
+   * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
+   */
+  showHtml(html, options) {
+    options = options || {};
+    options.isHTML = true;
+    options.timeout = !options.timeout ? _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.TOAST_PERMANENT_TIMEOUT : options.timeout;
+    const toast = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showMessage)(html, options);
+    toast.toastElement.toastify = toast;
+    return jquery__WEBPACK_IMPORTED_MODULE_1___default()(toast.toastElement);
+  },
+  /**
+   * Shows a sanitized notification
+   *
+   * @param {string} text Message to display
+   * @param {object} [options] options
+   * @param {string} [options.type] notification type
+   * @param {number} [options.timeout=0] timeout value, defaults to 0 (permanent)
+   * @return {jQuery} jQuery element for notification row
+   * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
+   */
+  show(text, options) {
+    const escapeHTML = function (text) {
+      return text.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
+    };
+    options = options || {};
+    options.timeout = !options.timeout ? _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.TOAST_PERMANENT_TIMEOUT : options.timeout;
+    const toast = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showMessage)(escapeHTML(text), options);
+    toast.toastElement.toastify = toast;
+    return jquery__WEBPACK_IMPORTED_MODULE_1___default()(toast.toastElement);
+  },
+  /**
+   * Updates (replaces) a sanitized notification.
+   *
+   * @param {string} text Message to display
+   * @return {jQuery} JQuery element for notificaiton row
+   * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
+   */
+  showUpdate(text) {
+    if (this.updatableNotification) {
+      this.updatableNotification.hideToast();
+    }
+    this.updatableNotification = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showMessage)(text, {
+      timeout: _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.TOAST_PERMANENT_TIMEOUT
+    });
+    this.updatableNotification.toastElement.toastify = this.updatableNotification;
+    return jquery__WEBPACK_IMPORTED_MODULE_1___default()(this.updatableNotification.toastElement);
+  },
+  /**
+   * Shows a notification that disappears after x seconds, default is
+   * 7 seconds
+   *
+   * @param {string} text Message to show
+   * @param {Array} [options] options array
+   * @param {number} [options.timeout=7] timeout in seconds, if this is 0 it will show the message permanently
+   * @param {boolean} [options.isHTML=false] an indicator for HTML notifications (true) or text (false)
+   * @param {string} [options.type] notification type
+   * @return {JQuery} the toast element
+   * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
+   */
+  showTemporary(text, options) {
+    options = options || {};
+    options.timeout = options.timeout || _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.TOAST_DEFAULT_TIMEOUT;
+    const toast = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showMessage)(text, options);
+    toast.toastElement.toastify = toast;
+    return jquery__WEBPACK_IMPORTED_MODULE_1___default()(toast.toastElement);
+  },
+  /**
+   * Returns whether a notification is hidden.
+   *
+   * @return {boolean}
+   * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
+   */
+  isHidden() {
+    return !jquery__WEBPACK_IMPORTED_MODULE_1___default()('#content').find('.toastify').length;
+  }
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/password-confirmation.js":
+/*!**********************************************!*\
+  !*** ./core/src/OC/password-confirmation.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index.js */ "./core/src/OC/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+
+
+
+/**
+ * @namespace OC.PasswordConfirmation
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  callback: null,
+  pageLoadTime: null,
+  init() {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()('.password-confirm-required').on('click', underscore__WEBPACK_IMPORTED_MODULE_0__["default"].bind(this.requirePasswordConfirmation, this));
+    this.pageLoadTime = moment__WEBPACK_IMPORTED_MODULE_2___default().now();
+  },
+  requiresPasswordConfirmation() {
+    const serverTimeDiff = this.pageLoadTime - window.nc_pageLoad * 1000;
+    const timeSinceLogin = moment__WEBPACK_IMPORTED_MODULE_2___default().now() - (serverTimeDiff + window.nc_lastLogin * 1000);
+
+    // if timeSinceLogin > 30 minutes and user backend allows password confirmation
+    return window.backendAllowsPasswordConfirmation && timeSinceLogin > 30 * 60 * 1000;
+  },
+  /**
+   * @param {Function} callback success callback function
+   * @param {object} options options
+   * @param {Function} rejectCallback error callback function
+   */
+  requirePasswordConfirmation(callback, options, rejectCallback) {
+    options = typeof options !== 'undefined' ? options : {};
+    const defaults = {
+      title: t('core', 'Authentication required'),
+      text: t('core', 'This action requires you to confirm your password'),
+      confirm: t('core', 'Confirm'),
+      label: t('core', 'Password'),
+      error: ''
+    };
+    const config = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend(defaults, options);
+    const self = this;
+    if (this.requiresPasswordConfirmation()) {
+      _index_js__WEBPACK_IMPORTED_MODULE_4__["default"].dialogs.prompt(config.text, config.title, function (result, password) {
+        if (result && password !== '') {
+          self._confirmPassword(password, config);
+        } else if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(rejectCallback)) {
+          rejectCallback();
+        }
+      }, true, config.label, true).then(function () {
+        const $dialog = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.oc-dialog:visible');
+        $dialog.find('.ui-icon').remove();
+        $dialog.addClass('password-confirmation');
+        if (config.error !== '') {
+          const $error = jquery__WEBPACK_IMPORTED_MODULE_1___default()('<p></p>').addClass('msg warning').text(config.error);
+          $dialog.find('.oc-dialog-content').append($error);
+        }
+        const $buttonrow = $dialog.find('.oc-dialog-buttonrow');
+        $buttonrow.addClass('aside');
+        const $buttons = $buttonrow.find('button');
+        $buttons.eq(0).hide();
+        $buttons.eq(1).text(config.confirm);
+      });
+    }
+    this.callback = callback;
+  },
+  _confirmPassword(password, config) {
+    const self = this;
+    jquery__WEBPACK_IMPORTED_MODULE_1___default().ajax({
+      url: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_3__.generateUrl)('/login/confirm'),
+      data: {
+        password
+      },
+      type: 'POST',
+      success(response) {
+        window.nc_lastLogin = response.lastLogin;
+        if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isFunction(self.callback)) {
+          self.callback();
+        }
+      },
+      error() {
+        config.error = t('core', 'Failed to authenticate, try again');
+        _index_js__WEBPACK_IMPORTED_MODULE_4__["default"].PasswordConfirmation.requirePasswordConfirmation(self.callback, config);
+      }
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/plugins.js":
+/*!********************************!*\
+  !*** ./core/src/OC/plugins.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * @type {Array.<OC.Plugin>}
+   */
+  _plugins: {},
+  /**
+   * Register plugin
+   *
+   * @param {string} targetName app name / class name to hook into
+   * @param {OC.Plugin} plugin plugin
+   */
+  register(targetName, plugin) {
+    let plugins = this._plugins[targetName];
+    if (!plugins) {
+      plugins = this._plugins[targetName] = [];
+    }
+    plugins.push(plugin);
+  },
+  /**
+   * Returns all plugin registered to the given target
+   * name / app name / class name.
+   *
+   * @param {string} targetName app name / class name to hook into
+   * @return {Array.<OC.Plugin>} array of plugins
+   */
+  getPlugins(targetName) {
+    return this._plugins[targetName] || [];
+  },
+  /**
+   * Call attach() on all plugins registered to the given target name.
+   *
+   * @param {string} targetName app name / class name
+   * @param {object} targetObject to be extended
+   * @param {object} [options] options
+   */
+  attach(targetName, targetObject, options) {
+    const plugins = this.getPlugins(targetName);
+    for (let i = 0; i < plugins.length; i++) {
+      if (plugins[i].attach) {
+        plugins[i].attach(targetObject, options);
+      }
+    }
+  },
+  /**
+   * Call detach() on all plugins registered to the given target name.
+   *
+   * @param {string} targetName app name / class name
+   * @param {object} targetObject to be extended
+   * @param {object} [options] options
+   */
+  detach(targetName, targetObject, options) {
+    const plugins = this.getPlugins(targetName);
+    for (let i = 0; i < plugins.length; i++) {
+      if (plugins[i].detach) {
+        plugins[i].detach(targetObject, options);
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/query-string.js":
+/*!*************************************!*\
+  !*** ./core/src/OC/query-string.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "build": () => (/* binding */ build),
+/* harmony export */   "parse": () => (/* binding */ parse)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+/**
+ * Parses a URL query string into a JS map
+ *
+ * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
+ * @return {Object<string, string>} map containing key/values matching the URL parameters
+ */
+const parse = queryString => {
+  let pos;
+  let components;
+  const result = {};
+  let key;
+  if (!queryString) {
+    return null;
+  }
+  pos = queryString.indexOf('?');
+  if (pos >= 0) {
+    queryString = queryString.substr(pos + 1);
+  }
+  const parts = queryString.replace(/\+/g, '%20').split('&');
+  for (let i = 0; i < parts.length; i++) {
+    // split on first equal sign
+    const part = parts[i];
+    pos = part.indexOf('=');
+    if (pos >= 0) {
+      components = [part.substr(0, pos), part.substr(pos + 1)];
+    } else {
+      // key only
+      components = [part];
+    }
+    if (!components.length) {
+      continue;
+    }
+    key = decodeURIComponent(components[0]);
+    if (!key) {
+      continue;
+    }
+    // if equal sign was there, return string
+    if (components.length > 1) {
+      result[key] = decodeURIComponent(components[1]);
+    } else {
+      // no equal sign => null value
+      result[key] = null;
+    }
+  }
+  return result;
+};
+
+/**
+ * Builds a URL query from a JS map.
+ *
+ * @param {Object<string, string>} params map containing key/values matching the URL parameters
+ * @return {string} String containing a URL query (without question) mark
+ */
+const build = params => {
+  if (!params) {
+    return '';
+  }
+  return jquery__WEBPACK_IMPORTED_MODULE_0___default().map(params, function (value, key) {
+    let s = encodeURIComponent(key);
+    if (value !== null && typeof value !== 'undefined') {
+      s += '=' + encodeURIComponent(value);
+    }
+    return s;
+  }).join('&');
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/requesttoken.js":
+/*!*************************************!*\
+  !*** ./core/src/OC/requesttoken.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getToken": () => (/* binding */ getToken),
+/* harmony export */   "manageToken": () => (/* binding */ manageToken),
+/* harmony export */   "setToken": () => (/* binding */ setToken)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+/**
+ * @private
+ * @param {Document} global the document to read the initial value from
+ * @param {Function} emit the function to invoke for every new token
+ * @return {object}
+ */
+const manageToken = (global, emit) => {
+  let token = global.getElementsByTagName('head')[0].getAttribute('data-requesttoken');
+  return {
+    getToken: () => token,
+    setToken: newToken => {
+      token = newToken;
+      emit('csrf-token-update', {
+        token
+      });
+    }
+  };
+};
+const manageFromDocument = manageToken(document, _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit);
+
+/**
+ * @return {string}
+ */
+const getToken = manageFromDocument.getToken;
+
+/**
+ * @param {string} newToken new token
+ */
+const setToken = manageFromDocument.setToken;
+
+/***/ }),
+
+/***/ "./core/src/OC/routing.js":
+/*!********************************!*\
+  !*** ./core/src/OC/routing.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "linkToRemoteBase": () => (/* binding */ linkToRemoteBase)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+/**
+ * Creates a relative url for remote use
+ *
+ * @param {string} service id
+ * @return {string} the url
+ */
+const linkToRemoteBase = service => {
+  return (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.getRootUrl)() + '/remote.php/' + service;
+};
+
+/***/ }),
+
+/***/ "./core/src/OC/theme.js":
+/*!******************************!*\
+  !*** ./core/src/OC/theme.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "theme": () => (/* binding */ theme)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+const theme = window._theme || {};
+
+/***/ }),
+
+/***/ "./core/src/OC/util-history.js":
+/*!*************************************!*\
+  !*** ./core/src/OC/util-history.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.js */ "./core/src/OC/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+/**
+ * Utility class for the history API,
+ * includes fallback to using the URL hash when
+ * the browser doesn't support the history API.
+ *
+ * @namespace OC.Util.History
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  _handlers: [],
+  /**
+   * Push the current URL parameters to the history stack
+   * and change the visible URL.
+   * Note: this includes a workaround for IE8/IE9 that uses
+   * the hash part instead of the search part.
+   *
+   * @param {object | string} params to append to the URL, can be either a string
+   * or a map
+   * @param {string} [url] URL to be used, otherwise the current URL will be used,
+   * using the params as query string
+   * @param {boolean} [replace=false] whether to replace instead of pushing
+   */
+  _pushState(params, url, replace) {
+    let strParams;
+    if (typeof params === 'string') {
+      strParams = params;
+    } else {
+      strParams = _index_js__WEBPACK_IMPORTED_MODULE_1__["default"].buildQueryString(params);
+    }
+    if (window.history.pushState) {
+      url = url || location.pathname + '?' + strParams;
+      // Workaround for bug with SVG and window.history.pushState on Firefox < 51
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=652991
+      const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+      if (isFirefox && parseInt(navigator.userAgent.split('/').pop()) < 51) {
+        const patterns = document.querySelectorAll('[fill^="url(#"], [stroke^="url(#"], [filter^="url(#invert"]');
+        for (let i = 0, ii = patterns.length, pattern; i < ii; i++) {
+          pattern = patterns[i];
+          // eslint-disable-next-line no-self-assign
+          pattern.style.fill = pattern.style.fill;
+          // eslint-disable-next-line no-self-assign
+          pattern.style.stroke = pattern.style.stroke;
+          pattern.removeAttribute('filter');
+          pattern.setAttribute('filter', 'url(#invert)');
+        }
+      }
+      if (replace) {
+        window.history.replaceState(params, '', url);
+      } else {
+        window.history.pushState(params, '', url);
+      }
+    } else {
+      // use URL hash for IE8
+      window.location.hash = '?' + strParams;
+      // inhibit next onhashchange that just added itself
+      // to the event queue
+      this._cancelPop = true;
+    }
+  },
+  /**
+   * Push the current URL parameters to the history stack
+   * and change the visible URL.
+   * Note: this includes a workaround for IE8/IE9 that uses
+   * the hash part instead of the search part.
+   *
+   * @param {object | string} params to append to the URL, can be either a string or a map
+   * @param {string} [url] URL to be used, otherwise the current URL will be used, using the params as query string
+   */
+  pushState(params, url) {
+    this._pushState(params, url, false);
+  },
+  /**
+   * Push the current URL parameters to the history stack
+   * and change the visible URL.
+   * Note: this includes a workaround for IE8/IE9 that uses
+   * the hash part instead of the search part.
+   *
+   * @param {object | string} params to append to the URL, can be either a string
+   * or a map
+   * @param {string} [url] URL to be used, otherwise the current URL will be used,
+   * using the params as query string
+   */
+  replaceState(params, url) {
+    this._pushState(params, url, true);
+  },
+  /**
+   * Add a popstate handler
+   *
+   * @param {Function} handler handler
+   */
+  addOnPopStateHandler(handler) {
+    this._handlers.push(handler);
+  },
+  /**
+   * Parse a query string from the hash part of the URL.
+   * (workaround for IE8 / IE9)
+   *
+   * @return {string}
+   */
+  _parseHashQuery() {
+    const hash = window.location.hash;
+    const pos = hash.indexOf('?');
+    if (pos >= 0) {
+      return hash.substr(pos + 1);
+    }
+    if (hash.length) {
+      // remove hash sign
+      return hash.substr(1);
+    }
+    return '';
+  },
+  _decodeQuery(query) {
+    return query.replace(/\+/g, ' ');
+  },
+  /**
+   * Parse the query/search part of the URL.
+   * Also try and parse it from the URL hash (for IE8)
+   *
+   * @return {object} map of parameters
+   */
+  parseUrlQuery() {
+    const query = this._parseHashQuery();
+    let params;
+    // try and parse from URL hash first
+    if (query) {
+      params = _index_js__WEBPACK_IMPORTED_MODULE_1__["default"].parseQueryString(this._decodeQuery(query));
+    }
+    // else read from query attributes
+    params = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].extend(params || {}, _index_js__WEBPACK_IMPORTED_MODULE_1__["default"].parseQueryString(this._decodeQuery(location.search)));
+    return params || {};
+  },
+  _onPopState(e) {
+    if (this._cancelPop) {
+      this._cancelPop = false;
+      return;
+    }
+    let params;
+    if (!this._handlers.length) {
+      return;
+    }
+    params = e && e.state;
+    if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].isString(params)) {
+      params = _index_js__WEBPACK_IMPORTED_MODULE_1__["default"].parseQueryString(params);
+    } else if (!params) {
+      params = this.parseUrlQuery() || {};
+    }
+    for (let i = 0; i < this._handlers.length; i++) {
+      this._handlers[i](params);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/util.js":
+/*!*****************************!*\
+  !*** ./core/src/OC/util.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_history_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util-history.js */ "./core/src/OC/util-history.js");
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.js */ "./core/src/OC/index.js");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+
+
+
+/**
+ * @param {any} t -
+ */
+function chunkify(t) {
+  // Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
+  const tz = [];
+  let x = 0;
+  let y = -1;
+  let n = 0;
+  let c;
+  while (x < t.length) {
+    c = t.charAt(x);
+    // only include the dot in strings
+    const m = !n && c === '.' || c >= '0' && c <= '9';
+    if (m !== n) {
+      // next chunk
+      y++;
+      tz[y] = '';
+      n = m;
+    }
+    tz[y] += c;
+    x++;
+  }
+  return tz;
+}
+
+/**
+ * Utility functions
+ *
+ * @namespace OC.Util
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  History: _util_history_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  /**
+   * @param {number} size Size in bytes
+   * @param {boolean} skipSmallSizes return '< 1 KiB' for small files
+   * @deprecated use `@nextcloud/files`, see https://nextcloud-libraries.github.io/nextcloud-files/functions/formatFileSize.html
+   */
+  humanFileSize: (size, skipSmallSizes) => (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.formatFileSize)(size, skipSmallSizes, true).replace('iB', 'B'),
+  // the replace is for backwards compatibility, where binary sizes but decimal units were used
+
+  /**
+   * Returns a file size in bytes from a humanly readable string
+   * Makes 2kB to 2048.
+   * Inspired by computerFileSize in helper.php
+   *
+   * @param  {string} string file size in human-readable format
+   * @return {number} or null if string could not be parsed
+   *
+   *
+   */
+  computerFileSize(string) {
+    if (typeof string !== 'string') {
+      return null;
+    }
+    const s = string.toLocaleLowerCase((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.getCanonicalLocale)()).replaceAll(',', '.').trim();
+    let bytes = null;
+    const bytesArray = {
+      '': 1,
+      b: 1,
+      k: 1024,
+      m: 1024 * 1024,
+      g: 1024 * 1024 * 1024,
+      t: 1024 * 1024 * 1024 * 1024,
+      p: 1024 * 1024 * 1024 * 1024 * 1024
+    };
+    const matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?)i?b?$/i);
+    if (matches !== null) {
+      bytes = parseFloat(s);
+      if (!isFinite(bytes)) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+    if (matches[5]) {
+      bytes = bytes * bytesArray[matches[5]];
+    }
+    bytes = Math.round(bytes);
+    return bytes;
+  },
+  /**
+   * @param {string|number} timestamp timestamp
+   * @param {string} format date format, see momentjs docs
+   * @return {string} timestamp formatted as requested
+   */
+  formatDate(timestamp, format) {
+    if (window.TESTING === undefined) {
+      _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].debug && console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment');
+    }
+    format = format || 'LLL';
+    return moment__WEBPACK_IMPORTED_MODULE_0___default()(timestamp).format(format);
+  },
+  /**
+   * @param {string|number} timestamp timestamp
+   * @return {string} human readable difference from now
+   */
+  relativeModifiedDate(timestamp) {
+    if (window.TESTING === undefined) {
+      _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].debug && console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment');
+    }
+    const diff = moment__WEBPACK_IMPORTED_MODULE_0___default()().diff(moment__WEBPACK_IMPORTED_MODULE_0___default()(timestamp));
+    if (diff >= 0 && diff < 45000) {
+      return t('core', 'seconds ago');
+    }
+    return moment__WEBPACK_IMPORTED_MODULE_0___default()(timestamp).fromNow();
+  },
+  /**
+   * Returns the width of a generic browser scrollbar
+   *
+   * @return {number} width of scrollbar
+   */
+  getScrollBarWidth() {
+    if (this._scrollBarWidth) {
+      return this._scrollBarWidth;
+    }
+    const inner = document.createElement('p');
+    inner.style.width = '100%';
+    inner.style.height = '200px';
+    const outer = document.createElement('div');
+    outer.style.position = 'absolute';
+    outer.style.top = '0px';
+    outer.style.left = '0px';
+    outer.style.visibility = 'hidden';
+    outer.style.width = '200px';
+    outer.style.height = '150px';
+    outer.style.overflow = 'hidden';
+    outer.appendChild(inner);
+    document.body.appendChild(outer);
+    const w1 = inner.offsetWidth;
+    outer.style.overflow = 'scroll';
+    let w2 = inner.offsetWidth;
+    if (w1 === w2) {
+      w2 = outer.clientWidth;
+    }
+    document.body.removeChild(outer);
+    this._scrollBarWidth = w1 - w2;
+    return this._scrollBarWidth;
+  },
+  /**
+   * Remove the time component from a given date
+   *
+   * @param {Date} date date
+   * @return {Date} date with stripped time
+   */
+  stripTime(date) {
+    // FIXME: likely to break when crossing DST
+    // would be better to use a library like momentJS
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  },
+  /**
+   * Compare two strings to provide a natural sort
+   *
+   * @param {string} a first string to compare
+   * @param {string} b second string to compare
+   * @return {number} -1 if b comes before a, 1 if a comes before b
+   * or 0 if the strings are identical
+   */
+  naturalSortCompare(a, b) {
+    let x;
+    const aa = chunkify(a);
+    const bb = chunkify(b);
+    for (x = 0; aa[x] && bb[x]; x++) {
+      if (aa[x] !== bb[x]) {
+        const aNum = Number(aa[x]);
+        const bNum = Number(bb[x]);
+        // note: == is correct here
+        /* eslint-disable-next-line */
+        if (aNum == aa[x] && bNum == bb[x]) {
+          return aNum - bNum;
+        } else {
+          // Note: This locale setting isn't supported by all browsers but for the ones
+          // that do there will be more consistency between client-server sorting
+          return aa[x].localeCompare(bb[x], _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].getLanguage());
+        }
+      }
+    }
+    return aa.length - bb.length;
+  },
+  /**
+   * Calls the callback in a given interval until it returns true
+   *
+   * @param {Function} callback function to call on success
+   * @param {number} interval in milliseconds
+   */
+  waitFor(callback, interval) {
+    const internalCallback = function () {
+      if (callback() !== true) {
+        setTimeout(internalCallback, interval);
+      }
+    };
+    internalCallback();
+  },
+  /**
+   * Checks if a cookie with the given name is present and is set to the provided value.
+   *
+   * @param {string} name name of the cookie
+   * @param {string} value value of the cookie
+   * @return {boolean} true if the cookie with the given name has the given value
+   */
+  isCookieSetToValue(name, value) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].split('=');
+      if (cookie[0].trim() === name && cookie[1].trim() === value) {
+        return true;
+      }
+    }
+    return false;
+  }
+});
+
+/***/ }),
+
+/***/ "./core/src/OC/webroot.js":
+/*!********************************!*\
+  !*** ./core/src/OC/webroot.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+let webroot = window._oc_webroot;
+if (typeof webroot === 'undefined') {
+  webroot = location.pathname;
+  const pos = webroot.indexOf('/index.php/');
+  if (pos !== -1) {
+    webroot = webroot.substr(0, pos);
+  } else {
+    webroot = webroot.substr(0, webroot.lastIndexOf('/'));
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (webroot);
+
+/***/ }),
+
+/***/ "./core/src/OC/xhr-error.js":
+/*!**********************************!*\
+  !*** ./core/src/OC/xhr-error.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ajaxConnectionLostHandler": () => (/* binding */ ajaxConnectionLostHandler),
+/* harmony export */   "processAjaxError": () => (/* binding */ processAjaxError),
+/* harmony export */   "registerXHRForErrorProcessing": () => (/* binding */ registerXHRForErrorProcessing)
+/* harmony export */ });
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! underscore */ "./node_modules/underscore/modules/index-all.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.js */ "./core/src/OC/index.js");
+/* harmony import */ var _notification_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./notification.js */ "./core/src/OC/notification.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+
+
+/**
+ * Warn users that the connection to the server was lost temporarily
+ *
+ * This function is throttled to prevent stacked notfications.
+ * After 7sec the first notification is gone, then we can show another one
+ * if necessary.
+ */
+const ajaxConnectionLostHandler = underscore__WEBPACK_IMPORTED_MODULE_0__["default"].throttle(() => {
+  _notification_js__WEBPACK_IMPORTED_MODULE_3__["default"].showTemporary(t('core', 'Connection to server lost'));
+}, 7 * 1000, {
+  trailing: false
+});
+
+/**
+ * Process ajax error, redirects to main page
+ * if an error/auth error status was returned.
+ *
+ * @param {XMLHttpRequest} xhr xhr request
+ */
+const processAjaxError = xhr => {
+  // purposefully aborted request ?
+  // OC._userIsNavigatingAway needed to distinguish ajax calls cancelled by navigating away
+  // from calls cancelled by failed cross-domain ajax due to SSO redirect
+  if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout' || _index_js__WEBPACK_IMPORTED_MODULE_2__["default"]._reloadCalled)) {
+    return;
+  }
+  if (underscore__WEBPACK_IMPORTED_MODULE_0__["default"].contains([302, 303, 307, 401], xhr.status) && _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].currentUser) {
+    // sometimes "beforeunload" happens later, so need to defer the reload a bit
+    setTimeout(function () {
+      if (!_index_js__WEBPACK_IMPORTED_MODULE_2__["default"]._userIsNavigatingAway && !_index_js__WEBPACK_IMPORTED_MODULE_2__["default"]._reloadCalled) {
+        let timer = 0;
+        const seconds = 5;
+        const interval = setInterval(function () {
+          _notification_js__WEBPACK_IMPORTED_MODULE_3__["default"].showUpdate(n('core', 'Problem loading page, reloading in %n second', 'Problem loading page, reloading in %n seconds', seconds - timer));
+          if (timer >= seconds) {
+            clearInterval(interval);
+            _index_js__WEBPACK_IMPORTED_MODULE_2__["default"].reload();
+          }
+          timer++;
+        }, 1000 // 1 second interval
+        );
+
+        // only call reload once
+        _index_js__WEBPACK_IMPORTED_MODULE_2__["default"]._reloadCalled = true;
+      }
+    }, 100);
+  } else if (xhr.status === 0) {
+    // Connection lost (e.g. WiFi disconnected or server is down)
+    setTimeout(function () {
+      if (!_index_js__WEBPACK_IMPORTED_MODULE_2__["default"]._userIsNavigatingAway && !_index_js__WEBPACK_IMPORTED_MODULE_2__["default"]._reloadCalled) {
+        // TODO: call method above directly
+        _index_js__WEBPACK_IMPORTED_MODULE_2__["default"]._ajaxConnectionLostHandler();
+      }
+    }, 100);
+  }
+};
+
+/**
+ * Registers XmlHttpRequest object for global error processing.
+ *
+ * This means that if this XHR object returns 401 or session timeout errors,
+ * the current page will automatically be reloaded.
+ *
+ * @param {XMLHttpRequest} xhr xhr request
+ */
+const registerXHRForErrorProcessing = xhr => {
+  const loadCallback = () => {
+    if (xhr.readyState !== 4) {
+      return;
+    }
+    if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
+      return;
+    }
+
+    // fire jquery global ajax error handler
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).trigger(new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Event)('ajaxError'), xhr);
+  };
+  const errorCallback = () => {
+    // fire jquery global ajax error handler
+    jquery__WEBPACK_IMPORTED_MODULE_1___default()(document).trigger(new (jquery__WEBPACK_IMPORTED_MODULE_1___default().Event)('ajaxError'), xhr);
+  };
+  if (xhr.addEventListener) {
+    xhr.addEventListener('load', loadCallback);
+    xhr.addEventListener('error', errorCallback);
+  }
+};
+
+/***/ }),
+
+/***/ "./core/src/OCA/index.js":
+/*!*******************************!*\
+  !*** ./core/src/OCA/index.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _search_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./search.js */ "./core/src/OCA/search.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+/**
+ * Namespace for apps
+ *
+ * @namespace OCA
+ */
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  /**
+   * @deprecated 20.0.0, will be removed in Nextcloud 22
+   */
+  Search: _search_js__WEBPACK_IMPORTED_MODULE_0__["default"]
+});
+
+/***/ }),
+
+/***/ "./core/src/OCA/search.js":
+/*!********************************!*\
+  !*** ./core/src/OCA/search.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Search)
+/* harmony export */ });
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+/**
+ * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+class Search {
+  /**
+   * @deprecated 20.0.0, will be removed in Nextcloud 22
+   */
+  constructor() {
+    OC.debug && console.warn('OCA.Search is deprecated. Please use the unified search API instead');
+  }
+}
+
+/***/ }),
+
+/***/ "./core/src/OCP/appconfig.js":
+/*!***********************************!*\
+  !*** ./core/src/OCP/appconfig.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "deleteKey": () => (/* binding */ deleteKey),
+/* harmony export */   "getApps": () => (/* binding */ getApps),
+/* harmony export */   "getKeys": () => (/* binding */ getKeys),
+/* harmony export */   "getValue": () => (/* binding */ getValue),
+/* harmony export */   "setValue": () => (/* binding */ setValue)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _OC_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../OC/index.js */ "./core/src/OC/index.js");
+/**
+ * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+
+/**
+ * @param {string} method 'post' or 'delete'
+ * @param {string} endpoint endpoint
+ * @param {object} [options] destructuring object
+ * @param {object} [options.data] option data
+ * @param {Function} [options.success] success callback
+ * @param {Function} [options.error] error callback
+ */
+function call(method, endpoint, options) {
+  if ((method === 'post' || method === 'delete') && _OC_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].PasswordConfirmation.requiresPasswordConfirmation()) {
+    _OC_index_js__WEBPACK_IMPORTED_MODULE_2__["default"].PasswordConfirmation.requirePasswordConfirmation(_.bind(call, this, method, endpoint, options));
+    return;
+  }
+  options = options || {};
+  jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+    type: method.toUpperCase(),
+    url: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/provisioning_api/api/v1/config/apps') + endpoint,
+    data: options.data || {},
+    success: options.success,
+    error: options.error
+  });
+}
+
+/**
+ * @param {object} [options] destructuring object
+ * @param {Function} [options.success] success callback
+ * @since 11.0.0
+ */
+function getApps(options) {
+  call('get', '', options);
+}
+
+/**
+ * @param {string} app app id
+ * @param {object} [options] destructuring object
+ * @param {Function} [options.success] success callback
+ * @param {Function} [options.error] error callback
+ * @since 11.0.0
+ */
+function getKeys(app, options) {
+  call('get', '/' + app, options);
+}
+
+/**
+ * @param {string} app app id
+ * @param {string} key key
+ * @param {string | Function} defaultValue default value
+ * @param {object} [options] destructuring object
+ * @param {Function} [options.success] success callback
+ * @param {Function} [options.error] error callback
+ * @since 11.0.0
+ */
+function getValue(app, key, defaultValue, options) {
+  options = options || {};
+  options.data = {
+    defaultValue
+  };
+  call('get', '/' + app + '/' + key, options);
+}
+
+/**
+ * @param {string} app app id
+ * @param {string} key key
+ * @param {string} value value
+ * @param {object} [options] destructuring object
+ * @param {Function} [options.success] success callback
+ * @param {Function} [options.error] error callback
+ * @since 11.0.0
+ */
+function setValue(app, key, value, options) {
+  options = options || {};
+  options.data = {
+    value
+  };
+  call('post', '/' + app + '/' + key, options);
+}
+
+/**
+ * @param {string} app app id
+ * @param {string} key key
+ * @param {object} [options] destructuring object
+ * @param {Function} [options.success] success callback
+ * @param {Function} [options.error] error callback
+ * @since 11.0.0
+ */
+function deleteKey(app, key, options) {
+  call('delete', '/' + app + '/' + key, options);
+}
+
+/***/ }),
+
+/***/ "./core/src/Util/a11y.js":
+/*!*******************************!*\
+  !*** ./core/src/Util/a11y.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isA11yActivation": () => (/* binding */ isA11yActivation)
+/* harmony export */ });
+/**
+ * @copyright 2022 Christopher Ng <chrng8@gmail.com>
+ *
+ * @author Christopher Ng <chrng8@gmail.com>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
+ * Return whether the DOM event is an accessible mouse or keyboard element activation
+ *
+ * @param {Event} event DOM event
+ *
+ * @return {boolean}
+ */
+const isA11yActivation = event => {
+  if (event.type === 'click') {
+    return true;
+  }
+  if (event.type === 'keydown' && event.key === 'Enter') {
+    return true;
+  }
+  return false;
+};
+
+/***/ }),
+
+/***/ "./core/src/login.js":
+/*!***************************!*\
+  !*** ./core/src/login.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _OC_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OC/index.js */ "./core/src/OC/index.js");
+/* harmony import */ var _views_Login_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/Login.vue */ "./core/src/views/Login.vue");
+/* harmony import */ var _mixins_Nextcloud_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mixins/Nextcloud.js */ "./core/src/mixins/Nextcloud.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+// eslint-disable-next-line no-unused-vars
+ // TODO: Not needed but L10n breaks if removed
+
+
+vue__WEBPACK_IMPORTED_MODULE_3__["default"].mixin(_mixins_Nextcloud_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
+const View = vue__WEBPACK_IMPORTED_MODULE_3__["default"].extend(_views_Login_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+new View().$mount('#login');
+
+/***/ }),
+
+/***/ "./core/src/mixins/Nextcloud.js":
+/*!**************************************!*\
+  !*** ./core/src/mixins/Nextcloud.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _OC_l10n_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../OC/l10n.js */ "./core/src/OC/l10n.js");
+/* harmony import */ var _OC_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../OC/index.js */ "./core/src/OC/index.js");
+/**
+ * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data() {
+    return {
+      OC: _OC_index_js__WEBPACK_IMPORTED_MODULE_1__["default"]
+    };
+  },
+  methods: {
+    t: _OC_l10n_js__WEBPACK_IMPORTED_MODULE_0__["default"].translate.bind(_OC_l10n_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
+    n: _OC_l10n_js__WEBPACK_IMPORTED_MODULE_0__["default"].translatePlural.bind(_OC_l10n_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+  }
+});
+
+/***/ }),
+
+/***/ "./core/src/services/WebAuthnAuthenticationService.js":
+/*!************************************************************!*\
+  !*** ./core/src/services/WebAuthnAuthenticationService.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "finishAuthentication": () => (/* binding */ finishAuthentication),
+/* harmony export */   "startAuthentication": () => (/* binding */ startAuthentication)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/**
+ * @copyright 2020, Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
+ * @license AGPL-3.0-or-later
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+
+
+
+/**
+ * @param {any} loginName -
+ */
+function startAuthentication(loginName) {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/login/webauthn/start');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, {
+    loginName
+  }).then(resp => resp.data);
+}
+
+/**
+ * @param {any} data -
+ */
+function finishAuthentication(data) {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/login/webauthn/finish');
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, {
+    data
+  }).then(resp => resp.data);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_material_design_icons_ArrowRight_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-material-design-icons/ArrowRight.vue */ "./node_modules/vue-material-design-icons/ArrowRight.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'LoginButton',
+  components: {
+    ArrowRight: vue_material_design_icons_ArrowRight_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    NcButton: (_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_0___default())
+  },
+  props: {
+    value: {
+      type: String,
+      default: t('core', 'Log in')
+    },
+    valueLoading: {
+      type: String,
+      default: t('core', 'Logging in …')
+    },
+    loading: {
+      type: Boolean,
+      required: true
+    },
+    invertedColors: {
+      type: Boolean,
+      default: false
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcPasswordField_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcPasswordField.js */ "./node_modules/@nextcloud/vue/dist/Components/NcPasswordField.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcPasswordField_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcPasswordField_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcTextField.js */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcNoteCard.js */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _LoginButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LoginButton.vue */ "./core/src/components/login/LoginButton.vue");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'LoginForm',
+  components: {
+    LoginButton: _LoginButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    NcPasswordField: (_nextcloud_vue_dist_Components_NcPasswordField_js__WEBPACK_IMPORTED_MODULE_1___default()),
+    NcTextField: (_nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_2___default()),
+    NcNoteCard: (_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_3___default())
+  },
+  props: {
+    username: {
+      type: String,
+      default: ''
+    },
+    redirectUrl: {
+      type: [String, Boolean],
+      default: false
+    },
+    errors: {
+      type: Array,
+      default: () => []
+    },
+    messages: {
+      type: Array,
+      default: () => []
+    },
+    throttleDelay: {
+      type: Number,
+      default: 0
+    },
+    autoCompleteAllowed: {
+      type: Boolean,
+      default: true
+    },
+    directLogin: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    var _Intl$DateTimeFormat, _Intl$DateTimeFormat$;
+    return {
+      loading: false,
+      timezone: (_Intl$DateTimeFormat = new Intl.DateTimeFormat()) === null || _Intl$DateTimeFormat === void 0 ? void 0 : (_Intl$DateTimeFormat$ = _Intl$DateTimeFormat.resolvedOptions()) === null || _Intl$DateTimeFormat$ === void 0 ? void 0 : _Intl$DateTimeFormat$.timeZone,
+      timezoneOffset: -new Date().getTimezoneOffset() / 60,
+      headline: t('core', 'Log in to {productName}', {
+        productName: OC.theme.name
+      }),
+      user: '',
+      password: ''
+    };
+  },
+  computed: {
+    isError() {
+      return this.invalidPassword || this.userDisabled || this.throttleDelay > 5000;
+    },
+    errorLabel() {
+      if (this.invalidPassword) {
+        return t('core', 'Wrong username or password.');
+      }
+      if (this.userDisabled) {
+        return t('core', 'User disabled');
+      }
+      if (this.throttleDelay > 5000) {
+        return t('core', 'We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds.');
+      }
+      return undefined;
+    },
+    apacheAuthFailed() {
+      return this.errors.indexOf('apacheAuthFailed') !== -1;
+    },
+    csrfCheckFailed() {
+      return this.errors.indexOf('csrfCheckFailed') !== -1;
+    },
+    internalException() {
+      return this.errors.indexOf('internalexception') !== -1;
+    },
+    invalidPassword() {
+      return this.errors.indexOf('invalidpassword') !== -1;
+    },
+    userDisabled() {
+      return this.errors.indexOf('userdisabled') !== -1;
+    },
+    loadingIcon() {
+      return (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.imagePath)('core', 'loading-dark.gif');
+    },
+    loginActionUrl() {
+      return (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('login');
+    }
+  },
+  mounted() {
+    if (this.username === '') {
+      this.$refs.user.$refs.inputField.$refs.input.focus();
+    } else {
+      this.user = this.username;
+      this.$refs.password.$refs.inputField.$refs.input.focus();
+    }
+  },
+  methods: {
+    updateUsername() {
+      this.$emit('update:username', this.user);
+    },
+    submit() {
+      this.loading = true;
+      this.$emit('submit');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _services_WebAuthnAuthenticationService_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/WebAuthnAuthenticationService.js */ "./core/src/services/WebAuthnAuthenticationService.js");
+/* harmony import */ var _LoginButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginButton.vue */ "./core/src/components/login/LoginButton.vue");
+/* harmony import */ var vue_material_design_icons_Information_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-material-design-icons/Information.vue */ "./node_modules/vue-material-design-icons/Information.vue");
+/* harmony import */ var vue_material_design_icons_LockOpen_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-material-design-icons/LockOpen.vue */ "./node_modules/vue-material-design-icons/LockOpen.vue");
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+class NoValidCredentials extends Error {}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'PasswordLessLoginForm',
+  components: {
+    LoginButton: _LoginButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    InformationIcon: vue_material_design_icons_Information_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    LockOpenIcon: vue_material_design_icons_LockOpen_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  props: {
+    username: {
+      type: String,
+      default: ''
+    },
+    redirectUrl: {
+      type: [String, Boolean],
+      default: false
+    },
+    autoCompleteAllowed: {
+      type: Boolean,
+      default: true
+    },
+    isHttps: {
+      type: Boolean,
+      default: false
+    },
+    isLocalhost: {
+      type: Boolean,
+      default: false
+    },
+    hasPublicKeyCredential: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      user: this.username,
+      loading: false,
+      validCredentials: true
+    };
+  },
+  methods: {
+    authenticate() {
+      console.debug('passwordless login initiated');
+      this.getAuthenticationData(this.user).then(publicKey => {
+        console.debug(publicKey);
+        return publicKey;
+      }).then(this.sign).then(this.completeAuthentication).catch(error => {
+        if (error instanceof NoValidCredentials) {
+          this.validCredentials = false;
+          return;
+        }
+        console.debug(error);
+      });
+    },
+    getAuthenticationData(uid) {
+      const base64urlDecode = function (input) {
+        // Replace non-url compatible chars with base64 standard chars
+        input = input.replace(/-/g, '+').replace(/_/g, '/');
+
+        // Pad out with standard base64 required padding characters
+        const pad = input.length % 4;
+        if (pad) {
+          if (pad === 1) {
+            throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+          }
+          input += new Array(5 - pad).join('=');
+        }
+        return window.atob(input);
+      };
+      return (0,_services_WebAuthnAuthenticationService_js__WEBPACK_IMPORTED_MODULE_0__.startAuthentication)(uid).then(publicKey => {
+        console.debug('Obtained PublicKeyCredentialRequestOptions');
+        console.debug(publicKey);
+        if (!Object.prototype.hasOwnProperty.call(publicKey, 'allowCredentials')) {
+          console.debug('No credentials found.');
+          throw new NoValidCredentials();
+        }
+        publicKey.challenge = Uint8Array.from(base64urlDecode(publicKey.challenge), c => c.charCodeAt(0));
+        publicKey.allowCredentials = publicKey.allowCredentials.map(function (data) {
+          return {
+            ...data,
+            id: Uint8Array.from(base64urlDecode(data.id), c => c.charCodeAt(0))
+          };
+        });
+        console.debug('Converted PublicKeyCredentialRequestOptions');
+        console.debug(publicKey);
+        return publicKey;
+      }).catch(error => {
+        console.debug('Error while obtaining data');
+        throw error;
+      });
+    },
+    sign(publicKey) {
+      const arrayToBase64String = function (a) {
+        return window.btoa(String.fromCharCode(...a));
+      };
+      const arrayToString = function (a) {
+        return String.fromCharCode(...a);
+      };
+      return navigator.credentials.get({
+        publicKey
+      }).then(data => {
+        console.debug(data);
+        console.debug(new Uint8Array(data.rawId));
+        console.debug(arrayToBase64String(new Uint8Array(data.rawId)));
+        return {
+          id: data.id,
+          type: data.type,
+          rawId: arrayToBase64String(new Uint8Array(data.rawId)),
+          response: {
+            authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
+            clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
+            signature: arrayToBase64String(new Uint8Array(data.response.signature)),
+            userHandle: data.response.userHandle ? arrayToString(new Uint8Array(data.response.userHandle)) : null
+          }
+        };
+      }).then(challenge => {
+        console.debug(challenge);
+        return challenge;
+      }).catch(error => {
+        console.debug('GOT AN ERROR!');
+        console.debug(error); // Example: timeout, interaction refused...
+      });
+    },
+
+    completeAuthentication(challenge) {
+      console.debug('TIME TO COMPLETE');
+      const redirectUrl = this.redirectUrl;
+      return (0,_services_WebAuthnAuthenticationService_js__WEBPACK_IMPORTED_MODULE_0__.finishAuthentication)(JSON.stringify(challenge)).then(_ref => {
+        let {
+          defaultRedirectUrl
+        } = _ref;
+        console.debug('Logged in redirecting');
+        // Redirect url might be false so || should be used instead of ??.
+        window.location.href = redirectUrl || defaultRedirectUrl;
+      }).catch(error => {
+        console.debug('GOT AN ERROR WHILE SUBMITTING CHALLENGE!');
+        console.debug(error); // Example: timeout, interaction refused...
+      });
+    },
+
+    submit() {
+      // noop
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.js");
+/* harmony import */ var _LoginButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LoginButton.vue */ "./core/src/components/login/LoginButton.vue");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcTextField.js */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcNoteCard.js */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4__);
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'ResetPassword',
+  components: {
+    LoginButton: _LoginButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    NcNoteCard: (_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_4___default()),
+    NcTextField: (_nextcloud_vue_dist_Components_NcTextField_js__WEBPACK_IMPORTED_MODULE_3___default())
+  },
+  props: {
+    username: {
+      type: String,
+      required: true
+    },
+    resetPasswordLink: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      error: false,
+      loading: false,
+      message: undefined,
+      user: this.username
+    };
+  },
+  watch: {
+    username(value) {
+      this.user = value;
+    }
+  },
+  methods: {
+    updateUsername() {
+      this.$emit('update:username', this.user);
+    },
+    submit() {
+      this.loading = true;
+      this.error = false;
+      this.message = '';
+      const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/lostpassword/email');
+      const data = {
+        user: this.user
+      };
+      return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, data).then(resp => resp.data).then(data => {
+        if (data.status !== 'success') {
+          throw new Error("got status ".concat(data.status));
+        }
+        this.message = 'send-success';
+      }).catch(e => {
+        console.error('could not send reset email request', e);
+        this.error = true;
+        this.message = 'send-error';
+      }).then(() => {
+        this.loading = false;
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.js");
+/* harmony import */ var _LoginButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginButton.vue */ "./core/src/components/login/LoginButton.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'UpdatePassword',
+  components: {
+    LoginButton: _LoginButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  props: {
+    username: {
+      type: String,
+      required: true
+    },
+    resetPasswordTarget: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      error: false,
+      loading: false,
+      message: undefined,
+      user: this.username,
+      password: '',
+      encrypted: false,
+      proceed: false
+    };
+  },
+  watch: {
+    username(value) {
+      this.user = value;
+    }
+  },
+  methods: {
+    async submit() {
+      this.loading = true;
+      this.error = false;
+      this.message = '';
+      try {
+        const {
+          data
+        } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(this.resetPasswordTarget, {
+          password: this.password,
+          proceed: this.proceed
+        });
+        if (data && data.status === 'success') {
+          this.message = 'send-success';
+          this.$emit('update:username', this.user);
+          this.$emit('done');
+        } else if (data && data.encryption) {
+          this.encrypted = true;
+        } else if (data && data.msg) {
+          throw new Error(data.msg);
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        this.error = true;
+        this.message = e.message ? e.message : t('core', 'Password cannot be changed. Please contact your administrator.');
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.esm.js");
+/* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+/* harmony import */ var _components_login_LoginForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/login/LoginForm.vue */ "./core/src/components/login/LoginForm.vue");
+/* harmony import */ var _components_login_PasswordLessLoginForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/login/PasswordLessLoginForm.vue */ "./core/src/components/login/PasswordLessLoginForm.vue");
+/* harmony import */ var _components_login_ResetPassword_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/login/ResetPassword.vue */ "./core/src/components/login/ResetPassword.vue");
+/* harmony import */ var _components_login_UpdatePassword_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/login/UpdatePassword.vue */ "./core/src/components/login/UpdatePassword.vue");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcButton.js */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/dist/Components/NcNoteCard.js */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.js");
+/* harmony import */ var _nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_7__);
+/* provided dependency */ var console = __webpack_require__(/*! ./node_modules/console-browserify/index.js */ "./node_modules/console-browserify/index.js");
+
+
+
+
+
+
+
+
+const query = query_string__WEBPACK_IMPORTED_MODULE_1__["default"].parse(location.search);
+if (query.clear === '1') {
+  try {
+    window.localStorage.clear();
+    window.sessionStorage.clear();
+    console.debug('Browser storage cleared');
+  } catch (e) {
+    console.error('Could not clear browser storage', e);
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'Login',
+  components: {
+    LoginForm: _components_login_LoginForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    PasswordLessLoginForm: _components_login_PasswordLessLoginForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    ResetPassword: _components_login_ResetPassword_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    UpdatePassword: _components_login_UpdatePassword_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NcButton: (_nextcloud_vue_dist_Components_NcButton_js__WEBPACK_IMPORTED_MODULE_6___default()),
+    NcNoteCard: (_nextcloud_vue_dist_Components_NcNoteCard_js__WEBPACK_IMPORTED_MODULE_7___default())
+  },
+  data() {
+    return {
+      loading: false,
+      user: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginUsername', ''),
+      passwordlessLogin: false,
+      resetPassword: false,
+      // Initial data
+      errors: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginErrors', []),
+      messages: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginMessages', []),
+      redirectUrl: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginRedirectUrl', false),
+      throttleDelay: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginThrottleDelay', 0),
+      canResetPassword: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginCanResetPassword', false),
+      resetPasswordLink: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginResetPasswordLink', ''),
+      autoCompleteAllowed: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'loginAutocomplete', true),
+      resetPasswordTarget: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'resetPasswordTarget', ''),
+      resetPasswordUser: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'resetPasswordUser', ''),
+      directLogin: query.direct === '1',
+      hasPasswordless: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'webauthn-available', false),
+      countAlternativeLogins: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'countAlternativeLogins', false),
+      alternativeLogins: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'alternativeLogins', []),
+      isHttps: window.location.protocol === 'https:',
+      isLocalhost: window.location.hostname === 'localhost',
+      hasPublicKeyCredential: typeof window.PublicKeyCredential !== 'undefined',
+      hideLoginForm: (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('core', 'hideLoginForm', false)
+    };
+  },
+  methods: {
+    passwordResetFinished() {
+      this.resetPasswordTarget = '';
+      this.directLogin = true;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("NcButton", {
+    attrs: {
+      type: "primary",
+      "native-type": "submit",
+      wide: true
+    },
+    on: {
+      click: function ($event) {
+        return _vm.$emit("click");
+      }
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_vm.loading ? _c("div", {
+          staticClass: "submit-wrapper__icon icon-loading-small-dark"
+        }) : _c("ArrowRight", {
+          staticClass: "submit-wrapper__icon"
+        })];
+      },
+      proxy: true
+    }])
+  }, [_vm._v("\n\t" + _vm._s(!_vm.loading ? _vm.value : _vm.valueLoading) + "\n\t")]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=template&id=722a846b&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=template&id=722a846b&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("form", {
+    ref: "loginForm",
+    staticClass: "login-form",
+    attrs: {
+      method: "post",
+      name: "login",
+      action: _vm.loginActionUrl
+    },
+    on: {
+      submit: _vm.submit
+    }
+  }, [_c("fieldset", {
+    staticClass: "login-form__fieldset",
+    attrs: {
+      "data-login-form": ""
+    }
+  }, [_vm.apacheAuthFailed ? _c("NcNoteCard", {
+    attrs: {
+      title: _vm.t("core", "Server side authentication failed!"),
+      type: "warning"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "Please contact your administrator.")) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm.csrfCheckFailed ? _c("NcNoteCard", {
+    attrs: {
+      heading: _vm.t("core", "Temporary error"),
+      type: "error"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "Please try again.")) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm.messages.length > 0 ? _c("NcNoteCard", _vm._l(_vm.messages, function (message, index) {
+    return _c("div", {
+      key: index
+    }, [_vm._v("\n\t\t\t\t" + _vm._s(message)), _c("br")]);
+  }), 0) : _vm._e(), _vm._v(" "), _vm.internalException ? _c("NcNoteCard", {
+    class: _vm.t("core", "An internal error occurred."),
+    attrs: {
+      type: "warning"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "Please try again or contact your administrator.")) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "hidden",
+    attrs: {
+      id: "message"
+    }
+  }, [_c("img", {
+    staticClass: "float-spinner",
+    attrs: {
+      alt: "",
+      src: _vm.loadingIcon
+    }
+  }), _vm._v(" "), _c("span", {
+    attrs: {
+      id: "messageText"
+    }
+  }), _vm._v(" "), _c("div", {
+    staticStyle: {
+      clear: "both"
+    }
+  })]), _vm._v(" "), _c("h2", {
+    staticClass: "login-form__headline",
+    attrs: {
+      "data-login-form-headline": ""
+    },
+    domProps: {
+      innerHTML: _vm._s(_vm.headline)
+    }
+  }), _vm._v(" "), _c("NcTextField", {
+    ref: "user",
+    class: {
+      shake: _vm.invalidPassword
+    },
+    attrs: {
+      id: "user",
+      label: _vm.t("core", "Account name or email"),
+      "label-visible": true,
+      name: "user",
+      value: _vm.user,
+      autocapitalize: "none",
+      spellchecking: false,
+      autocomplete: _vm.autoCompleteAllowed ? "username" : "off",
+      required: "",
+      "data-login-form-input-user": ""
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.user = $event;
+      },
+      change: _vm.updateUsername
+    }
+  }), _vm._v(" "), _c("NcPasswordField", {
+    ref: "password",
+    class: {
+      shake: _vm.invalidPassword
+    },
+    attrs: {
+      id: "password",
+      name: "password",
+      "label-visible": true,
+      value: _vm.password,
+      spellchecking: false,
+      autocapitalize: "none",
+      autocomplete: _vm.autoCompleteAllowed ? "current-password" : "off",
+      label: _vm.t("core", "Password"),
+      "helper-text": _vm.errorLabel,
+      error: _vm.isError,
+      "data-login-form-input-password": "",
+      required: ""
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.password = $event;
+      }
+    }
+  }), _vm._v(" "), _c("LoginButton", {
+    attrs: {
+      "data-login-form-submit": "",
+      loading: _vm.loading
+    }
+  }), _vm._v(" "), _vm.redirectUrl ? _c("input", {
+    attrs: {
+      type: "hidden",
+      name: "redirect_url"
+    },
+    domProps: {
+      value: _vm.redirectUrl
+    }
+  }) : _vm._e(), _vm._v(" "), _c("input", {
+    attrs: {
+      type: "hidden",
+      name: "timezone"
+    },
+    domProps: {
+      value: _vm.timezone
+    }
+  }), _vm._v(" "), _c("input", {
+    attrs: {
+      type: "hidden",
+      name: "timezone_offset"
+    },
+    domProps: {
+      value: _vm.timezoneOffset
+    }
+  }), _vm._v(" "), _c("input", {
+    attrs: {
+      type: "hidden",
+      name: "requesttoken"
+    },
+    domProps: {
+      value: _vm.OC.requestToken
+    }
+  }), _vm._v(" "), _vm.directLogin ? _c("input", {
+    attrs: {
+      type: "hidden",
+      name: "direct",
+      value: "1"
+    }
+  }) : _vm._e()], 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return (_vm.isHttps || _vm.isLocalhost) && _vm.hasPublicKeyCredential ? _c("form", {
+    ref: "loginForm",
+    attrs: {
+      method: "post",
+      name: "login"
+    },
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _vm.submit.apply(null, arguments);
+      }
+    }
+  }, [_c("fieldset", [_c("p", {
+    staticClass: "grouptop groupbottom"
+  }, [_c("label", {
+    staticClass: "infield",
+    attrs: {
+      for: "user"
+    }
+  }, [_vm._v(_vm._s(_vm.t("core", "Username or	email")))]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.user,
+      expression: "user"
+    }],
+    ref: "user",
+    attrs: {
+      id: "user",
+      type: "text",
+      name: "user",
+      autocomplete: _vm.autoCompleteAllowed ? "on" : "off",
+      placeholder: _vm.t("core", "Username or email"),
+      "aria-label": _vm.t("core", "Username or email"),
+      required: ""
+    },
+    domProps: {
+      value: _vm.user
+    },
+    on: {
+      change: function ($event) {
+        return _vm.$emit("update:username", _vm.user);
+      },
+      input: function ($event) {
+        if ($event.target.composing) return;
+        _vm.user = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), !_vm.validCredentials ? _c("div", {
+    staticClass: "body-login-container update form__message-box"
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "Your account is not setup for passwordless login.")) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _vm.validCredentials ? _c("LoginButton", {
+    attrs: {
+      loading: _vm.loading
+    },
+    on: {
+      click: _vm.authenticate
+    }
+  }) : _vm._e()], 1)]) : !_vm.hasPublicKeyCredential ? _c("div", {
+    staticClass: "body-login-container update"
+  }, [_c("InformationIcon", {
+    attrs: {
+      size: "70"
+    }
+  }), _vm._v(" "), _c("h2", [_vm._v(_vm._s(_vm.t("core", "Browser not supported")))]), _vm._v(" "), _c("p", {
+    staticClass: "infogroup"
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("core", "Passwordless authentication is not supported in your browser.")) + "\n\t")])], 1) : !_vm.isHttps && !_vm.isLocalhost ? _c("div", {
+    staticClass: "body-login-container update"
+  }, [_c("LockOpenIcon", {
+    attrs: {
+      size: "70"
+    }
+  }), _vm._v(" "), _c("h2", [_vm._v(_vm._s(_vm.t("core", "Your connection is not secure")))]), _vm._v(" "), _c("p", {
+    staticClass: "infogroup"
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("core", "Passwordless authentication is only available over a secure connection.")) + "\n\t")])], 1) : _vm._e();
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("form", {
+    staticClass: "login-form",
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _vm.submit.apply(null, arguments);
+      }
+    }
+  }, [_c("fieldset", {
+    staticClass: "login-form__fieldset"
+  }, [_c("NcTextField", {
+    attrs: {
+      id: "user",
+      value: _vm.user,
+      name: "user",
+      autocapitalize: "off",
+      label: _vm.t("core", "Account name or email"),
+      "label-visible": true,
+      required: ""
+    },
+    on: {
+      "update:value": function ($event) {
+        _vm.user = $event;
+      },
+      change: _vm.updateUsername
+    }
+  }), _vm._v(" "), _c("LoginButton", {
+    attrs: {
+      value: _vm.t("core", "Reset password")
+    }
+  }), _vm._v(" "), _vm.message === "send-success" ? _c("NcNoteCard", {
+    attrs: {
+      type: "success"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help.")) + "\n\t\t")]) : _vm.message === "send-error" ? _c("NcNoteCard", {
+    attrs: {
+      type: "error"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "Couldn't send reset email. Please contact your administrator.")) + "\n\t\t")]) : _vm.message === "reset-error" ? _c("NcNoteCard", {
+    attrs: {
+      type: "error"
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "Password cannot be changed. Please contact your administrator.")) + "\n\t\t")]) : _vm._e(), _vm._v(" "), _c("a", {
+    staticClass: "login-form__link",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function ($event) {
+        $event.preventDefault();
+        return _vm.$emit("abort");
+      }
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.t("core", "Back to login")) + "\n\t\t")])], 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=template&id=66634656&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=template&id=66634656&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("form", {
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _vm.submit.apply(null, arguments);
+      }
+    }
+  }, [_c("fieldset", [_c("p", [_c("label", {
+    staticClass: "infield",
+    attrs: {
+      for: "password"
+    }
+  }, [_vm._v(_vm._s(_vm.t("core", "New password")))]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.password,
+      expression: "password"
+    }],
+    attrs: {
+      id: "password",
+      type: "password",
+      name: "password",
+      autocomplete: "new-password",
+      autocapitalize: "none",
+      autocorrect: "off",
+      required: "",
+      placeholder: _vm.t("core", "New password")
+    },
+    domProps: {
+      value: _vm.password
+    },
+    on: {
+      input: function ($event) {
+        if ($event.target.composing) return;
+        _vm.password = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _vm.encrypted ? _c("div", {
+    staticClass: "update"
+  }, [_c("p", [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("core", "Your files are encrypted. There will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?")) + "\n\t\t\t")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.proceed,
+      expression: "proceed"
+    }],
+    staticClass: "checkbox",
+    attrs: {
+      id: "encrypted-continue",
+      type: "checkbox"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.proceed) ? _vm._i(_vm.proceed, null) > -1 : _vm.proceed
+    },
+    on: {
+      change: function ($event) {
+        var $$a = _vm.proceed,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.proceed = $$a.concat([$$v]));
+          } else {
+            $$i > -1 && (_vm.proceed = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.proceed = $$c;
+        }
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    attrs: {
+      for: "encrypted-continue"
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("core", "I know what I'm doing")) + "\n\t\t\t")])]) : _vm._e(), _vm._v(" "), _c("LoginButton", {
+    attrs: {
+      loading: _vm.loading,
+      value: _vm.t("core", "Reset password"),
+      "value-loading": _vm.t("core", "Resetting password")
+    }
+  }), _vm._v(" "), _vm.error && _vm.message ? _c("p", {
+    class: {
+      warning: _vm.error
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.message) + "\n\t\t")]) : _vm._e()], 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=template&id=020fd45b&":
+/*!**************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=template&id=020fd45b& ***!
+  \**************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "guest-box login-box"
+  }, [!_vm.hideLoginForm || _vm.directLogin ? [_c("transition", {
+    attrs: {
+      name: "fade",
+      mode: "out-in"
+    }
+  }, [!_vm.passwordlessLogin && !_vm.resetPassword && _vm.resetPasswordTarget === "" ? _c("div", [_c("LoginForm", {
+    attrs: {
+      username: _vm.user,
+      "redirect-url": _vm.redirectUrl,
+      "direct-login": _vm.directLogin,
+      messages: _vm.messages,
+      errors: _vm.errors,
+      "throttle-delay": _vm.throttleDelay,
+      "auto-complete-allowed": _vm.autoCompleteAllowed
+    },
+    on: {
+      "update:username": function ($event) {
+        _vm.user = $event;
+      },
+      submit: function ($event) {
+        _vm.loading = true;
+      }
+    }
+  }), _vm._v(" "), _vm.canResetPassword && _vm.resetPasswordLink !== "" ? _c("a", {
+    staticClass: "login-box__link",
+    attrs: {
+      id: "lost-password",
+      href: _vm.resetPasswordLink
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "Forgot password?")) + "\n\t\t\t\t")]) : _vm.canResetPassword && !_vm.resetPassword ? _c("a", {
+    staticClass: "login-box__link",
+    attrs: {
+      id: "lost-password",
+      href: _vm.resetPasswordLink
+    },
+    on: {
+      click: function ($event) {
+        $event.preventDefault();
+        _vm.resetPassword = true;
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "Forgot password?")) + "\n\t\t\t\t")]) : _vm._e(), _vm._v(" "), _vm.hasPasswordless ? [_vm.countAlternativeLogins ? _c("div", {
+    staticClass: "alternative-logins"
+  }, [_vm.hasPasswordless ? _c("a", {
+    staticClass: "button",
+    class: {
+      "single-alt-login-option": _vm.countAlternativeLogins
+    },
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function ($event) {
+        $event.preventDefault();
+        _vm.passwordlessLogin = true;
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(_vm.t("core", "Log in with a device")) + "\n\t\t\t\t\t\t")]) : _vm._e()]) : _c("a", {
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function ($event) {
+        $event.preventDefault();
+        _vm.passwordlessLogin = true;
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.t("core", "Log in with a device")) + "\n\t\t\t\t\t")])] : _vm._e()], 2) : !_vm.loading && _vm.passwordlessLogin ? _c("div", {
+    key: "reset",
+    staticClass: "login-additional"
+  }, [_c("PasswordLessLoginForm", {
+    attrs: {
+      username: _vm.user,
+      "redirect-url": _vm.redirectUrl,
+      "auto-complete-allowed": _vm.autoCompleteAllowed,
+      "is-https": _vm.isHttps,
+      "is-localhost": _vm.isLocalhost,
+      "has-public-key-credential": _vm.hasPublicKeyCredential
+    },
+    on: {
+      "update:username": function ($event) {
+        _vm.user = $event;
+      },
+      submit: function ($event) {
+        _vm.loading = true;
+      }
+    }
+  }), _vm._v(" "), _c("a", {
+    staticClass: "login-box__link",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function ($event) {
+        $event.preventDefault();
+        _vm.passwordlessLogin = false;
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "Back")) + "\n\t\t\t\t")])], 1) : !_vm.loading && _vm.canResetPassword ? _c("div", {
+    key: "reset",
+    staticClass: "login-additional"
+  }, [_c("div", {
+    staticClass: "lost-password-container"
+  }, [_vm.resetPassword ? _c("ResetPassword", {
+    attrs: {
+      username: _vm.user,
+      "reset-password-link": _vm.resetPasswordLink
+    },
+    on: {
+      "update:username": function ($event) {
+        _vm.user = $event;
+      },
+      abort: function ($event) {
+        _vm.resetPassword = false;
+      }
+    }
+  }) : _vm._e()], 1)]) : _vm.resetPasswordTarget !== "" ? _c("div", [_c("UpdatePassword", {
+    attrs: {
+      username: _vm.user,
+      "reset-password-target": _vm.resetPasswordTarget
+    },
+    on: {
+      "update:username": function ($event) {
+        _vm.user = $event;
+      },
+      done: _vm.passwordResetFinished
+    }
+  })], 1) : _vm._e()])] : [_c("transition", {
+    attrs: {
+      name: "fade",
+      mode: "out-in"
+    }
+  }, [_c("NcNoteCard", {
+    attrs: {
+      type: "warning",
+      title: _vm.t("core", "Login form is disabled.")
+    }
+  }, [_vm._v("\n\t\t\t\t" + _vm._s(_vm.t("core", "Please contact your administrator.")) + "\n\t\t\t")])], 1)], _vm._v(" "), _c("div", {
+    staticClass: "alternative-logins",
+    attrs: {
+      id: "alternative-logins"
+    }
+  }, _vm._l(_vm.alternativeLogins, function (alternativeLogin, index) {
+    return _c("NcButton", {
+      key: index,
+      class: [alternativeLogin.class],
+      attrs: {
+        type: "secondary",
+        wide: true,
+        role: "link",
+        href: alternativeLogin.href
+      }
+    }, [_vm._v("\n\t\t\t" + _vm._s(alternativeLogin.name) + "\n\t\t")]);
+  }), 1)], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".button-vue[data-v-2b0f9fce] {\n  margin-top: 0.5rem;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".login-form[data-v-722a846b] {\n  text-align: left;\n  font-size: 1rem;\n}\n.login-form__fieldset[data-v-722a846b] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.login-form__headline[data-v-722a846b] {\n  text-align: center;\n  overflow-wrap: anywhere;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".body-login-container.update[data-v-34bf48f7] {\n  margin: 15px 0;\n}\n.body-login-container.update.form__message-box[data-v-34bf48f7] {\n  width: 240px;\n  margin: 5px;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".login-form[data-v-a10057b0] {\n  text-align: left;\n  font-size: 1rem;\n}\n.login-form__fieldset[data-v-a10057b0] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.login-form__link[data-v-a10057b0] {\n  display: block;\n  font-weight: normal !important;\n  padding-bottom: 1rem;\n  cursor: pointer;\n  font-size: var(--default-font-size);\n  text-align: center;\n  padding: 0.5rem 1rem 1rem 1rem;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n  font-size: var(--default-font-size);\n}\n.login-box {\n  width: 320px;\n  box-sizing: border-box;\n}\n.login-box__link {\n  display: block;\n  padding: 1rem;\n  font-size: var(--default-font-size);\n  text-align: center;\n  font-weight: normal !important;\n}\n.fade-enter-active, .fade-leave-active {\n  transition: opacity 0.3s;\n}\n.fade-enter, .fade-leave-to {\n  opacity: 0;\n}\n.alternative-logins {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.alternative-logins .button-vue {\n  box-sizing: border-box;\n}", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nfieldset[data-v-66634656] {\n\ttext-align: center;\n}\ninput[type=submit][data-v-66634656] {\n\tmargin-top: 20px;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./core/src/OC/contactsmenu/contact.handlebars":
+/*!*****************************************************!*\
+  !*** ./core/src/OC/contactsmenu/contact.handlebars ***!
+  \*****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileUrl") : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.program(5, data, 0),"data":data,"loc":{"start":{"line":2,"column":1},"end":{"line":10,"column":8}}})) != null ? stack1 : "");
+},"2":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileTitle") : stack1),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":2},"end":{"line":7,"column":9}}})) != null ? stack1 : "");
+},"3":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "			<a class=\"profile-link--avatar\" href=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileUrl") : stack1), depth0))
+    + "\">\n				<img src=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=32\" class=\"avatar\" srcset=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=32 1x, "
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=64 2x, "
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=128 4x\" alt=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatarLabel") : stack1), depth0))
+    + "\">\n			</a>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		<img src=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=32\" class=\"avatar\" srcset=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=32 1x, "
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=64 2x, "
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1), depth0))
+    + "&size=128 4x\" alt=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatarLabel") : stack1), depth0))
+    + "\">\n";
+},"7":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileUrl") : stack1),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.program(11, data, 0),"data":data,"loc":{"start":{"line":12,"column":1},"end":{"line":20,"column":8}}})) != null ? stack1 : "");
+},"8":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileTitle") : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":13,"column":2},"end":{"line":17,"column":9}}})) != null ? stack1 : "");
+},"9":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "			<a class=\"profile-link--avatar\" href=\""
+    + container.escapeExpression(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileUrl") : stack1), depth0))
+    + "\">\n				<div class=\"avatar\"></div>\n			</a>\n";
+},"11":function(container,depth0,helpers,partials,data) {
+    return "		<div class=\"avatar\"></div>\n";
+},"13":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileTitle") : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":23,"column":1},"end":{"line":29,"column":8}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1),{"name":"if","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":30,"column":1},"end":{"line":34,"column":8}}})) != null ? stack1 : "");
+},"14":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		<a class=\"body profile-link--full-name\" href=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileUrl") : stack1), depth0))
+    + "\">\n			<div class=\"full-name\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"fullName") : stack1), depth0))
+    + "</div>\n			<div class=\"last-message\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"lastMessage") : stack1), depth0))
+    + "</div>\n			<div class=\"email-address\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"emailAddresses") : stack1), depth0))
+    + "</div>\n		</a>\n";
+},"16":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "		<a class=\"top-action\" href=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"hyperlink") : stack1), depth0))
+    + "\" title=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\" aria-label=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\">\n			<img src=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"icon") : stack1), depth0))
+    + "\" alt=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\">\n		</a>\n";
+},"18":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1),{"name":"if","hash":{},"fn":container.program(19, data, 0),"inverse":container.program(21, data, 0),"data":data,"loc":{"start":{"line":35,"column":0},"end":{"line":50,"column":0}}})) != null ? stack1 : "");
+},"19":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "	<a class=\"body\" href=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"hyperlink") : stack1), depth0))
+    + "\">\n		<div class=\"full-name\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"fullName") : stack1), depth0))
+    + "</div>\n		<div class=\"last-message\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"lastMessage") : stack1), depth0))
+    + "</div>\n		<div class=\"email-address\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"emailAddresses") : stack1), depth0))
+    + "</div>\n	</a>\n  	<a class=\"top-action\" href=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"hyperlink") : stack1), depth0))
+    + "\" title=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\">\n  		<img src=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"icon") : stack1), depth0))
+    + "\" alt=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"topAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\">\n	</a>\n";
+},"21":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "	<div class=\"body\">\n		<div class=\"full-name\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"fullName") : stack1), depth0))
+    + "</div>\n		<div class=\"last-message\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"lastMessage") : stack1), depth0))
+    + "</div>\n		<div class=\"email-address\">"
+    + alias2(alias1(((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"emailAddresses") : stack1), depth0))
+    + "</div>\n	</div>\n";
+},"23":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<a class=\"second-action\" href=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"secondAction") : stack1)) != null ? lookupProperty(stack1,"hyperlink") : stack1), depth0))
+    + "\" aria-label=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"secondAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\" title=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"secondAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\">\n	<img src=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"secondAction") : stack1)) != null ? lookupProperty(stack1,"icon") : stack1), depth0))
+    + "\" alt=\""
+    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"secondAction") : stack1)) != null ? lookupProperty(stack1,"title") : stack1), depth0))
+    + "\">\n</a>\n";
+},"25":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "	<button class=\"other-actions icon-more\"></button>\n	<div class=\"menu popovermenu\">\n		<ul>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"actions") : stack1),{"name":"each","hash":{},"fn":container.program(26, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":60,"column":3},"end":{"line":67,"column":12}}})) != null ? stack1 : "")
+    + "		</ul>\n	</div>\n";
+},"26":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "			<li>\n				<a href=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"hyperlink") || (depth0 != null ? lookupProperty(depth0,"hyperlink") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"hyperlink","hash":{},"data":data,"loc":{"start":{"line":62,"column":13},"end":{"line":62,"column":26}}}) : helper)))
+    + "\">\n					<img src=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"icon") || (depth0 != null ? lookupProperty(depth0,"icon") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"icon","hash":{},"data":data,"loc":{"start":{"line":63,"column":15},"end":{"line":63,"column":23}}}) : helper)))
+    + "\" alt=\"\">\n					<span>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"title") || (depth0 != null ? lookupProperty(depth0,"title") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"title","hash":{},"data":data,"loc":{"start":{"line":64,"column":11},"end":{"line":64,"column":20}}}) : helper)))
+    + "</span>\n				</a>\n			</li>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"avatar") : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(7, data, 0),"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":21,"column":7}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"profileUrl") : stack1),{"name":"if","hash":{},"fn":container.program(13, data, 0),"inverse":container.program(18, data, 0),"data":data,"loc":{"start":{"line":22,"column":0},"end":{"line":50,"column":7}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"hasTwoActions") : stack1),{"name":"if","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":51,"column":0},"end":{"line":55,"column":7}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"contact") : depth0)) != null ? lookupProperty(stack1,"hasManyActions") : stack1),{"name":"if","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":56,"column":0},"end":{"line":70,"column":7}}})) != null ? stack1 : "");
+},"useData":true});
+
+/***/ }),
+
+/***/ "./core/src/OC/contactsmenu/error.handlebars":
+/*!***************************************************!*\
+  !*** ./core/src/OC/contactsmenu/error.handlebars ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"emptycontent\">\n	<div class=\"icon-search\"></div>\n	<h2>"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"couldNotLoadText") || (depth0 != null ? lookupProperty(depth0,"couldNotLoadText") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"couldNotLoadText","hash":{},"data":data,"loc":{"start":{"line":3,"column":5},"end":{"line":3,"column":25}}}) : helper)))
+    + "</h2>\n</div>\n";
+},"useData":true});
+
+/***/ }),
+
+/***/ "./core/src/OC/contactsmenu/list.handlebars":
+/*!**************************************************!*\
+  !*** ./core/src/OC/contactsmenu/list.handlebars ***!
+  \**************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"1":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"emptycontent\">\n	<div class=\"icon-search\"></div>\n	<h2>"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"noContactsFoundText") || (depth0 != null ? lookupProperty(depth0,"noContactsFoundText") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"noContactsFoundText","hash":{},"data":data,"loc":{"start":{"line":4,"column":5},"end":{"line":4,"column":28}}}) : helper)))
+    + "</h2>\n</div>\n";
+},"3":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"footer\"><a href=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"contactsAppURL") || (depth0 != null ? lookupProperty(depth0,"contactsAppURL") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"contactsAppURL","hash":{},"data":data,"loc":{"start":{"line":9,"column":29},"end":{"line":9,"column":47}}}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = lookupProperty(helpers,"showAllContactsText") || (depth0 != null ? lookupProperty(depth0,"showAllContactsText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"showAllContactsText","hash":{},"data":data,"loc":{"start":{"line":9,"column":49},"end":{"line":9,"column":72}}}) : helper)))
+    + "</a></div>\n";
+},"5":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"canInstallApp") : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":10,"column":0},"end":{"line":12,"column":0}}})) != null ? stack1 : "");
+},"6":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"footer\"><a href=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"contactsAppMgmtURL") || (depth0 != null ? lookupProperty(depth0,"contactsAppMgmtURL") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"contactsAppMgmtURL","hash":{},"data":data,"loc":{"start":{"line":11,"column":29},"end":{"line":11,"column":51}}}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = lookupProperty(helpers,"contactsAppMgmtText") || (depth0 != null ? lookupProperty(depth0,"contactsAppMgmtText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"contactsAppMgmtText","hash":{},"data":data,"loc":{"start":{"line":11,"column":53},"end":{"line":11,"column":76}}}) : helper)))
+    + "</a></div>\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"unless").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"contacts") : depth0)) != null ? lookupProperty(stack1,"length") : stack1),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":6,"column":11}}})) != null ? stack1 : "")
+    + "<div id=\"contactsmenu-contacts\"></div>\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"contactsAppEnabled") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.program(5, data, 0),"data":data,"loc":{"start":{"line":8,"column":0},"end":{"line":12,"column":7}}})) != null ? stack1 : "");
+},"useData":true});
+
+/***/ }),
+
+/***/ "./core/src/OC/contactsmenu/loading.handlebars":
+/*!*****************************************************!*\
+  !*** ./core/src/OC/contactsmenu/loading.handlebars ***!
+  \*****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"emptycontent\">\n	<div class=\"icon-loading\"></div>\n	<h2>"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"loadingText") || (depth0 != null ? lookupProperty(depth0,"loadingText") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"loadingText","hash":{},"data":data,"loc":{"start":{"line":3,"column":5},"end":{"line":3,"column":20}}}) : helper)))
+    + "</h2>\n</div>\n";
+},"useData":true});
+
+/***/ }),
+
+/***/ "./core/src/OC/contactsmenu/menu.handlebars":
+/*!**************************************************!*\
+  !*** ./core/src/OC/contactsmenu/menu.handlebars ***!
+  \**************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Handlebars = __webpack_require__(/*! ../../../../node_modules/handlebars/runtime.js */ "./node_modules/handlebars/runtime.js");
+function __default(obj) { return obj && (obj.__esModule ? obj["default"] : obj); }
+module.exports = (Handlebars["default"] || Handlebars).template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<label class=\"hidden-visually\" for=\"contactsmenu-search\">"
+    + alias4(((helper = (helper = lookupProperty(helpers,"searchContactsText") || (depth0 != null ? lookupProperty(depth0,"searchContactsText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"searchContactsText","hash":{},"data":data,"loc":{"start":{"line":1,"column":57},"end":{"line":1,"column":79}}}) : helper)))
+    + "</label>\n<input id=\"contactsmenu-search\" type=\"search\" placeholder=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"searchContactsText") || (depth0 != null ? lookupProperty(depth0,"searchContactsText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"searchContactsText","hash":{},"data":data,"loc":{"start":{"line":2,"column":59},"end":{"line":2,"column":81}}}) : helper)))
+    + "\" value=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"searchTerm") || (depth0 != null ? lookupProperty(depth0,"searchTerm") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"searchTerm","hash":{},"data":data,"loc":{"start":{"line":2,"column":90},"end":{"line":2,"column":104}}}) : helper)))
+    + "\">\n<div class=\"content\">\n</div>\n";
+},"useData":true});
+
+/***/ }),
+
+/***/ "./node_modules/moment/locale sync recursive ^\\.\\/.*$":
+/*!***************************************************!*\
+  !*** ./node_modules/moment/locale/ sync ^\.\/.*$ ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./af": "./node_modules/moment/locale/af.js",
+	"./af.js": "./node_modules/moment/locale/af.js",
+	"./ar": "./node_modules/moment/locale/ar.js",
+	"./ar-dz": "./node_modules/moment/locale/ar-dz.js",
+	"./ar-dz.js": "./node_modules/moment/locale/ar-dz.js",
+	"./ar-kw": "./node_modules/moment/locale/ar-kw.js",
+	"./ar-kw.js": "./node_modules/moment/locale/ar-kw.js",
+	"./ar-ly": "./node_modules/moment/locale/ar-ly.js",
+	"./ar-ly.js": "./node_modules/moment/locale/ar-ly.js",
+	"./ar-ma": "./node_modules/moment/locale/ar-ma.js",
+	"./ar-ma.js": "./node_modules/moment/locale/ar-ma.js",
+	"./ar-sa": "./node_modules/moment/locale/ar-sa.js",
+	"./ar-sa.js": "./node_modules/moment/locale/ar-sa.js",
+	"./ar-tn": "./node_modules/moment/locale/ar-tn.js",
+	"./ar-tn.js": "./node_modules/moment/locale/ar-tn.js",
+	"./ar.js": "./node_modules/moment/locale/ar.js",
+	"./az": "./node_modules/moment/locale/az.js",
+	"./az.js": "./node_modules/moment/locale/az.js",
+	"./be": "./node_modules/moment/locale/be.js",
+	"./be.js": "./node_modules/moment/locale/be.js",
+	"./bg": "./node_modules/moment/locale/bg.js",
+	"./bg.js": "./node_modules/moment/locale/bg.js",
+	"./bm": "./node_modules/moment/locale/bm.js",
+	"./bm.js": "./node_modules/moment/locale/bm.js",
+	"./bn": "./node_modules/moment/locale/bn.js",
+	"./bn-bd": "./node_modules/moment/locale/bn-bd.js",
+	"./bn-bd.js": "./node_modules/moment/locale/bn-bd.js",
+	"./bn.js": "./node_modules/moment/locale/bn.js",
+	"./bo": "./node_modules/moment/locale/bo.js",
+	"./bo.js": "./node_modules/moment/locale/bo.js",
+	"./br": "./node_modules/moment/locale/br.js",
+	"./br.js": "./node_modules/moment/locale/br.js",
+	"./bs": "./node_modules/moment/locale/bs.js",
+	"./bs.js": "./node_modules/moment/locale/bs.js",
+	"./ca": "./node_modules/moment/locale/ca.js",
+	"./ca.js": "./node_modules/moment/locale/ca.js",
+	"./cs": "./node_modules/moment/locale/cs.js",
+	"./cs.js": "./node_modules/moment/locale/cs.js",
+	"./cv": "./node_modules/moment/locale/cv.js",
+	"./cv.js": "./node_modules/moment/locale/cv.js",
+	"./cy": "./node_modules/moment/locale/cy.js",
+	"./cy.js": "./node_modules/moment/locale/cy.js",
+	"./da": "./node_modules/moment/locale/da.js",
+	"./da.js": "./node_modules/moment/locale/da.js",
+	"./de": "./node_modules/moment/locale/de.js",
+	"./de-at": "./node_modules/moment/locale/de-at.js",
+	"./de-at.js": "./node_modules/moment/locale/de-at.js",
+	"./de-ch": "./node_modules/moment/locale/de-ch.js",
+	"./de-ch.js": "./node_modules/moment/locale/de-ch.js",
+	"./de.js": "./node_modules/moment/locale/de.js",
+	"./dv": "./node_modules/moment/locale/dv.js",
+	"./dv.js": "./node_modules/moment/locale/dv.js",
+	"./el": "./node_modules/moment/locale/el.js",
+	"./el.js": "./node_modules/moment/locale/el.js",
+	"./en-au": "./node_modules/moment/locale/en-au.js",
+	"./en-au.js": "./node_modules/moment/locale/en-au.js",
+	"./en-ca": "./node_modules/moment/locale/en-ca.js",
+	"./en-ca.js": "./node_modules/moment/locale/en-ca.js",
+	"./en-gb": "./node_modules/moment/locale/en-gb.js",
+	"./en-gb.js": "./node_modules/moment/locale/en-gb.js",
+	"./en-ie": "./node_modules/moment/locale/en-ie.js",
+	"./en-ie.js": "./node_modules/moment/locale/en-ie.js",
+	"./en-il": "./node_modules/moment/locale/en-il.js",
+	"./en-il.js": "./node_modules/moment/locale/en-il.js",
+	"./en-in": "./node_modules/moment/locale/en-in.js",
+	"./en-in.js": "./node_modules/moment/locale/en-in.js",
+	"./en-nz": "./node_modules/moment/locale/en-nz.js",
+	"./en-nz.js": "./node_modules/moment/locale/en-nz.js",
+	"./en-sg": "./node_modules/moment/locale/en-sg.js",
+	"./en-sg.js": "./node_modules/moment/locale/en-sg.js",
+	"./eo": "./node_modules/moment/locale/eo.js",
+	"./eo.js": "./node_modules/moment/locale/eo.js",
+	"./es": "./node_modules/moment/locale/es.js",
+	"./es-do": "./node_modules/moment/locale/es-do.js",
+	"./es-do.js": "./node_modules/moment/locale/es-do.js",
+	"./es-mx": "./node_modules/moment/locale/es-mx.js",
+	"./es-mx.js": "./node_modules/moment/locale/es-mx.js",
+	"./es-us": "./node_modules/moment/locale/es-us.js",
+	"./es-us.js": "./node_modules/moment/locale/es-us.js",
+	"./es.js": "./node_modules/moment/locale/es.js",
+	"./et": "./node_modules/moment/locale/et.js",
+	"./et.js": "./node_modules/moment/locale/et.js",
+	"./eu": "./node_modules/moment/locale/eu.js",
+	"./eu.js": "./node_modules/moment/locale/eu.js",
+	"./fa": "./node_modules/moment/locale/fa.js",
+	"./fa.js": "./node_modules/moment/locale/fa.js",
+	"./fi": "./node_modules/moment/locale/fi.js",
+	"./fi.js": "./node_modules/moment/locale/fi.js",
+	"./fil": "./node_modules/moment/locale/fil.js",
+	"./fil.js": "./node_modules/moment/locale/fil.js",
+	"./fo": "./node_modules/moment/locale/fo.js",
+	"./fo.js": "./node_modules/moment/locale/fo.js",
+	"./fr": "./node_modules/moment/locale/fr.js",
+	"./fr-ca": "./node_modules/moment/locale/fr-ca.js",
+	"./fr-ca.js": "./node_modules/moment/locale/fr-ca.js",
+	"./fr-ch": "./node_modules/moment/locale/fr-ch.js",
+	"./fr-ch.js": "./node_modules/moment/locale/fr-ch.js",
+	"./fr.js": "./node_modules/moment/locale/fr.js",
+	"./fy": "./node_modules/moment/locale/fy.js",
+	"./fy.js": "./node_modules/moment/locale/fy.js",
+	"./ga": "./node_modules/moment/locale/ga.js",
+	"./ga.js": "./node_modules/moment/locale/ga.js",
+	"./gd": "./node_modules/moment/locale/gd.js",
+	"./gd.js": "./node_modules/moment/locale/gd.js",
+	"./gl": "./node_modules/moment/locale/gl.js",
+	"./gl.js": "./node_modules/moment/locale/gl.js",
+	"./gom-deva": "./node_modules/moment/locale/gom-deva.js",
+	"./gom-deva.js": "./node_modules/moment/locale/gom-deva.js",
+	"./gom-latn": "./node_modules/moment/locale/gom-latn.js",
+	"./gom-latn.js": "./node_modules/moment/locale/gom-latn.js",
+	"./gu": "./node_modules/moment/locale/gu.js",
+	"./gu.js": "./node_modules/moment/locale/gu.js",
+	"./he": "./node_modules/moment/locale/he.js",
+	"./he.js": "./node_modules/moment/locale/he.js",
+	"./hi": "./node_modules/moment/locale/hi.js",
+	"./hi.js": "./node_modules/moment/locale/hi.js",
+	"./hr": "./node_modules/moment/locale/hr.js",
+	"./hr.js": "./node_modules/moment/locale/hr.js",
+	"./hu": "./node_modules/moment/locale/hu.js",
+	"./hu.js": "./node_modules/moment/locale/hu.js",
+	"./hy-am": "./node_modules/moment/locale/hy-am.js",
+	"./hy-am.js": "./node_modules/moment/locale/hy-am.js",
+	"./id": "./node_modules/moment/locale/id.js",
+	"./id.js": "./node_modules/moment/locale/id.js",
+	"./is": "./node_modules/moment/locale/is.js",
+	"./is.js": "./node_modules/moment/locale/is.js",
+	"./it": "./node_modules/moment/locale/it.js",
+	"./it-ch": "./node_modules/moment/locale/it-ch.js",
+	"./it-ch.js": "./node_modules/moment/locale/it-ch.js",
+	"./it.js": "./node_modules/moment/locale/it.js",
+	"./ja": "./node_modules/moment/locale/ja.js",
+	"./ja.js": "./node_modules/moment/locale/ja.js",
+	"./jv": "./node_modules/moment/locale/jv.js",
+	"./jv.js": "./node_modules/moment/locale/jv.js",
+	"./ka": "./node_modules/moment/locale/ka.js",
+	"./ka.js": "./node_modules/moment/locale/ka.js",
+	"./kk": "./node_modules/moment/locale/kk.js",
+	"./kk.js": "./node_modules/moment/locale/kk.js",
+	"./km": "./node_modules/moment/locale/km.js",
+	"./km.js": "./node_modules/moment/locale/km.js",
+	"./kn": "./node_modules/moment/locale/kn.js",
+	"./kn.js": "./node_modules/moment/locale/kn.js",
+	"./ko": "./node_modules/moment/locale/ko.js",
+	"./ko.js": "./node_modules/moment/locale/ko.js",
+	"./ku": "./node_modules/moment/locale/ku.js",
+	"./ku.js": "./node_modules/moment/locale/ku.js",
+	"./ky": "./node_modules/moment/locale/ky.js",
+	"./ky.js": "./node_modules/moment/locale/ky.js",
+	"./lb": "./node_modules/moment/locale/lb.js",
+	"./lb.js": "./node_modules/moment/locale/lb.js",
+	"./lo": "./node_modules/moment/locale/lo.js",
+	"./lo.js": "./node_modules/moment/locale/lo.js",
+	"./lt": "./node_modules/moment/locale/lt.js",
+	"./lt.js": "./node_modules/moment/locale/lt.js",
+	"./lv": "./node_modules/moment/locale/lv.js",
+	"./lv.js": "./node_modules/moment/locale/lv.js",
+	"./me": "./node_modules/moment/locale/me.js",
+	"./me.js": "./node_modules/moment/locale/me.js",
+	"./mi": "./node_modules/moment/locale/mi.js",
+	"./mi.js": "./node_modules/moment/locale/mi.js",
+	"./mk": "./node_modules/moment/locale/mk.js",
+	"./mk.js": "./node_modules/moment/locale/mk.js",
+	"./ml": "./node_modules/moment/locale/ml.js",
+	"./ml.js": "./node_modules/moment/locale/ml.js",
+	"./mn": "./node_modules/moment/locale/mn.js",
+	"./mn.js": "./node_modules/moment/locale/mn.js",
+	"./mr": "./node_modules/moment/locale/mr.js",
+	"./mr.js": "./node_modules/moment/locale/mr.js",
+	"./ms": "./node_modules/moment/locale/ms.js",
+	"./ms-my": "./node_modules/moment/locale/ms-my.js",
+	"./ms-my.js": "./node_modules/moment/locale/ms-my.js",
+	"./ms.js": "./node_modules/moment/locale/ms.js",
+	"./mt": "./node_modules/moment/locale/mt.js",
+	"./mt.js": "./node_modules/moment/locale/mt.js",
+	"./my": "./node_modules/moment/locale/my.js",
+	"./my.js": "./node_modules/moment/locale/my.js",
+	"./nb": "./node_modules/moment/locale/nb.js",
+	"./nb.js": "./node_modules/moment/locale/nb.js",
+	"./ne": "./node_modules/moment/locale/ne.js",
+	"./ne.js": "./node_modules/moment/locale/ne.js",
+	"./nl": "./node_modules/moment/locale/nl.js",
+	"./nl-be": "./node_modules/moment/locale/nl-be.js",
+	"./nl-be.js": "./node_modules/moment/locale/nl-be.js",
+	"./nl.js": "./node_modules/moment/locale/nl.js",
+	"./nn": "./node_modules/moment/locale/nn.js",
+	"./nn.js": "./node_modules/moment/locale/nn.js",
+	"./oc-lnc": "./node_modules/moment/locale/oc-lnc.js",
+	"./oc-lnc.js": "./node_modules/moment/locale/oc-lnc.js",
+	"./pa-in": "./node_modules/moment/locale/pa-in.js",
+	"./pa-in.js": "./node_modules/moment/locale/pa-in.js",
+	"./pl": "./node_modules/moment/locale/pl.js",
+	"./pl.js": "./node_modules/moment/locale/pl.js",
+	"./pt": "./node_modules/moment/locale/pt.js",
+	"./pt-br": "./node_modules/moment/locale/pt-br.js",
+	"./pt-br.js": "./node_modules/moment/locale/pt-br.js",
+	"./pt.js": "./node_modules/moment/locale/pt.js",
+	"./ro": "./node_modules/moment/locale/ro.js",
+	"./ro.js": "./node_modules/moment/locale/ro.js",
+	"./ru": "./node_modules/moment/locale/ru.js",
+	"./ru.js": "./node_modules/moment/locale/ru.js",
+	"./sd": "./node_modules/moment/locale/sd.js",
+	"./sd.js": "./node_modules/moment/locale/sd.js",
+	"./se": "./node_modules/moment/locale/se.js",
+	"./se.js": "./node_modules/moment/locale/se.js",
+	"./si": "./node_modules/moment/locale/si.js",
+	"./si.js": "./node_modules/moment/locale/si.js",
+	"./sk": "./node_modules/moment/locale/sk.js",
+	"./sk.js": "./node_modules/moment/locale/sk.js",
+	"./sl": "./node_modules/moment/locale/sl.js",
+	"./sl.js": "./node_modules/moment/locale/sl.js",
+	"./sq": "./node_modules/moment/locale/sq.js",
+	"./sq.js": "./node_modules/moment/locale/sq.js",
+	"./sr": "./node_modules/moment/locale/sr.js",
+	"./sr-cyrl": "./node_modules/moment/locale/sr-cyrl.js",
+	"./sr-cyrl.js": "./node_modules/moment/locale/sr-cyrl.js",
+	"./sr.js": "./node_modules/moment/locale/sr.js",
+	"./ss": "./node_modules/moment/locale/ss.js",
+	"./ss.js": "./node_modules/moment/locale/ss.js",
+	"./sv": "./node_modules/moment/locale/sv.js",
+	"./sv.js": "./node_modules/moment/locale/sv.js",
+	"./sw": "./node_modules/moment/locale/sw.js",
+	"./sw.js": "./node_modules/moment/locale/sw.js",
+	"./ta": "./node_modules/moment/locale/ta.js",
+	"./ta.js": "./node_modules/moment/locale/ta.js",
+	"./te": "./node_modules/moment/locale/te.js",
+	"./te.js": "./node_modules/moment/locale/te.js",
+	"./tet": "./node_modules/moment/locale/tet.js",
+	"./tet.js": "./node_modules/moment/locale/tet.js",
+	"./tg": "./node_modules/moment/locale/tg.js",
+	"./tg.js": "./node_modules/moment/locale/tg.js",
+	"./th": "./node_modules/moment/locale/th.js",
+	"./th.js": "./node_modules/moment/locale/th.js",
+	"./tk": "./node_modules/moment/locale/tk.js",
+	"./tk.js": "./node_modules/moment/locale/tk.js",
+	"./tl-ph": "./node_modules/moment/locale/tl-ph.js",
+	"./tl-ph.js": "./node_modules/moment/locale/tl-ph.js",
+	"./tlh": "./node_modules/moment/locale/tlh.js",
+	"./tlh.js": "./node_modules/moment/locale/tlh.js",
+	"./tr": "./node_modules/moment/locale/tr.js",
+	"./tr.js": "./node_modules/moment/locale/tr.js",
+	"./tzl": "./node_modules/moment/locale/tzl.js",
+	"./tzl.js": "./node_modules/moment/locale/tzl.js",
+	"./tzm": "./node_modules/moment/locale/tzm.js",
+	"./tzm-latn": "./node_modules/moment/locale/tzm-latn.js",
+	"./tzm-latn.js": "./node_modules/moment/locale/tzm-latn.js",
+	"./tzm.js": "./node_modules/moment/locale/tzm.js",
+	"./ug-cn": "./node_modules/moment/locale/ug-cn.js",
+	"./ug-cn.js": "./node_modules/moment/locale/ug-cn.js",
+	"./uk": "./node_modules/moment/locale/uk.js",
+	"./uk.js": "./node_modules/moment/locale/uk.js",
+	"./ur": "./node_modules/moment/locale/ur.js",
+	"./ur.js": "./node_modules/moment/locale/ur.js",
+	"./uz": "./node_modules/moment/locale/uz.js",
+	"./uz-latn": "./node_modules/moment/locale/uz-latn.js",
+	"./uz-latn.js": "./node_modules/moment/locale/uz-latn.js",
+	"./uz.js": "./node_modules/moment/locale/uz.js",
+	"./vi": "./node_modules/moment/locale/vi.js",
+	"./vi.js": "./node_modules/moment/locale/vi.js",
+	"./x-pseudo": "./node_modules/moment/locale/x-pseudo.js",
+	"./x-pseudo.js": "./node_modules/moment/locale/x-pseudo.js",
+	"./yo": "./node_modules/moment/locale/yo.js",
+	"./yo.js": "./node_modules/moment/locale/yo.js",
+	"./zh-cn": "./node_modules/moment/locale/zh-cn.js",
+	"./zh-cn.js": "./node_modules/moment/locale/zh-cn.js",
+	"./zh-hk": "./node_modules/moment/locale/zh-hk.js",
+	"./zh-hk.js": "./node_modules/moment/locale/zh-hk.js",
+	"./zh-mo": "./node_modules/moment/locale/zh-mo.js",
+	"./zh-mo.js": "./node_modules/moment/locale/zh-mo.js",
+	"./zh-tw": "./node_modules/moment/locale/zh-tw.js",
+	"./zh-tw.js": "./node_modules/moment/locale/zh-tw.js"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_style_index_0_id_2b0f9fce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_style_index_0_id_2b0f9fce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_style_index_0_id_2b0f9fce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_style_index_0_id_2b0f9fce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_style_index_0_id_2b0f9fce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_style_index_0_id_722a846b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_style_index_0_id_722a846b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_style_index_0_id_722a846b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_style_index_0_id_722a846b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_style_index_0_id_722a846b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_style_index_0_id_34bf48f7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_style_index_0_id_34bf48f7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_style_index_0_id_34bf48f7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_style_index_0_id_34bf48f7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_style_index_0_id_34bf48f7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_style_index_0_id_a10057b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_style_index_0_id_a10057b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_style_index_0_id_a10057b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_style_index_0_id_a10057b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_style_index_0_id_a10057b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_style_index_0_id_020fd45b_lang_scss___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_style_index_0_id_020fd45b_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_style_index_0_id_020fd45b_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_style_index_0_id_020fd45b_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_style_index_0_id_020fd45b_lang_scss___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_style_index_0_id_66634656_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css&");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+
+      options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+    
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_style_index_0_id_66634656_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_style_index_0_id_66634656_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_style_index_0_id_66634656_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_style_index_0_id_66634656_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginButton.vue":
+/*!***************************************************!*\
+  !*** ./core/src/components/login/LoginButton.vue ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _LoginButton_vue_vue_type_template_id_2b0f9fce_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true& */ "./core/src/components/login/LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true&");
+/* harmony import */ var _LoginButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginButton.vue?vue&type=script&lang=js& */ "./core/src/components/login/LoginButton.vue?vue&type=script&lang=js&");
+/* harmony import */ var _LoginButton_vue_vue_type_style_index_0_id_2b0f9fce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true& */ "./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _LoginButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LoginButton_vue_vue_type_template_id_2b0f9fce_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _LoginButton_vue_vue_type_template_id_2b0f9fce_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "2b0f9fce",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "core/src/components/login/LoginButton.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginForm.vue":
+/*!*************************************************!*\
+  !*** ./core/src/components/login/LoginForm.vue ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _LoginForm_vue_vue_type_template_id_722a846b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LoginForm.vue?vue&type=template&id=722a846b&scoped=true& */ "./core/src/components/login/LoginForm.vue?vue&type=template&id=722a846b&scoped=true&");
+/* harmony import */ var _LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginForm.vue?vue&type=script&lang=js& */ "./core/src/components/login/LoginForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _LoginForm_vue_vue_type_style_index_0_id_722a846b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true& */ "./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LoginForm_vue_vue_type_template_id_722a846b_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _LoginForm_vue_vue_type_template_id_722a846b_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "722a846b",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "core/src/components/login/LoginForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/components/login/PasswordLessLoginForm.vue":
+/*!*************************************************************!*\
+  !*** ./core/src/components/login/PasswordLessLoginForm.vue ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PasswordLessLoginForm_vue_vue_type_template_id_34bf48f7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true& */ "./core/src/components/login/PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true&");
+/* harmony import */ var _PasswordLessLoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PasswordLessLoginForm.vue?vue&type=script&lang=js& */ "./core/src/components/login/PasswordLessLoginForm.vue?vue&type=script&lang=js&");
+/* harmony import */ var _PasswordLessLoginForm_vue_vue_type_style_index_0_id_34bf48f7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true& */ "./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _PasswordLessLoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PasswordLessLoginForm_vue_vue_type_template_id_34bf48f7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _PasswordLessLoginForm_vue_vue_type_template_id_34bf48f7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "34bf48f7",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "core/src/components/login/PasswordLessLoginForm.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/components/login/ResetPassword.vue":
+/*!*****************************************************!*\
+  !*** ./core/src/components/login/ResetPassword.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ResetPassword_vue_vue_type_template_id_a10057b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true& */ "./core/src/components/login/ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true&");
+/* harmony import */ var _ResetPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ResetPassword.vue?vue&type=script&lang=js& */ "./core/src/components/login/ResetPassword.vue?vue&type=script&lang=js&");
+/* harmony import */ var _ResetPassword_vue_vue_type_style_index_0_id_a10057b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true& */ "./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ResetPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ResetPassword_vue_vue_type_template_id_a10057b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ResetPassword_vue_vue_type_template_id_a10057b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "a10057b0",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "core/src/components/login/ResetPassword.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/components/login/UpdatePassword.vue":
+/*!******************************************************!*\
+  !*** ./core/src/components/login/UpdatePassword.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _UpdatePassword_vue_vue_type_template_id_66634656_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdatePassword.vue?vue&type=template&id=66634656&scoped=true& */ "./core/src/components/login/UpdatePassword.vue?vue&type=template&id=66634656&scoped=true&");
+/* harmony import */ var _UpdatePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdatePassword.vue?vue&type=script&lang=js& */ "./core/src/components/login/UpdatePassword.vue?vue&type=script&lang=js&");
+/* harmony import */ var _UpdatePassword_vue_vue_type_style_index_0_id_66634656_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css& */ "./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _UpdatePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UpdatePassword_vue_vue_type_template_id_66634656_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _UpdatePassword_vue_vue_type_template_id_66634656_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "66634656",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "core/src/components/login/UpdatePassword.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/views/Login.vue":
+/*!**********************************!*\
+  !*** ./core/src/views/Login.vue ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Login_vue_vue_type_template_id_020fd45b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Login.vue?vue&type=template&id=020fd45b& */ "./core/src/views/Login.vue?vue&type=template&id=020fd45b&");
+/* harmony import */ var _Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Login.vue?vue&type=script&lang=js& */ "./core/src/views/Login.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Login_vue_vue_type_style_index_0_id_020fd45b_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss& */ "./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Login_vue_vue_type_template_id_020fd45b___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Login_vue_vue_type_template_id_020fd45b___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "core/src/views/Login.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginButton.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./core/src/components/login/LoginButton.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./core/src/components/login/LoginForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/components/login/PasswordLessLoginForm.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************!*\
+  !*** ./core/src/components/login/PasswordLessLoginForm.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PasswordLessLoginForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/components/login/ResetPassword.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./core/src/components/login/ResetPassword.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ResetPassword.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/components/login/UpdatePassword.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./core/src/components/login/UpdatePassword.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdatePassword.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/views/Login.vue?vue&type=script&lang=js&":
+/*!***********************************************************!*\
+  !*** ./core/src/views/Login.vue?vue&type=script&lang=js& ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Login.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true&":
+/*!**********************************************************************************************!*\
+  !*** ./core/src/components/login/LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true& ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_template_id_2b0f9fce_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_template_id_2b0f9fce_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_template_id_2b0f9fce_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=template&id=2b0f9fce&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginForm.vue?vue&type=template&id=722a846b&scoped=true&":
+/*!********************************************************************************************!*\
+  !*** ./core/src/components/login/LoginForm.vue?vue&type=template&id=722a846b&scoped=true& ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_template_id_722a846b_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_template_id_722a846b_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_template_id_722a846b_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginForm.vue?vue&type=template&id=722a846b&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=template&id=722a846b&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true&":
+/*!********************************************************************************************************!*\
+  !*** ./core/src/components/login/PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true& ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_template_id_34bf48f7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_template_id_34bf48f7_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_template_id_34bf48f7_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=template&id=34bf48f7&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true&":
+/*!************************************************************************************************!*\
+  !*** ./core/src/components/login/ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true& ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_template_id_a10057b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_template_id_a10057b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_template_id_a10057b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=template&id=a10057b0&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/UpdatePassword.vue?vue&type=template&id=66634656&scoped=true&":
+/*!*************************************************************************************************!*\
+  !*** ./core/src/components/login/UpdatePassword.vue?vue&type=template&id=66634656&scoped=true& ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_template_id_66634656_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_template_id_66634656_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_template_id_66634656_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdatePassword.vue?vue&type=template&id=66634656&scoped=true& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=template&id=66634656&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/views/Login.vue?vue&type=template&id=020fd45b&":
+/*!*****************************************************************!*\
+  !*** ./core/src/views/Login.vue?vue&type=template&id=020fd45b& ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_020fd45b___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_020fd45b___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_020fd45b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Login.vue?vue&type=template&id=020fd45b& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=template&id=020fd45b&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true& ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginButton_vue_vue_type_style_index_0_id_2b0f9fce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginButton.vue?vue&type=style&index=0&id=2b0f9fce&lang=scss&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true&":
+/*!***********************************************************************************************************!*\
+  !*** ./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true& ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginForm_vue_vue_type_style_index_0_id_722a846b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/LoginForm.vue?vue&type=style&index=0&id=722a846b&lang=scss&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true&":
+/*!***********************************************************************************************************************!*\
+  !*** ./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true& ***!
+  \***********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_PasswordLessLoginForm_vue_vue_type_style_index_0_id_34bf48f7_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/PasswordLessLoginForm.vue?vue&type=style&index=0&id=34bf48f7&lang=scss&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true&":
+/*!***************************************************************************************************************!*\
+  !*** ./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true& ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_style_index_0_id_a10057b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/ResetPassword.vue?vue&type=style&index=0&id=a10057b0&lang=scss&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss&":
+/*!********************************************************************************!*\
+  !*** ./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss& ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_style_index_0_id_020fd45b_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Login.vue?vue&type=style&index=0&id=020fd45b&lang=scss&");
+
+
+/***/ }),
+
+/***/ "./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css&":
+/*!***************************************************************************************************************!*\
+  !*** ./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css& ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdatePassword_vue_vue_type_style_index_0_id_66634656_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/components/login/UpdatePassword.vue?vue&type=style&index=0&id=66634656&scoped=true&lang=css&");
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + "8ddaf1c5ac4936c83e13" + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"core-login": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						} else installedChunks[chunkId] = 0;
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./core/src/login.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=core-login.js.map?v=1c166c3880a62835e120

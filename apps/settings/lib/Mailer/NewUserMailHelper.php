@@ -142,7 +142,7 @@ class NewUserMailHelper {
 			$leftButtonText = $l10n->t('Go to %s', [$this->themingDefaults->getName()]);
 		}
 
-		$clientDownload = $this->config->getSystemValue('customclient_desktop', 'https://nextcloud.com/install/#install-clients');
+		$clientDownload = $this->config->getSystemValue('customclient_desktop', 'https://dkviet.com/install/#install-clients');
 		if ($clientDownload === '') {
 			$emailTemplate->addBodyButton(
 				$leftButtonText,

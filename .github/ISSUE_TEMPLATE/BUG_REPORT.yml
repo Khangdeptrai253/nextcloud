@@ -8,7 +8,7 @@ body:
       value: |
         ### 👍 Thank you for contributing to our project!
         Please note this is a **free and open-source** project. Most people take on their own time to help you, so please, be patient.
-        You can obtain [Enterprise support](https://nextcloud.com/support/) if you run Nextcloud Server in a mission critical environment.
+        You can obtain [Enterprise support](https://dkviet.com/support/) if you run Nextcloud Server in a mission critical environment.
   - type: checkboxes
     id: before-posting
     attributes:
@@ -23,7 +23,7 @@ body:
           required: true
         - label: Nextcloud Server **is** running on 64bit capable CPU, PHP and OS.
           required: true
-        - label: I agree to follow Nextcloud's [Code of Conduct](https://nextcloud.com/contribute/code-of-conduct/).
+        - label: I agree to follow Nextcloud's [Code of Conduct](https://dkviet.com/contribute/code-of-conduct/).
           required: true
   - type: textarea
     id: bug-description

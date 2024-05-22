@@ -116,13 +116,13 @@ class ThemingControllerTest extends TestCase {
 	public function dataUpdateStylesheetSuccess() {
 		return [
 			['name', str_repeat('a', 250), 'Saved'],
-			['url', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
+			['url', 'https://dkviet.com/' . str_repeat('a', 478), 'Saved'],
 			['slogan', str_repeat('a', 500), 'Saved'],
 			['color', '#0082c9', 'Saved'],
 			['color', '#0082C9', 'Saved'],
 			['color', '#0082C9', 'Saved'],
-			['imprintUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
-			['privacyUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
+			['imprintUrl', 'https://dkviet.com/' . str_repeat('a', 478), 'Saved'],
+			['privacyUrl', 'https://dkviet.com/' . str_repeat('a', 478), 'Saved'],
 		];
 	}
 

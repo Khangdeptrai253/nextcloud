@@ -27,7 +27,7 @@
 
 ?>
 
-<div id="security-warning" class="section">
+<!-- <div id="security-warning" class="section">
 	<h2 class="inlineblock"><?php p($l->t('Security & setup warnings'));?></h2>
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-warnings')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('It\'s important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.'));?></p>
@@ -62,14 +62,13 @@
 		<?php print_unescaped($l->t('Check the security of your Nextcloud over <a target="_blank" rel="noreferrer noopener" href="%s">our security scan ↗</a>.', ['https://scan.nextcloud.com']));?>
 	</p>
 
-</div>
+</div> -->
 
-<div id="version" class="section">
-	<!-- should be the last part, so Updater can follow if enabled (it has no heading therefore). -->
+<!-- <div id="version" class="section">
 	<h2><?php p($l->t('Version'));?></h2>
 	<?php if ($theme->getTitle() === 'Nextcloud'): ?>
 	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer noopener" target="_blank">Nextcloud Hub 6</a> (<?php p(OC_Util::getHumanVersion()) ?>)</strong></p>
 	<?php else: ?>
 	<p><strong><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" rel="noreferrer noopener" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></strong></p>
 	<?php endif; ?>
-</div>
+</div> -->

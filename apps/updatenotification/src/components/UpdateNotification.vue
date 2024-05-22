@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<NcSettingsSection id="updatenotification" :title="t('updatenotification', 'Update')">
 		<div class="update">
 			<template v-if="isNewVersionAvailable">
@@ -197,7 +197,7 @@ export default {
 
 		noteDelayedStableString() {
 			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
-				.replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
+				.replace('{link}', '<a href="https://dkviet.com/release-channels/">https://dkviet.com/release-channels/</a>')
 		},
 
 		lastCheckedOnString() {
@@ -546,4 +546,4 @@ export default {
 	#updatenotification .topMargin {
 		margin-top: 15px;
 	}
-</style>
+</style> -->
