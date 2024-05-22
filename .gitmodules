@@ -46,3 +46,6 @@
 [submodule "apps/customproperties"]
 	path = apps/customproperties
 	url = https://git.dkviet.com/an.nguyen/customproperties.git
+[submodule "apps/richdocuments"]
+	path = apps/richdocuments
+	url = https://git.dkviet.com/an.nguyen/richdocuments.git
