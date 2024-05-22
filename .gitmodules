@@ -43,3 +43,6 @@
 [submodule "apps/files_fulltextsearch"]
 	path = apps/files_fulltextsearch
 	url = https://git.dkviet.com/khang.nguyen/files_fulltextsearch.git
+[submodule "apps/customproperties"]
+	path = apps/customproperties
+	url = https://git.dkviet.com/an.nguyen/customproperties.git
