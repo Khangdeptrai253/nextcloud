@@ -55,3 +55,6 @@
 [submodule "apps/duplicatefinder"]
 	path = apps/duplicatefinder
 	url = https://git.dkviet.com/khang.nguyen/duplicatefinder.git
+[submodule "apps/metadata"]
+	path = apps/metadata
+	url = https://git.dkviet.com/khang.nguyen/metadata.git
