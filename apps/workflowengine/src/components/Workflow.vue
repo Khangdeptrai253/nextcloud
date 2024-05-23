@@ -1,10 +1,10 @@
 <template>
 	<div id="workflowengine">
 		<NcSettingsSection :title="t('workflowengine', 'Available flows')"
-			:doc-url="workflowDocUrl">
-			<p v-if="scope === 0" class="settings-hint">
-				<a href="https://nextcloud.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
-			</p>
+			>
+			<!-- <p v-if="scope === 0" class="settings-hint">
+				<a href="https://dkviet.com/developer/">{{ t('workflowengine', 'For details on how to write your own flow, check out the development documentation.') }}</a>
+			</p> -->
 
 			<transition-group name="slide" tag="div" class="actions">
 				<Operation v-for="operation in getMainOperations"
@@ -19,7 +19,7 @@
 					<div class="icon icon-add" />
 					<div class="actions__item__description">
 						<h3>{{ t('workflowengine', 'More flows') }}</h3>
-						<small>{{ t('workflowengine', 'Browse the App Store') }}</small>
+						<!-- <small>{{ t('workflowengine', 'Browse the App Store') }}</small> -->
 					</div>
 				</a>
 			</transition-group>

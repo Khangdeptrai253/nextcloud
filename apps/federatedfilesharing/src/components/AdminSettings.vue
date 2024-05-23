@@ -23,12 +23,12 @@
 <template>
 	<NcSettingsSection :title="t('federatedfilesharing', 'Federated Cloud Sharing')"
 		:description="t('federatedfilesharing', 'Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing.')"
-		:doc-url="sharingFederatedDocUrl">
-		<NcCheckboxRadioSwitch type="switch"
+		>
+		<!-- <NcCheckboxRadioSwitch type="switch"
 			:checked.sync="outgoingServer2serverShareEnabled"
 			@update:checked="update('outgoing_server2server_share_enabled', outgoingServer2serverShareEnabled)">
 			{{ t('federatedfilesharing', 'Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)') }}
-		</NcCheckboxRadioSwitch>
+		</NcCheckboxRadioSwitch> -->
 
 		<NcCheckboxRadioSwitch type="switch"
 			:checked.sync="incomingServer2serverShareEnabled"

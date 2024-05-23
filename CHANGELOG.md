@@ -1,4 +1,4 @@
 Changelog
 =========
 
-The change log is at [https://nextcloud.com/changelog/](https://nextcloud.com/changelog/).
+The change log is at [https://dkviet.com](https://dkviet.com).

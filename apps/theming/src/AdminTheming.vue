@@ -24,8 +24,8 @@
 	<section>
 		<NcSettingsSection :title="t('theming', 'Theming')"
 			:description="t('theming', 'Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users.')"
-			:doc-url="docUrl"
-			data-admin-theming-settings>
+			
+			data-admin-theming-settings>  
 			<div class="admin-theming">
 				<NcNoteCard v-if="!isThemable"
 					type="error"
@@ -99,11 +99,11 @@
 					:description="userThemingField.description"
 					data-admin-theming-setting-disable-user-theming
 					@update:theming="$emit('update:theming')" />
-				<a v-if="!canThemeIcons"
+				<!-- <a v-if="!canThemeIcons"
 					:href="docUrlIcons"
 					rel="noreferrer noopener">
 					<em>{{ t('theming', 'Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.') }}</em>
-				</a>
+				</a> -->
 			</div>
 		</NcSettingsSection>
 	</section>

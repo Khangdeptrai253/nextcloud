@@ -89,7 +89,7 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
 			'Set your password', 'https://example.org/resetPassword/123',
-			'Install Client', 'https://nextcloud.com/install/#install-clients'
+			'Install Client', 'https://dkviet.com/install/#install-clients'
 		);
 		$this->emailTemplate->addFooter(
 			'TestCloud - A safe home for your data<br>This is an automatically sent email, please do not reply.'
@@ -134,7 +134,7 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
 			'Set your password', 'https://example.org/resetPassword/123',
-			'Install Client', 'https://nextcloud.com/install/#install-clients'
+			'Install Client', 'https://dkviet.com/install/#install-clients'
 		);
 		$this->emailTemplate->addFooter();
 
@@ -222,7 +222,7 @@ class EMailTemplateTest extends TestCase {
 		$this->emailTemplate->addBodyText('Your username is: abc');
 		$this->emailTemplate->addBodyButtonGroup(
 			'Set your password', 'https://example.org/resetPassword/123',
-			'Install Client', 'https://nextcloud.com/install/#install-clients',
+			'Install Client', 'https://dkviet.com/install/#install-clients',
 			'Set your password - text', 'Install Client - text'
 		);
 		$this->emailTemplate->addFooter();

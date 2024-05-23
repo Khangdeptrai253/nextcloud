@@ -63,7 +63,7 @@ class OC_Defaults {
 		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */
 		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://nextcloud.com';
-		$this->defaultSyncClientUrl = $config->getSystemValue('customclient_desktop', 'https://nextcloud.com/install/#install-clients');
+		$this->defaultSyncClientUrl = $config->getSystemValue('customclient_desktop', 'https://dkviet.com/install/#install-clients');
 		$this->defaultiOSClientUrl = $config->getSystemValue('customclient_ios', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
 		$this->defaultiTunesAppId = $config->getSystemValue('customclient_ios_appid', '1125420102');
 		$this->defaultAndroidClientUrl = $config->getSystemValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.nextcloud.client');

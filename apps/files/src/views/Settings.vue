@@ -124,7 +124,7 @@ export default {
 
 			// Webdav infos
 			webdavUrl: generateRemoteUrl('dav/files/' + encodeURIComponent(getCurrentUser()?.uid)),
-			webdavDocs: 'https://docs.nextcloud.com/server/stable/go.php?to=user-webdav',
+			webdavDocs: '#',
 			appPasswordUrl: generateUrl('/settings/user/security#generate-app-token-section'),
 			webdavUrlCopied: false,
 		}

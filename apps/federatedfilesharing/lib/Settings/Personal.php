@@ -64,7 +64,7 @@ class Personal implements ISettings {
 	 */
 	public function getForm(): TemplateResponse {
 		$cloudID = $this->userSession->getUser()->getCloudId();
-		$url = 'https://nextcloud.com/sharing#' . $cloudID;
+		$url = 'https://dkviet.com/sharing#' . $cloudID;
 
 		$this->initialState->provideInitialState('color', $this->defaults->getDefaultColorPrimary());
 		$this->initialState->provideInitialState('textColor', $this->defaults->getDefaultTextColorPrimary());

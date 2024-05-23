@@ -43,3 +43,15 @@
 [submodule "apps/files_fulltextsearch"]
 	path = apps/files_fulltextsearch
 	url = https://git.dkviet.com/khang.nguyen/files_fulltextsearch.git
+[submodule "apps/customproperties"]
+	path = apps/customproperties
+	url = https://git.dkviet.com/an.nguyen/customproperties.git
+[submodule "apps/richdocuments"]
+	path = apps/richdocuments
+	url = https://git.dkviet.com/an.nguyen/richdocuments.git
+[submodule "apps/files_automatedtagging"]
+	path = apps/files_automatedtagging
+	url = https://git.dkviet.com/an.nguyen/files_automatedtagging.git
+[submodule "apps/duplicatefinder"]
+	path = apps/duplicatefinder
+	url = https://git.dkviet.com/khang.nguyen/duplicatefinder.git
