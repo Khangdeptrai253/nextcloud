@@ -7,15 +7,13 @@
 	<description>Collect data about user and contacts interactions and provide an address book for the data</description>
 	<version>1.8.0</version>
 	<licence>agpl</licence>
-	<author>Christoph Wurst</author>
-	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
+	<author>DKViet</author>
 	<namespace>ContactsInteraction</namespace>
 	<types>
 		<dav/>
 	</types>
 	<category>integration</category>
 	<category>social</category>
-	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<nextcloud min-version="27" max-version="27"/>
 	</dependencies>

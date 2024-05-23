@@ -5,14 +5,13 @@
 	<name>File sharing</name>
 	<summary>File sharing</summary>
 	<description>
-		This application enables users to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.
-Turning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation.
+		This application enables users to share files within DKWork. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within DKSWork. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of DKSWork. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.
+Turning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps.
 
 	</description>
 	<version>1.19.0</version>
 	<licence>agpl</licence>
-	<author>Michael Gapczynski</author>
-	<author>Bjoern Schiessle</author>
+	<author>DKViet/author>
 	<namespace>Files_Sharing</namespace>
 	<types>
 		<filesystem/>
@@ -20,7 +19,6 @@ Turning the feature off removes shared files and folders on the server for all s
 
 	<category>files</category>
 	<category>social</category>
-	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<nextcloud min-version="27" max-version="27"/>
 	</dependencies>

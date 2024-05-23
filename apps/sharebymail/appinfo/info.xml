@@ -7,14 +7,13 @@
 	<description>Share provider which allows you to share files by mail</description>
 	<version>1.17.0</version>
 	<licence>agpl</licence>
-	<author>Bjoern Schiessle</author>
+	<author>DKViet</author>
 	<namespace>ShareByMail</namespace>
 
 	<types>
 		<filesystem/>
 	</types>
 	<category>social</category>
-	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<nextcloud min-version="27" max-version="27"/>
 	</dependencies>

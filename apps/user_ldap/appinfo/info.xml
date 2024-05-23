@@ -3,16 +3,15 @@
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>user_ldap</id>
 	<name>LDAP user and group backend</name>
-	<summary>This application enables administrators to connect Nextcloud to an LDAP-based user directory.</summary>
-	<description>This application enables administrators to connect Nextcloud to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into Nextcloud from a directory with the appropriate queries and filters.
+	<summary>This application enables administrators to connect DKSwork to an LDAP-based user directory.</summary>
+	<description>This application enables administrators to connect DKSWork to an LDAP-based user directory for authentication and provisioning users, groups and user attributes. Admins can configure this application to connect to one or more LDAP directories or Active Directories via an LDAP interface. Attributes such as user quota, email, avatar pictures, group memberships and more can be pulled into DKSWork from a directory with the appropriate queries and filters.
 
-A user logs into Nextcloud with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. Nextcloud does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then Nextcloud uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation.
+A user logs into DKSwork with their LDAP or AD credentials, and is granted access based on an authentication request handled by the LDAP or AD server. DKSwork does not store LDAP or AD passwords, rather these credentials are used to authenticate a user and then DKSWork uses a session for the user ID. More information is available in the LDAP User and Group Backend documentation.
 
 	</description>
 	<version>1.17.0</version>
 	<licence>agpl</licence>
-	<author>Dominik Schmidt</author>
-	<author>Arthur Schiwon</author>
+	<author>DKViet</author>
 	<namespace>User_LDAP</namespace>
 	<types>
 		<authentication/>
@@ -21,7 +20,6 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 		<admin>admin-ldap</admin>
 	</documentation>
 	<category>integration</category>
-	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
 		<lib>ldap</lib>
 		<nextcloud min-version="27" max-version="27"/>

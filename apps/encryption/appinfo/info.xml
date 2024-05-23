@@ -11,8 +11,7 @@ Please read the documentation to know all implications before you decide to enab
 	</description>
 	<version>2.15.0</version>
 	<licence>agpl</licence>
-	<author>Bjoern Schiessle</author>
-	<author>Clark Tomlinson</author>
+	<author>DKViet</author>
 	<types>
 		<filesystem/>
 	</types>
@@ -22,8 +21,6 @@ Please read the documentation to know all implications before you decide to enab
 	</documentation>
 	<category>files</category>
 	<category>security</category>
-	<bugs>https://github.com/nextcloud/server/issues</bugs>
-
 	<dependencies>
 		<lib>openssl</lib>
 		<nextcloud min-version="27" max-version="27"/>
