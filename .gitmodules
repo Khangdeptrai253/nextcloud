@@ -54,4 +54,4 @@
 	url = https://git.dkviet.com/an.nguyen/files_automatedtagging.git
 [submodule "apps/duplicatefinder"]
 	path = apps/duplicatefinder
-	url = https://git.dkviet.com/khang.nguyen/duplicatefinder.git
+	url = https://git.dkviet.com/an.nguyen/duplicatefinder.git
