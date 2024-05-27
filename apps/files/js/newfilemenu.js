@@ -10,7 +10,7 @@
 
 /* global Files */
 
-(function() {
+(function () {
 
 	/**
 	 * Construct a new NewFileMenu instance
@@ -27,16 +27,17 @@
 			'click .menuitem': '_onClickAction'
 		},
 
+
 		/**
 		 * @type OCA.Files.FileList
 		 */
 		fileList: null,
 
-		initialize: function(options) {
+		initialize: function (options) {
 			var self = this;
 			var $uploadEl = $('#file_upload_start');
 			if ($uploadEl.length) {
-				$uploadEl.on('fileuploadstart', function() {
+				$uploadEl.on('fileuploadstart', function () {
 					self.trigger('actionPerformed', 'upload');
 				});
 			} else {
@@ -52,15 +53,15 @@
 				iconClass: 'icon-folder',
 				fileType: 'folder',
 				actionLabel: t('files', 'Create new folder'),
-				actionHandler: function(name) {
+				actionHandler: function (name) {
 					self.fileList.createDirectory(name);
 				}
-		        }];
+			}];
 
 			OC.Plugins.attach('OCA.Files.NewFileMenu', this);
 		},
 
-		template: function(data) {
+		template: function (data) {
 			return OCA.Files.Templates['newfilemenu'](data);
 		},
 
@@ -69,20 +70,92 @@
 		 *
 		 * @param {Object} event event object
 		 */
-		_onClickAction: function(event) {
+		_onClickAction: function (event) {
 			var $target = $(event.target);
 			if (!$target.hasClass('menuitem')) {
 				$target = $target.closest('.menuitem');
 			}
 			var action = $target.attr('data-action');
+
 			// note: clicking the upload label will automatically
 			// set the focus on the "file_upload_start" hidden field
 			// which itself triggers the upload dialog.
-			// Currently the upload logic is still in file-upload.js and filelist.js
+			// Currently the upload logic is still in file-upload.js and filelist.js'
+
 			if (action === 'upload') {
-				OC.hideMenus();
+				let modal = document.createElement('div');
+				modal.classList.add('modal');
+				modal.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p>This is a modal content.</p>
+						<h2>Upload File</h2>
+						<form action="">
+							<div>
+								<input type="file" id="fileInput" multiple>
+									<div id="preview"></div>
+							</div>
+							<div class="files">
+								<h2>Files Selected</h2>
+								<ul></ul>
+							</div>
+							<input type="submit" value="Submit" name="submit" id="submit" />
+						</form>
+                    </div>
+                `;
+
+				document.body.appendChild(modal);
+
+				modal.style.display = 'block';
+
+				let closeBtn = modal.querySelector('.close');
+				closeBtn.addEventListener('click', function () {
+					modal.style.display = 'none';
+				});
+
+				window.onclick = function (event) {
+					if (event.target === modal) {
+						modal.style.display = 'none';
+					}
+				};
+
+				let fileInput = modal.querySelector('#fileInput');
+				let preview = modal.querySelector('#preview');
+
+				fileInput.addEventListener('change', function (event) {
+					preview.innerHTML = ''; // Clear previous previews
+
+					let files = event.target.files;
+					if (files.length > 0) {
+						for (let i = 0; i < files.length; i++) {
+							let file = files[i];
+							let fileType = file.type.split('/')[0];
+
+							let fileDiv = document.createElement('div');
+							fileDiv.innerHTML = `<strong>${file.name}</strong> (${fileType.toUpperCase()}) - ${file.size} bytes`;
+
+							// Add a delete button for each file
+							let deleteBtn = document.createElement('button');
+							deleteBtn.textContent = 'Delete';
+							deleteBtn.addEventListener('click', function () {
+								fileDiv.remove(); // Remove the file preview
+								// Optionally remove the file from the input
+								fileInput.value = '';
+							});
+							fileDiv.appendChild(deleteBtn);
+
+							preview.appendChild(fileDiv);
+						}
+					}
+				});
+
+				if (typeof OC !== 'undefined' && OC.hideMenus) {
+					OC.hideMenus();
+				} else {
+					console.warn('OC.hideMenus() is not defined');
+				}
 			} else {
-				var actionItem = _.filter(this._menuItems, function(item) {
+				var actionItem = _.filter(this._menuItems, function (item) {
 					return item.id === action
 				}).pop();
 				if (typeof actionItem.useInput === 'undefined' || actionItem.useInput === true) {
@@ -97,7 +170,8 @@
 			}
 		},
 
-		_promptFileName: function($target) {
+
+		_promptFileName: function ($target) {
 			var self = this;
 
 			if ($target.find('form').length) {
@@ -140,7 +214,7 @@
 					if (!Files.isFileNameValid(filename)) {
 						// Files.isFileNameValid(filename) throws an exception itself
 					} else if (self.fileList.inList(filename)) {
-						throw t('files', '{newName} already exists', {newName: filename}, undefined, {
+						throw t('files', '{newName} already exists', { newName: filename }, undefined, {
 							escape: false
 						});
 					} else {
@@ -154,13 +228,13 @@
 			};
 
 			// verify filename on typing
-			$input.keyup(function() {
+			$input.keyup(function () {
 				if (checkInput()) {
 					$input.removeClass('error');
 				}
 			});
 
-			$submit.click(function(event) {
+			$submit.click(function (event) {
 				event.stopPropagation();
 				event.preventDefault();
 				$form.submit();
@@ -174,7 +248,7 @@
 			}
 			$input.selectRange(0, lastPos);
 
-			$form.submit(function(event) {
+			$form.submit(function (event) {
 				event.stopPropagation();
 				event.preventDefault();
 
@@ -183,7 +257,7 @@
 
 					/* Find the right actionHandler that should be called.
 					 * Actions is retrieved by using `actionSpec.id` */
-					var action = _.filter(self._menuItems, function(item) {
+					var action = _.filter(self._menuItems, function (item) {
 						return item.id == $target.attr('data-action');
 					}).pop();
 					action.actionHandler(newname);
@@ -202,7 +276,7 @@
 		*
 		* @param {Object} actionSpec item’s properties
 		*/
-		addMenuEntry: function(actionSpec) {
+		addMenuEntry: function (actionSpec) {
 			this._menuItems.push({
 				id: actionSpec.id,
 				displayName: actionSpec.displayName,
@@ -221,7 +295,7 @@
 		 * Remove a menu item from the "New" file menu
 		 * @param {string} actionId
 		 */
-		removeMenuEntry: function(actionId) {
+		removeMenuEntry: function (actionId) {
 			var index = this._menuItems.findIndex(function (actionSpec) {
 				return actionSpec.id === actionId;
 			});
@@ -233,7 +307,7 @@
 		/**
 		 * Renders the menu with the currently set items
 		 */
-		render: function() {
+		render: function () {
 			const menuItems = this._menuItems.filter(item => !item.shouldShow || (item.shouldShow instanceof Function && item.shouldShow() === true))
 			this.$el.html(this.template({
 				uploadMaxHumanFileSize: 'TODO',
@@ -242,7 +316,7 @@
 			}));
 
 			// Trigger upload action also with keyboard navigation on enter
-			this.$el.find('[for="file_upload_start"]').on('keyup', function(event) {
+			this.$el.find('[for="file_upload_start"]').on('keyup', function (event) {
 				if (event.key === " " || event.key === "Enter") {
 					$('#file_upload_start').trigger('click');
 				}
@@ -254,7 +328,7 @@
 		 *
 		 * @param {Object} $target target element
 		 */
-		showAt: function($target) {
+		showAt: function ($target) {
 			this.render();
 			OC.showMenu($target, this.$el);
 		}

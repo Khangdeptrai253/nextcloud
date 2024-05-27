@@ -67,7 +67,6 @@ const FilesList = new ListView({
 	pinia,
 })
 FilesList.$mount('#app-content-vue')
-
 // Init legacy and new files views
 processLegacyFilesViews()
 

@@ -36,6 +36,15 @@
 <input type="hidden" name="cropImagePreviews" id="cropImagePreviews" value="<?php p($_['cropImagePreviews']); ?>" />
 <?php endif;
 
+
 foreach ($_['hiddenFields'] as $name => $value) {?>
 <input type="hidden" name="<?php p($name) ?>" id="<?php p($name) ?>" value="<?php p($value) ?>" />
+
+
+<script>
+	console.log(document.querySelector("app-content"));
+</script>
 <?php }
+
+
+
