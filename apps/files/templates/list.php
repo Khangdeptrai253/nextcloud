@@ -165,7 +165,7 @@
 </table>
 <div class="filelist-footer"></div>
 <div class="hiddenuploadfield">
-	<input type="file" id="#file_upload_start" class="hiddenuploadfield" name="files[]" />
+	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />
 </div>
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
 	<p>

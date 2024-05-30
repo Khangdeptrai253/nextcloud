@@ -86,23 +86,17 @@
 				let modal = document.createElement('div');
 				modal.classList.add('modal');
 				modal.innerHTML = `
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <p>This is a modal content.</p>
+				    <div class="modal-content">
+				        <span class="close">&times;</span>
+				        <p>This is a modal content.</p>
 						<h2>Upload File</h2>
-						<form action="">
 							<div>
 								<input type="file" id="fileInput" multiple>
-									<div id="preview"></div>
-							</div>
-							<div class="files">
-								<h2>Files Selected</h2>
-								<ul></ul>
+								<div id="preview"></div>
 							</div>
 							<input type="submit" value="Submit" name="submit" id="submit" />
-						</form>
-                    </div>
-                `;
+				    </div>
+				`;
 
 				document.body.appendChild(modal);
 
@@ -148,6 +142,24 @@
 						}
 					}
 				});
+
+				let btnSubmit = modal.querySelector("#submit")
+				btnSubmit.addEventListener('click', function (e) {
+					event.preventDefault();
+					var uploadEl = $('#file_upload_start')
+					console.log(uploadEl)
+					console.log("start")
+					const files = $('#fileInput')[0].files;
+					console.log(files);
+					uploadEl.prop('files', null)
+					uploadEl.prop('files', files)
+					uploadEl.trigger('change')
+					console.log(uploadEl)
+					console.log("end")
+					modal.style.display = 'none';
+				}
+				)
+
 
 				if (typeof OC !== 'undefined' && OC.hideMenus) {
 					OC.hideMenus();
