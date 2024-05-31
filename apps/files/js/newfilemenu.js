@@ -35,14 +35,14 @@
 
 		initialize: function (options) {
 			var self = this;
-			var $uploadEl = $('#file_upload_start');
-			if ($uploadEl.length) {
-				$uploadEl.on('fileuploadstart', function () {
-					self.trigger('actionPerformed', 'upload');
-				});
-			} else {
-				console.warn('Missing upload element "file_upload_start"');
-			}
+			// var $uploadEl = $('#file_upload_start');
+			// if ($uploadEl.length) {
+			// 	$uploadEl.on('fileuploadstart', function () {
+			// 		self.trigger('actionPerformed', 'upload');
+			// 	});
+			// } else {
+			// 	console.warn('Missing upload element "file_upload_start"');
+			// }
 
 			this.fileList = options && options.fileList;
 
@@ -83,82 +83,117 @@
 			// Currently the upload logic is still in file-upload.js and filelist.js'
 
 			if (action === 'upload') {
-				let modal = document.createElement('div');
-				modal.classList.add('modal');
-				modal.innerHTML = `
-				    <div class="modal-content">
-				        <span class="close">&times;</span>
-				        <p>This is a modal content.</p>
-						<h2>Upload File</h2>
-							<div>
-								<input type="file" id="fileInput" multiple>
-								<div id="preview"></div>
-							</div>
-							<input type="submit" value="Submit" name="submit" id="submit" />
-				    </div>
-				`;
+				const $dropZone = $('#dropZone');
+				const $inputFile = $('#inputFile');
+				const $preview = $('#preview');
+				const $modal = $('#modal_upload');
+				const $fileInput = $('#inputFile');
 
-				document.body.appendChild(modal);
+				//const $fileInput = $('#fileInput');
+				// const $previewModal = $('#previewModal');
+				const $closeBtn = $('.close');
+				const $submitBtn = $('#submit');
+				const $fileUploadStart = $('#file_upload_start');
 
-				modal.style.display = 'block';
+				$modal.css('display', 'block')
 
-				let closeBtn = modal.querySelector('.close');
-				closeBtn.addEventListener('click', function () {
-					modal.style.display = 'none';
+				$dropZone.on('click', function () {
+					$inputFile.trigger('click');
 				});
 
-				window.onclick = function (event) {
-					if (event.target === modal) {
-						modal.style.display = 'none';
+				$inputFile.on('change', function (event) {
+					console.log('change')
+					handleFiles(event.target.files);
+				});
+
+				$dropZone.on('dragover', function (event) {
+					event.preventDefault();
+					$dropZone.addClass('dragover');
+				});
+
+				$dropZone.on('dragleave', function () {
+					$dropZone.removeClass('dragover');
+				});
+
+				$dropZone.on('drop', function (event) {
+					event.preventDefault();
+					$dropZone.removeClass('dragover');
+					const files = event.originalEvent.dataTransfer.files;
+					handleFiles(files);
+					updateInputFile(files);
+				});
+
+				$closeBtn.on('click', function () {
+					$modal.hide();
+					resetModal();
+				});
+
+				$(window).on('click', function (event) {
+					if ($(event.target).is($modal)) {
+						$modal.hide();
+						resetModal();
 					}
-				};
+				});
 
-				let fileInput = modal.querySelector('#fileInput');
-				let preview = modal.querySelector('#preview');
+				$submitBtn.on('click', function (event) {
+					event.preventDefault();
+					const fileInput = $('#inputFile');
+					//console.log(fileInput)
+					$fileUploadStart.prop('files', fileInput[0].files);
+					console.log("fileUploadStart", $fileUploadStart)
+					$fileUploadStart.trigger('change');
+					$modal.hide();
+					resetModal();
+				});
 
-				fileInput.addEventListener('change', function (event) {
-					preview.innerHTML = ''; // Clear previous previews
+				function handleFiles(files) {
+					$preview.empty();
+					const dataTransfer = new DataTransfer();
+					for (let i = 0; i < files.length; i++) {
+						const file = files[i];
+						const fileDiv = $('<div class="review-item"></div>');
+						const fileNameSpan = $('<span></span>').text(`File: ${file.name} (${file.type}) - ${file.size} bytes`);
+						const deleteBtn = $('<button></button>').append('<svg width="18px" height="18px" viewBox="0 0 24 24" fill="#FFF" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z" fill="#000000"/></svg>').on('click', function () {
+							fileDiv.remove();
+							removeFileFromInput(i);
+						});
+						fileDiv.append(fileNameSpan).append(deleteBtn);
+						$preview.append(fileDiv);
+						dataTransfer.items.add(file);
+					}
+				}
 
-					let files = event.target.files;
-					if (files.length > 0) {
-						for (let i = 0; i < files.length; i++) {
-							let file = files[i];
-							let fileType = file.type.split('/')[0];
+				function updateInputFile(files) {
+					const dataTransfer = new DataTransfer();
+					for (let i = 0; i < files.length; i++) {
+						dataTransfer.items.add(files[i]);
+					}
+					$tempInput = $('#inputFile')
+					$tempInput.prop('files', dataTransfer.files)
+				}
 
-							let fileDiv = document.createElement('div');
-							fileDiv.innerHTML = `<strong>${file.name}</strong> (${fileType.toUpperCase()}) - ${file.size} bytes`;
-
-							// Add a delete button for each file
-							let deleteBtn = document.createElement('button');
-							deleteBtn.textContent = 'Delete';
-							deleteBtn.addEventListener('click', function () {
-								fileDiv.remove(); // Remove the file preview
-								// Optionally remove the file from the input
-								fileInput.value = '';
-							});
-							fileDiv.appendChild(deleteBtn);
-
-							preview.appendChild(fileDiv);
+				function removeFileFromInput(index) {
+					$tempInput = $('#inputFile')
+					const dataTransfer = new DataTransfer();
+					const files = $tempInput[0].files;
+					for (let i = 0; i < files.length; i++) {
+						if (i !== index) {
+							dataTransfer.items.add(files[i]);
 						}
 					}
-				});
+					//var replaceINput = $('#inputFile')
+					//console.log(tempInput)
+					$tempInput.prop('files', dataTransfer.files)
+					console.log($tempInput)
 
-				let btnSubmit = modal.querySelector("#submit")
-				btnSubmit.addEventListener('click', function (e) {
-					event.preventDefault();
-					var uploadEl = $('#file_upload_start')
-					console.log(uploadEl)
-					console.log("start")
-					const files = $('#fileInput')[0].files;
-					console.log(files);
-					uploadEl.prop('files', null)
-					uploadEl.prop('files', files)
-					uploadEl.trigger('change')
-					console.log(uploadEl)
-					console.log("end")
-					modal.style.display = 'none';
 				}
-				)
+
+				function resetModal() {
+					$preview.empty();
+					$fileInput.off()
+					$dropZone.off()
+
+				}
 
 
 				if (typeof OC !== 'undefined' && OC.hideMenus) {

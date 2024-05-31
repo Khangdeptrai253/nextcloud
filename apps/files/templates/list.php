@@ -1,96 +1,5 @@
 
-<style>
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scrolling if needed */
-    background-color: rgba(0,0,0,0.4); /* Black with opacity */
-    padding-top: 60px; /* Location of the box */
-}
 
-/* Modal Content */
-.modal-content {
-    background-color: #000;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 70%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); 
-	border-radius:20px;
-
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* File input container */
-#fileInputContainer {
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-}
-
-/* File preview container */
-#preview {
-    margin-top: 20px;
-}
-
-/* File list container */
-.files {
-    margin-top: 20px;
-}
-
-/* File list heading */
-.files h2 {
-    margin-bottom: 10px;
-}
-
-/* File list */
-.files ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-/* Individual file item */
-.files ul li {
-    margin-bottom: 5px;
-}
-
-/* Styling for the file input when hovered */
-#fileInputContainer:hover {
-    border-color: #999;
-}
-
-/* Styling for the file input when files are dragged over */
-#fileInputContainer.dragover {
-    border-color: #666;
-}
-
-/* Styling for the file input when files are dropped */
-#fileInputContainer.dropped {
-    border-color: #333;
-    background-color: #f0f0f0;
-}
-
-
-</style>
 
 <div class="files-controls">
 		<div class="actions creatable hidden">
@@ -166,10 +75,13 @@
 <div class="filelist-footer"></div>
 <div class="hiddenuploadfield">
 	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]" />
+    <input type="file" id="inputFile" multiple style="display: none;">
 </div>
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">
 	<p>
 	<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.'));?>
 	</p>
 </div>
+
+
 		

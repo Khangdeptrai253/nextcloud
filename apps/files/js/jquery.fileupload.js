@@ -979,9 +979,9 @@
 
         _onAdd: function (e, data) {
 
-            console.log("")
-            console.log("E _onAdd", e,)
-            console.log("data _onAdd", data)
+            // console.log("")
+            // console.log("E _onAdd", e,)
+            // console.log("data _onAdd", data)
 
             var that = this,
                 result = true,
@@ -1241,7 +1241,7 @@
         },
 
         _onChange: function (e) {
-            console.log("e _onChange", e)
+            // console.log("e _onChange", e)
 
             var that = this,
                 data = {
@@ -1252,8 +1252,8 @@
             console.log("DATA _onChange", data)
             this._getFileInputFiles(data.fileInput).always(function (files) {
                 data.files = files;
-                console.log("")
-                console.log("DATA _getFileInputFiles", data)
+                // console.log("")
+                // console.log("DATA _getFileInputFiles", data)
                 if (that.options.replaceFileInput) {
                     that._replaceFileInput(data);
                 }
@@ -1302,7 +1302,24 @@
                         $.Event('drop', { delegatedEvent: e }),
                         data
                     ) !== false) {
-                        that._onAdd(e, data);
+                        // that._onAdd(e, data);
+                        //console.log(data)
+                        var dataTransfer = new DataTransfer();
+
+                        var $modalUpload = $('#modal_upload')
+                        var $inputFile = $('#inputFile')
+                        $modalUpload.css('display', 'block');
+
+                        var fileList = new FileList();
+                        for (var i = 0; i < data.files.length; i++) {
+                            fileList.push(data.files[i]);
+                        }
+                        console.log(fileList)
+                        console.log($inputFile)
+                        // Gán FileList cho input file
+                        $inputFile.prop('files', fileList);
+
+
                     }
                 });
             } else {
