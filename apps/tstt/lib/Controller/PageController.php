@@ -10,7 +10,6 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 
 /**
@@ -26,11 +25,5 @@ class PageController extends Controller {
 			Application::APP_ID,
 			'index',
 		);
-	}
-	#[NoCSRFRequired]
-	#[NoAdminRequired]
-	#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
-	public function assetManagement(): DataResponse{
-		return new DataResponse(123);
 	}
 }

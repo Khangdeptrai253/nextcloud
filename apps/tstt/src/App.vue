@@ -1,33 +1,26 @@
 <template>
-	<NcContent app-name="deck" :class="{ 'nav-hidden': !navShown, 'sidebar-hidden': !sidebarRouterView }">
-		<AppNavigation />
-		<NcAppContent>
-			<router-view />
-		</NcAppContent>
-	</NcContent>
+	<NcAppContent>
+		<div id="tstt">
+			<h1>Hello world!</h1>
+		</div>
+	</NcAppContent>
 </template>
+
 <script>
-import AppNavigation from './components/navigation/AppNavigation.vue'
+import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+
 export default {
 	name: 'App',
 	components: {
-		AppNavigation
+		NcAppContent,
 	},
-	data() {
-	  return {
-			loading: false // You can use this to show loading state if needed
-	  }
-	},
-	methods: {
-	  // Any methods you want to include
-	}
 }
 </script>
+
 <style scoped lang="scss">
-	#app-settings-content {
-		p {
-		margin-top: 20px;
-		margin-bottom: 20px;
-		color: var(--color-text-light);
-		}
-	}
+#tstt {
+	display: flex;
+	justify-content: center;
+	margin: 16px;
+}
+</style>

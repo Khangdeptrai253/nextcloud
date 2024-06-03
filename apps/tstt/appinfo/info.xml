@@ -12,7 +12,7 @@
 	<category>customization</category>
 	<bugs>https://demo.dkviet.com</bugs>
 	<dependencies>
-		<nextcloud min-version="27" max-version="27"/>
+		<nextcloud min-version="29" max-version="29"/>
 	</dependencies>
 	<navigations>
 		<navigation>
