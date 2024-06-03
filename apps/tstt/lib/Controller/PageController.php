@@ -1,27 +1,36 @@
 <?php
-namespace OCA\TSTT\Controller;
 
+declare(strict_types=1);
+
+namespace OCA\Tstt\Controller;
+
+use OCA\Tstt\AppInfo\Application;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 
-
+/**
+ * @psalm-suppress UnusedClass
+ */
 class PageController extends Controller {
-
-    /**
-	 * Handle main html view from templates/main.php
-	 * This will return the main angular application
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
-    
-    public function index() {
-        $response = new TemplateResponse('tstt', 'main', [
-			'id-app-content' => '#app-content-vue',
-			'id-app-navigation' => '#app-navigation-vue',
-		]);
-
-        return $response;
-    }
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
+	#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+	#[FrontpageRoute(verb: 'GET', url: '/')]
+	public function index(): TemplateResponse {
+		return new TemplateResponse(
+			Application::APP_ID,
+			'index',
+		);
+	}
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
+	#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+	public function assetManagement(): DataResponse{
+		return new DataResponse(123);
+	}
 }

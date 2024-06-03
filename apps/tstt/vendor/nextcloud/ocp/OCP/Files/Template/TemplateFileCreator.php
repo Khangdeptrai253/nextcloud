@@ -31,14 +31,20 @@ namespace OCP\Files\Template;
  */
 final class TemplateFileCreator implements \JsonSerializable {
 	protected $appId;
+	/** @var string[] $mimetypes */
 	protected $mimetypes = [];
 	protected $actionName;
 	protected $fileExtension;
+	/** @var ?string $iconClass */
 	protected $iconClass;
+	/** @var ?string $iconSvgInline */
+	protected $iconSvgInline;
+	/** @var ?float $ratio */
 	protected $ratio = null;
 	protected $order = 100;
 	/**
 	 * @since 27.0.0
+	 * @deprecated 28.0.0
 	 */
 	protected string $actionLabel = '';
 
@@ -62,9 +68,18 @@ final class TemplateFileCreator implements \JsonSerializable {
 
 	/**
 	 * @since 21.0.0
+	 * @deprecated 29.0.0
 	 */
 	public function setIconClass(string $iconClass): TemplateFileCreator {
 		$this->iconClass = $iconClass;
+		return $this;
+	}
+
+	/**
+	 * @since 29.0.0
+	 */
+	public function setIconSvgInline(string $iconSvgInline): TemplateFileCreator {
+		$this->iconSvgInline = $iconSvgInline;
 		return $this;
 	}
 
@@ -124,6 +139,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 
 	/**
 	 * @since 21.0.0
+	 * @return array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: string[], ratio: ?float, actionLabel: string}
 	 */
 	public function jsonSerialize(): array {
 		return [
@@ -131,6 +147,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 			'label' => $this->actionName,
 			'extension' => $this->fileExtension,
 			'iconClass' => $this->iconClass,
+			'iconSvgInline' => $this->iconSvgInline,
 			'mimetypes' => $this->mimetypes,
 			'ratio' => $this->ratio,
 			'actionLabel' => $this->actionLabel,
