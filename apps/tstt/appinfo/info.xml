@@ -1,54 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>tstt</id>
-    <name>TSTT</name>
-    <summary>Quan ly tai san tri tue</summary>
-    <description>Quan ly tai san tri tue</description>
-    <version>1.0</version>
-    <licence>agpl</licence>
-    <author>DKViet</author>
-    <!-- <documentation>
-        <user>https://deck.readthedocs.io/en/latest/User_documentation_en/</user>
-        <developer>https://deck.readthedocs.io/en/latest/API/</developer>
-    </documentation> -->
-    <namespace>TSTT</namespace>
-    <types>
-        <dav/>
-    </types>
-    <category>organization</category>
-    <!-- <category>office</category> -->
-    <repository type="git">https://git.dkviet.com/an.nguyen/nextcloud</repository>
-    <dependencies>
-        <database min-version="8.0">mysql</database>
-        <nextcloud min-version="27" max-version="27"/>
-    </dependencies>
-    <!-- <activity>
-        <settings>
-            <setting>OCA\Deck\Activity\Setting</setting>
-            <setting>OCA\Deck\Activity\SettingComment</setting>
-            <setting>OCA\Deck\Activity\DescriptionSetting</setting>
-        </settings>
-        <filters>
-            <filter>OCA\Deck\Activity\Filter</filter>
-        </filters>
-        <providers>
-            <provider>OCA\Deck\Activity\DeckProvider</provider>
-        </providers>
-    </activity> -->
-    <!-- <fulltextsearch>
-        <provider min-version="16">OCA\Deck\Provider\DeckProvider</provider>
-    </fulltextsearch> -->
-    <navigations>
-        <navigation>
-            <name>TSTT</name>
-            <route>tstt.page.index</route>
-            <icon>deck.svg</icon>
-            <order>5</order>
-        </navigation>
-    </navigations>
-    <!-- <sabre>
-        <calendar-plugins>
-            <plugin>OCA\Deck\DAV\CalendarPlugin</plugin>
-        </calendar-plugins>
-    </sabre> -->
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>tstt</id>
+	<name>Tstt</name>
+	<summary>create a apps with some function</summary>
+	<description>aasdfaf</description>
+	<version>1.0.0</version>
+	<licence>agpl</licence>
+	<author mail="nguyenduckhang253@gmail.com" homepage="">Khang</author>
+	<namespace>Tstt</namespace>
+	<category>customization</category>
+	<bugs>https://demo.dkviet.com</bugs>
+	<dependencies>
+		<nextcloud min-version="27" max-version="27"/>
+	</dependencies>
+	<navigations>
+		<navigation>
+			<id>tstt</id>
+			<name>Tstt</name>
+			<route>tstt.page.index</route>
+			<icon>app.svg</icon>
+			<type>link</type>
+		</navigation>
+	</navigations>
 </info>

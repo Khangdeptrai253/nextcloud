@@ -3,7 +3,7 @@ name: Update APIs
 on:
   workflow_dispatch:
   schedule:
-    - cron: '00 11 * * *'
+    - cron: '0 0 * * *'
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable27", "stable26", "stable25", "stable24", "stable23"]
+        branches: ["master", "stable28", "stable27", "stable26", "stable25", "stable24", "stable23"]
 
     name: Update ${{ matrix.branches }}
 
@@ -24,14 +24,12 @@ jobs:
         with:
           ref: ${{ matrix.branches }}
           submodules: true
+      
+      - name: Get latest build script
+        run: |
+          wget https://raw.githubusercontent.com/nextcloud-deps/ocp/master/build.sh -O build.sh
 
-      - name: Update
+      - name: Update and push OCP
         run: ./build.sh
-
-      - name: Check status
-        run: git status && git diff-index HEAD
-
-      - name: Push
-        run: ./push.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

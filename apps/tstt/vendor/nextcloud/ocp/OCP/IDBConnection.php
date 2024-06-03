@@ -34,7 +34,6 @@
 namespace OCP;
 
 use Doctrine\DBAL\Schema\Schema;
-use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
@@ -47,34 +46,24 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 interface IDBConnection {
 	/**
-	 * @deprecated 22.0.0 this is an internal event, use {@see AddMissingIndicesEvent} instead
+	 * @since 28.0.0
 	 */
-	public const ADD_MISSING_INDEXES_EVENT = self::class . '::ADD_MISSING_INDEXES';
+	public const PLATFORM_MYSQL = 'mysql';
 
 	/**
-	 * @deprecated 22.0.0 this is an internal event, use {@see AddMissingIndicesEvent} instead
+	 * @since 28.0.0
 	 */
-	public const CHECK_MISSING_INDEXES_EVENT = self::class . '::CHECK_MISSING_INDEXES';
+	public const PLATFORM_ORACLE = 'oracle';
 
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @since 28.0.0
 	 */
-	public const ADD_MISSING_PRIMARY_KEYS_EVENT = self::class . '::ADD_MISSING_PRIMARY_KEYS';
+	public const PLATFORM_POSTGRES = 'postgres';
 
 	/**
-	 * @deprecated 22.0.0 this is an internal event
+	 * @since 28.0.0
 	 */
-	public const CHECK_MISSING_PRIMARY_KEYS_EVENT = self::class . '::CHECK_MISSING_PRIMARY_KEYS';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const ADD_MISSING_COLUMNS_EVENT = self::class . '::ADD_MISSING_COLUMNS';
-
-	/**
-	 * @deprecated 22.0.0 this is an internal event
-	 */
-	public const CHECK_MISSING_COLUMNS_EVENT = self::class . '::CHECK_MISSING_COLUMNS';
+	public const PLATFORM_SQLITE = 'sqlite';
 
 	/**
 	 * Gets the QueryBuilder for the connection.
@@ -175,7 +164,7 @@ interface IDBConnection {
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist(string $table, array $input, array $compare = null);
+	public function insertIfNotExist(string $table, array $input, ?array $compare = null);
 
 
 	/**
@@ -370,4 +359,12 @@ interface IDBConnection {
 	 * @since 13.0.0
 	 */
 	public function migrateToSchema(Schema $toSchema): void;
+
+	/**
+	 * Returns the database provider name
+	 * @link https://github.com/nextcloud/server/issues/30877
+	 * @since 28.0.0
+	 * @return IDBConnection::PLATFORM_*
+	 */
+	public function getDatabaseProvider(): string;
 }
