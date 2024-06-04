@@ -17,9 +17,11 @@
     "extends @nextcloud/browserslist-config"
   ],
   "dependencies": {
-    "@nextcloud/vue": "^8.11.2",
+    "@nextcloud/vue": "^7.11.4",
+     "@nextcloud/router": "^2.1.1",
     "force": "^0.0.3",
-    "vue": "^2.7.16"
+    "vue": "^2.7.14",
+    "vue-router": "^3.6.5"
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.0.1",

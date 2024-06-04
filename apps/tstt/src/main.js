@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import router from './router.js'
 Vue.mixin({ methods: { t, n } })
 
-const View = Vue.extend(App)
-new View().$mount('#tstt')
+export default new Vue({ router, el: '#tstt', render: h => h(App), })
