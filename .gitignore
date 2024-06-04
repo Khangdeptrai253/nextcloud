@@ -10,6 +10,7 @@
 /node_modules
 /translationfiles
 /translationtool.phar
+/dist
 
 # ignore all apps except core ones
 # /apps*/*
