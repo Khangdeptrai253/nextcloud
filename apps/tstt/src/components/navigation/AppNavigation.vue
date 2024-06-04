@@ -1,12 +1,9 @@
 <template>
 	<NcAppNavigation :class="{ 'icon-loading': loading }">
 		<template #list>
-			<NcAppNavigationItem :title="t('deck', 'Asset Management')" :exact="true" to="/">
-			</NcAppNavigationItem>
-			<NcAppNavigationItem :title="t('deck', 'Author Management')" :exact="true" to="/author">
-			</NcAppNavigationItem>
-			<NcAppNavigationItem :title="t('deck', 'Owner Management')" :exact="true" to="/owner">
-			</NcAppNavigationItem>
+			<NcAppNavigationItem :title="t('deck', 'Asset Management')" :exact="true" to="/" />
+			<NcAppNavigationItem :title="t('deck', 'Author Management')" :exact="true" to="/author" />
+			<NcAppNavigationItem :title="t('deck', 'Owner Management')" :exact="true" to="/owner" />
 		</template>
 	</NcAppNavigation>
 </template>
