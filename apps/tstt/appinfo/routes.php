@@ -25,5 +25,9 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'owner#create', 'url' => '/create_owner', 'verb' => 'POST'],
+		['name' => 'owner#index', 'url' => '/owner', 'verb' => 'GET'],
+
+
 	],
 ];
