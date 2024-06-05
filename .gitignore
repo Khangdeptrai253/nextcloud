@@ -54,7 +54,7 @@
 
 # apps modules
 /apps/*/node_modules
-
+/apps/tstt/vendor
 
 # ignore themes except the example and the README
 /themes/*
