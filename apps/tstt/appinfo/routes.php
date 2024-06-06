@@ -25,9 +25,10 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		// Owner
 		['name' => 'owner#create', 'url' => '/create_owner', 'verb' => 'POST'],
 		['name' => 'owner#index', 'url' => '/owner', 'verb' => 'GET'],
-
-
+		['name' => 'owner#update', 'url' => '/update_owner', 'verb' => 'POST'],
+		['name' => 'owner#delete', 'url' => '/delete_owner/{id}', 'verb' => 'DELETE'],
 	],
 ];

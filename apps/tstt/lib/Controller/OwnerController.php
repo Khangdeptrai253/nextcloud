@@ -20,27 +20,55 @@ use OCA\Tstt\Db\OwnerMapper;
  * @psalm-suppress UnusedClass
  */
 class OwnerController extends Controller { 
-	private $ownerservice;
-	private $abc;
-	public function __construct($appName, IRequest $request, OwnerService $ownerservice, OwnerMapper $abc) {
+	private $ownerService;
+	private $ownerMapper;
+	public function __construct($appName, IRequest $request, OwnerService $ownerService, OwnerMapper $ownerMapper) {
 		parent::__construct($appName, $request);
-		$this->ownerservice = $ownerservice;
-		$this->abc = $abc;
+		$this->ownerService = $ownerService;
+		$this->ownerMapper = $ownerMapper;
 	}
 	#[NoCSRFRequired]
 	#[NoAdminRequired]
 	public function index(): DataResponse {
-		return new DataResponse($this->abc->findAll());
+
+		return new DataResponse($this->ownerMapper->findAll());
 	}
 
 	#[NoAdminRequired]
 	/**
 	 * @param $name
-	 * @param $number_of_assest
+	 * @param integer $number_of_assest
+	 * @param integer $create_at
+	 * @param $create_by
 	 * @return \OCP\AppFramework\Db\Entity
 	 */
-	public function create($name, $number_of_assest): DataResponse {
-        $owner = $this->ownerservice->create($name, $number_of_assest);
+	public function create($name, $number_of_assest,$create_by): DataResponse {
+		
+        $owner = $this->ownerService->create($name, $number_of_assest,$create_by);
+
         return new DataResponse($owner);
     }
+	#[NoAdminRequired]
+	/**
+	 * @param $name
+	 * @param $number_of_assest
+	 * @param $update_by
+	 * @return \OCP\AppFramework\Db\Entity
+	 */
+	public function update($id, $name, $number_of_assest,$update_by): DataResponse {
+
+		$owner = $this->ownerService->update($id, $name, $number_of_assest,$update_by);
+
+		return new DataResponse($owner);
+	}
+	#[NoAdminRequired]
+	/**
+	 * @param $id
+	 */
+	public function delete($id){
+
+		$owner = $this->ownerService->delete($id);
+
+		return $owner;
+	}
 }

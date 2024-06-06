@@ -3,7 +3,11 @@ module.exports = {
 		'@nextcloud',
 	],
 	rules: {
-		'jsdoc/require-jsdoc': 'off',
-		'vue/first-attribute-linebreak': 'off',
+		'jsdoc/require-param-description': ['off'],
+		'jsdoc/require-param-type': ['off'],
+		'jsdoc/check-param-names': ['off'],
+		'jsdoc/no-undefined-types': ['off'],
+		'jsdoc/require-property-description': ['off'],
+		'import/no-named-as-default-member': ['off'],
 	},
 }

@@ -11,17 +11,24 @@
     "dev": "NODE_ENV=development webpack --config webpack.js --progress",
     "watch": "NODE_ENV=development webpack --config webpack.js --progress --watch",
     "lint": "eslint src",
+    "lint:fix": "eslint --ext .js,.vue src --fix",
     "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"
   ],
   "dependencies": {
+    "@nextcloud/router": "^2.1.1",
     "@nextcloud/vue": "^7.11.4",
-     "@nextcloud/router": "^2.1.1",
+    "datatables.net": "^2.0.8",
+    "datatables.net-dt": "^2.0.8",
     "force": "^0.0.3",
+    "jquery": "^3.7.1",
     "vue": "^2.7.14",
-    "vue-router": "^3.6.5"
+    "vue-router": "^3.6.5",
+    "@nextcloud/axios": "^1.6.0",
+    "@nextcloud/dialogs": "^3.1.2",
+    "@nextcloud/auth": "^2.0.0"
   },
   "devDependencies": {
     "@nextcloud/browserslist-config": "^3.0.1",

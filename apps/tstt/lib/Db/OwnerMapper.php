@@ -22,18 +22,22 @@ class OwnerMapper extends QBMapper {
 	) {
 		parent::__construct($db, 'owner', Owner::class);
 	}
-    public function find($id) {
-		$qb = $this->db->getQueryBuilder();
-        $qb->select('*')
-        ->from('owner') // Thay đổi tên bảng thành 'owner'
-        ->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-
-        return $this->findEntity($qb);
-	}
 	public function findAll():array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
-			->from($this->tableName);
+			->from($this->tableName)
+			->where($qb->expr()->isNull('deleteat'));
+
 		return $this->findEntities($qb);
+	}
+	public function findById($id): Owner {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+	
+		$result = $this->findEntity($qb);
+		
+		return $result;
 	}
 }
