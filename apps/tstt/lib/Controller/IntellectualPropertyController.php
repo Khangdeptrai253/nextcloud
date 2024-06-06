@@ -21,8 +21,8 @@ class IntellectualPropertyController extends Controller {
      * @NoCSRFRequired
      * @return DataResponse
      */
-	public function index(): DataResponse {
-        $result = $this->intellectualPropertyService->findAll();
+	public function index(int $page, int $pageSize): DataResponse {
+        $result = $this->intellectualPropertyService->findAll($page, $pageSize);
 		return new DataResponse($result);
 	}
 

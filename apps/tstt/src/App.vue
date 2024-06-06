@@ -1,9 +1,10 @@
 <template>
-	<NcContent style="margin-top: 0;" app-name="tstt"
+	<NcContent style="margin-top: 0;"
+		app-name="tstt"
 		:class="{ 'nav-hidden': !navShown, 'sidebar-hidden': !sidebarRouterView }">
 		<AppNavigation />
 		<NcAppContent>
-			<router-view></router-view>
+			<router-view />
 		</NcAppContent>
 	</NcContent>
 </template>
@@ -18,7 +19,7 @@ export default {
 	components: {
 		NcAppContent,
 		AppNavigation,
-		NcContent
+		NcContent,
 	},
 
 }

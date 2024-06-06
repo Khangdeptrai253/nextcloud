@@ -55,6 +55,7 @@
 # apps modules
 /apps/*/node_modules
 /apps/tstt/vendor
+/apps/tstt/js
 
 # ignore themes except the example and the README
 /themes/*
@@ -165,7 +166,7 @@ tests/acceptance/vendor/
 composer.phar
 /lib/composer/bin
 /vendor-bin/**/vendor
-
+/lib/composer
 ./.htaccess
 core/js/mimetypelist.js
 
