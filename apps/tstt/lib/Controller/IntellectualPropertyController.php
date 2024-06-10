@@ -5,7 +5,6 @@ namespace OCA\Tstt\Controller;
 use OCA\Tstt\Service\IntellectualPropertyService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
 class IntellectualPropertyController extends Controller {
@@ -21,8 +20,8 @@ class IntellectualPropertyController extends Controller {
      * @NoCSRFRequired
      * @return DataResponse
      */
-	public function index(int $page, int $pageSize): DataResponse {
-        $result = $this->intellectualPropertyService->findAll($page, $pageSize);
+	public function index($q, int $page, int $pageSize, array $ownerSort = null, array $authorSort = null, array $statusSort = null): DataResponse {
+        $result = $this->intellectualPropertyService->findAll($q, $page, $pageSize, $ownerSort, $authorSort, $statusSort);
 		return new DataResponse($result);
 	}
 

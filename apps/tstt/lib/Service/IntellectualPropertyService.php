@@ -19,10 +19,9 @@ class IntellectualPropertyService {
      * @return IntellectualProperty[]|array
      * @throws \OCP\DB\Exception
      */
-    public function findAll(int $page, int $pageSize): array
+    public function findAll($q, int $page, int $pageSize, array $ownerSort = null, array $authorSort = null, array $statusSort = null): array
     {
-        $intellectualProperty = $this->intellectualPropertyMapper->findAll($page, $pageSize);
-
+        $intellectualProperty = $this->intellectualPropertyMapper->findAll($q, $page, $pageSize, $ownerSort, $authorSort, $statusSort);
         return $intellectualProperty;
     }
 
@@ -33,7 +32,6 @@ class IntellectualPropertyService {
     public function findById(int $id)
     {
         $intellectualProperty = $this->intellectualPropertyMapper->findById($id);
-
         return $intellectualProperty;
     }
 

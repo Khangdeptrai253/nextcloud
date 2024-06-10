@@ -183,6 +183,62 @@ class GroupsController extends AUserData {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
+     * @NoAdminRequired
+	 * @NoSubAdminRequired
+     * @NoCSRFRequired
+	 * @return DataResponse
+	 * @throws OCSException
+	 */
+	public function getDataForTstt(string $groupId, string $search = '', int $limit = null, int $offset = 0): DataResponse {
+		$groupId = urldecode($groupId);
+		$currentUser = $this->userSession->getUser();
+
+		// Check the group exists
+		$group = $this->groupManager->get($groupId);
+		if ($group !== null) {
+			$isSubadminOfGroup = $this->groupManager->getSubAdmin()->isSubAdminOfGroup($currentUser, $group);
+		} else {
+			throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);
+		}
+
+		// Check subadmin has access to this group
+		if ($this->groupManager->isAdmin($currentUser->getUID()) || $isSubadminOfGroup) {
+			$users = $group->searchUsers($search, $limit, $offset);
+
+			// Extract required number
+			$usersDetails = [];
+			foreach ($users as $user) {
+				try {
+					/** @var IUser $user */
+					$userId = (string)$user->getUID();
+					$userData = $this->getUserData($userId);
+					// Do not insert empty entry
+					if (!empty($userData)) {
+						$usersDetails[$userId] = $userData;
+					} else {
+						// Logged user does not have permissions to see this user
+						// only showing its id
+						$usersDetails[$userId] = ['id' => $userId];
+					}
+				} catch (OCSNotFoundException $e) {
+					// continue if a users ceased to exist.
+				}
+			}
+			return new DataResponse(['users' => $usersDetails]);
+		}
+
+		throw new OCSException('The requested group could not be found', OCSController::RESPOND_NOT_FOUND);
+	}
+
+	/**
+	 * returns an array of users details in the specified group
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $groupId
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
 	 * @return DataResponse
 	 * @throws OCSException
 	 */
