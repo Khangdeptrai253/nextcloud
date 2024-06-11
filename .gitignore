@@ -127,6 +127,9 @@ nbproject
 # Node Modules
 /build/node_modules/
 /dist
+
+./dist 
+
 # nodejs
 /build/bin
 /build/lib/
