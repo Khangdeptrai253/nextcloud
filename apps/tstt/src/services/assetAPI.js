@@ -152,13 +152,12 @@ export class AssetApi {
 	}
 
 	async fetchAssets(body) {
-		// TODO: replace endpoint get page asset
-		// const endpoint = ''
-		// const response = await axios({
-		// 	method: 'GET',
-		// 	url: this.url(endpoint),
-		// })
-		const response = fakeData
+		const endpoint = '/index-intellectual-property'
+		const response = await axios({
+			method: 'GET',
+			url: this.url(endpoint),
+			body: body
+		})
 		return response
 	}
 
