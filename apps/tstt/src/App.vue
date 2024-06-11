@@ -1,10 +1,28 @@
 <template>
+<<<<<<< HEAD
 	<NcContent style="margin-top: 0;" app-name="tstt">
 		<AppNavigation />
 		<NcAppContent>
 			<template>
 				<router-view />
 			</template>
+=======
+<<<<<<< HEAD
+	<NcContent style="margin-top: 0;"
+		app-name="tstt"
+		:class="{ 'nav-hidden': !navShown, 'sidebar-hidden': !sidebarRouterView }">
+		<AppNavigation />
+		<NcAppContent>
+			<router-view />
+=======
+	<NcContent style="margin-top: 0;" app-name="tstt">
+		<AppNavigation />
+		<NcAppContent>
+			<template>
+				<router-view />
+			</template>
+>>>>>>> 278e4893 ([1] Asset Management)
+>>>>>>> 754af851 ([1] Asset Management)
 		</NcAppContent>
 	</NcContent>
 </template>

@@ -4,6 +4,7 @@
 			<span class="icon-loading" />
 		</div>
 		<div v-else>
+<<<<<<< HEAD
 			<table v-if="sortedData.length > 0"
 				id="assetTable"
 				class="table-asset"
@@ -15,6 +16,15 @@
 							:class="{ 'column-hide': index != 0 }"
 							@click="sortTable(header.value)">
 							<div style="display: flex; align-items: center; justify-content: space-between; padding:3px">
+=======
+			<table id="assetTable" class="table-asset" style="width:100%">
+				<thead class="table-header">
+					<tr class="table-header__row">
+						<th v-for="(header, index) in headers" :key="index" :class="{ 'column-hide': index != 0 }"
+							@click="sortTable(header.value)">
+							<div
+								style="display: flex; align-items: center; justify-content: space-between; padding:3px">
+>>>>>>> 754af851 ([1] Asset Management)
 								<span>{{ header.label }}</span>
 								<span v-if="!sortedBy" class="sort-indicator icon-triangle-s" />
 								<span v-if="sortedBy === header.value" style="font-size: 8px;">
@@ -38,29 +48,45 @@
 						<template>
 							<td v-if="actions.length" class="row-action">
 								<RowAction :actions="actions" :item="item" />
+<<<<<<< HEAD
+=======
+
+>>>>>>> 754af851 ([1] Asset Management)
 							</td>
 						</template>
 					</tr>
 				</tbody>
 				<div class="table-navigation">
+<<<<<<< HEAD
 					<NcButton type="tertiary" :disabled="currentPage === 1" @click="prevPage">
+=======
+					<NcButton type="tertiary" @click="prevPage" :disabled="currentPage === 1">
+>>>>>>> 754af851 ([1] Asset Management)
 						<template #icon>
 							<ChevronLeft :size="20" />
 						</template>
 					</NcButton>
+<<<<<<< HEAD
 					<span>{{ currentPageMount }} / {{ totalPages }}</span>
 					<NcButton type="tertiary" :disabled="currentPage === totalPages" @click="nextPage">
+=======
+					<span>{{ currentPage }} / {{ data.total }}</span>
+					<NcButton type="tertiary" @click="nextPage" :disabled="currentPage === data.total">
+>>>>>>> 754af851 ([1] Asset Management)
 						<template #icon>
 							<ChevronRight :size="20" />
 						</template>
 					</NcButton>
 				</div>
 			</table>
+<<<<<<< HEAD
 			<div v-else class="result-not-found">
 				<h2>
 					There is no result for this case
 				</h2>
 			</div>
+=======
+>>>>>>> 754af851 ([1] Asset Management)
 		</div>
 	</div>
 </template>
@@ -69,21 +95,41 @@
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue'
+<<<<<<< HEAD
 import { formatTimestamp } from '../../helper/formatTimestamp.js'
 import { mapState } from 'vuex'
 import RowAction from './RowAction.vue'
 
+=======
+import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
+import TableAction from './TableAction.vue'
+import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
+import { formatTimestamp } from '../../helper/formatTimestamp.js'
+import { mapState } from 'vuex'
+import RowAction from './RowAction.vue';
+>>>>>>> 754af851 ([1] Asset Management)
 export default {
 	name: 'TableAsset',
 	components: {
 		NcButton,
 		ChevronLeft,
 		ChevronRight,
+<<<<<<< HEAD
 		RowAction,
 	},
 	props: {
 		data: {
 			type: Object,
+=======
+		TableAction,
+		DotsHorizontal,
+		NcPopoverMenu,
+		RowAction
+	},
+	props: {
+		data: {
+			type: Array,
+>>>>>>> 754af851 ([1] Asset Management)
 			required: true,
 		},
 		nextPage: {
@@ -107,6 +153,10 @@ export default {
 	data() {
 		return {
 			openedMenu: false,
+<<<<<<< HEAD
+=======
+			pageSize: 10,
+>>>>>>> 754af851 ([1] Asset Management)
 			selectedRow: null,
 			isModalVisible: false,
 			currentModal: null,
@@ -120,9 +170,15 @@ export default {
 	computed: {
 		...mapState({
 			loading: 'loading',
+<<<<<<< HEAD
 			currentPage: 'currentPage',
 			pageSize: 'pageSize',
 		}),
+=======
+			currentPage: 'currentPage'
+		}),
+
+>>>>>>> 754af851 ([1] Asset Management)
 		sortedData() {
 			if (!this.sortedBy) {
 				return this.data.data
@@ -133,6 +189,7 @@ export default {
 				return 0
 			})
 		},
+<<<<<<< HEAD
 		totalPages() {
 			return Math.ceil(this.data.total / this.pageSize)
 		},
@@ -146,10 +203,19 @@ export default {
 		},
 	},
 	beforeDestroy() {
+=======
+
+
+	}, beforeDestroy() {
+>>>>>>> 754af851 ([1] Asset Management)
 		this.$root.$off('close-all-dropdowns', this.closeDropdown)
 	},
 	methods: {
 		toggleMenu() {
+<<<<<<< HEAD
+=======
+			console.log("click");
+>>>>>>> 754af851 ([1] Asset Management)
 			this.openedMenu = !this.openedMenu
 		},
 		hideMenu() {
@@ -164,6 +230,10 @@ export default {
 			}
 		},
 		toggleDropdown() {
+<<<<<<< HEAD
+=======
+			console.log("click");
+>>>>>>> 754af851 ([1] Asset Management)
 			this.dropdownOpen = !this.dropdownOpen
 			if (this.dropdownOpen) {
 				this.$root.$emit('close-all-dropdowns')
@@ -171,13 +241,21 @@ export default {
 			} else {
 				this.$root.$off('close-all-dropdowns', this.closeDropdown)
 			}
+<<<<<<< HEAD
 		},
 		closeDropdown() {
+=======
+		}, closeDropdown() {
+>>>>>>> 754af851 ([1] Asset Management)
 			this.dropdownOpen = false
 			this.$root.$off('close-all-dropdowns', this.closeDropdown)
 		},
 		formatTimestamp,
 	},
+<<<<<<< HEAD
+=======
+
+>>>>>>> 754af851 ([1] Asset Management)
 }
 </script>
 
@@ -253,7 +331,11 @@ export default {
 
 .table-container {
 	position: relative;
+<<<<<<< HEAD
 	padding-bottom: 200px;
+=======
+	padding-bottom: 50px;
+>>>>>>> 754af851 ([1] Asset Management)
 	overflow: auto;
 	margin-left: 30px;
 }
@@ -268,6 +350,11 @@ export default {
 	font-weight: bold;
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 754af851 ([1] Asset Management)
 .table-navigation {
 	position: absolute;
 	bottom: 0;
@@ -303,9 +390,13 @@ export default {
 	border-bottom: 10px solid white;
 }
 
+<<<<<<< HEAD
 .result-not-found > h2 {
 	font-size: 30px;
 }
+=======
+
+>>>>>>> 754af851 ([1] Asset Management)
 
 @media (max-width: 600px) {
 	.action-column {

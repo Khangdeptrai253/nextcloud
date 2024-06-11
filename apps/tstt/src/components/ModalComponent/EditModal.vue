@@ -4,6 +4,7 @@
 			<template #icon>
 				<Pencil :size="20" />
 			</template>
+<<<<<<< HEAD
 			{{ t('files','Edit') }}
 		</NcButton>
 		<portal to="destination">
@@ -68,13 +69,70 @@
 			</div>
 		</portal>
 	</div>
+=======
+{{t('files','Edit')}}
+</NcButton>
+<portal to="destination">
+	<div v-if="show" class="modal-container">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p>{{ t('files', 'Edit') }}</p>
+				<div class="close-button">
+					<NcButton type="tertiary-no-background" @click="hide">
+						<template #icon>
+                  <Close :size="20" />
+                </template>
+					</NcButton>
+				</div>
+			</div>
+
+			<form @submit.prevent="submitForm">
+				<div class="form-group">
+					<label for="name">{{ t('files', 'Name') }}:</label>
+					<input id="name" v-model="editedItem.nameProp" type="text">
+				</div>
+				<div class="form-group">
+					<label for="owner">{{ t('files', 'Author') }}:</label>
+					<input id="owner" v-model="editedItem.copyright" type="text">
+				</div>
+				<div class="form-group">
+					<label for="id">{{ t('files', 'Owner') }}:</label>
+					<input id="id" v-model="editedItem.owner" type="text">
+				</div>
+				<div class="form-group">
+					<label for="name">{{ t('files', 'Status') }}:</label>
+					<input id="name" v-model="editedItem.status" type="text">
+				</div>
+				<div class="form-group">
+					<label for="owner">{{ t('files', 'Version') }}:</label>
+					<input id="owner" v-model="editedItem.version" type="text">
+				</div>
+				<!-- Add input fields for other properties as needed -->
+				<div class="modal-footer">
+					<NcButton class="submit-button" aria-label="close-button" @click="hide">
+						{{ t('files', 'Cancel') }}
+					</NcButton>
+					<NcButton class="submit-button" type="primary" aria-label="submit" @click="submitForm">
+						{{ t('files', 'Accept') }}
+					</NcButton>
+				</div>
+			</form>
+		</div>
+	</div>
+</portal>
+</div>
+>>>>>>> 754af851 ([1] Asset Management)
 </template>
 
 <script>
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Close from 'vue-material-design-icons/Close.vue'
+<<<<<<< HEAD
 import { mapActions, mapState } from 'vuex'
+=======
+import { mapActions } from 'vuex'
+>>>>>>> 754af851 ([1] Asset Management)
 import { showError } from '../../helper/errors.js'
 
 export default {
@@ -91,6 +149,7 @@ export default {
 	data() {
 		return {
 			show: false,
+<<<<<<< HEAD
 			editedItem: {},
 		}
 	},
@@ -110,17 +169,27 @@ export default {
 	},
 	methods: {
 		...mapActions(['editItem', 'getAuthorData', 'getOwnerData', 'getStatusData']),
+=======
+			editedItem: { ...this.item },
+		}
+	},
+	methods: {
+		...mapActions(['editItem']),
+>>>>>>> 754af851 ([1] Asset Management)
 		showModal() {
 			this.show = true
 		},
 		hide() {
 			this.show = false
 		},
+<<<<<<< HEAD
 		handleOutsideClick(event) {
 			if (event.target.classList.contains('modal-container')) {
 				this.hide()
 			}
 		},
+=======
+>>>>>>> 754af851 ([1] Asset Management)
 		async submitForm() {
 			try {
 				await this.editItem(this.editedItem)
@@ -134,21 +203,31 @@ export default {
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 .createProp {
 	width: 100%;
 }
 
+=======
+>>>>>>> 754af851 ([1] Asset Management)
 .modal-container {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+<<<<<<< HEAD
+=======
+	background-color: transparent;
+>>>>>>> 754af851 ([1] Asset Management)
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	z-index: 100000000;
+<<<<<<< HEAD
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+=======
+>>>>>>> 754af851 ([1] Asset Management)
 }
 
 .modal-content {
