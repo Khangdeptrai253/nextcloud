@@ -76,10 +76,10 @@ export default {
 	},
 	methods: {
 		...mapMutations(['setSearchQuery', 'clearSearchQuery']),
-		...mapActions(['searchFullTextAsset', 'clearAll']),
+		...mapActions(['fetchAssetData', 'clearAll']),
 		async submitSearch() {
 			this.setSearchQuery(this.searchQuery)
-			await this.searchFullTextAsset()
+			await this.fetchAssetData()
 		},
 		async clearSearchAndFilter() {
 			try {

@@ -20,8 +20,6 @@
   "dependencies": {
     "@nextcloud/router": "^2.1.1",
     "@nextcloud/vue": "^7.11.4",
-    "datatables.net": "^2.0.8",
-    "datatables.net-dt": "^2.0.8",
     "force": "^0.0.3",
     "jquery": "^3.7.1",
     "portal-vue": "^2.1.7",

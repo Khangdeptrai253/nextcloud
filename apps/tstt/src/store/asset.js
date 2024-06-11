@@ -70,11 +70,16 @@ const actions = {
 		commit('setLoading', true)
 		commit('setError', null)
 		try {
+
 			const body = {
 				page: 1,
-				pageSize: state.pageSize
-			}
-			const data = await apiClient.fetchAssets(body)
+				pageSize: state.pageSize,
+				ownerSort: arrayOwner?.length ? arrayOwner : null,
+				authorSort: arrayAuthor?.length ? arrayAuthor : null,
+				statusSort: statusId?.length ? statusId : null,
+				query: searchQuery
+			};
+			const data = await apiClient.getDataAsset(body)
 			commit('setData', data)
 			commit('setTotalPages', data.total)
 
@@ -88,12 +93,20 @@ const actions = {
 	async fetchDataNextPage({ commit, state }) {
 		commit('setLoading', true)
 		commit('setError', null)
+		const { searchQuery, selectedOwnerFilters, selectedStatusFilters, selectedAuthorFilters, currentPage, pageSize } = state;
+		const arrayOwner = selectedOwnerFilters.map(filter => filter.id);
+		const arrayAuthor = selectedAuthorFilters.map(filter => filter.id);
+		const statusId = selectedStatusFilters.map(filter => filter.id);
 		const body = {
-			page: state.currentPage + 1,
-			pageSize: state.pageSize
-		}
+			page: currentPage + 1,
+			pageSize: pageSize,
+			ownerSort: arrayOwner?.length ? arrayOwner : null,
+			authorSort: arrayAuthor?.length ? arrayAuthor : null,
+			statusSort: statusId?.length ? statusId : null,
+			query: searchQuery
+		};
 		try {
-			const data = await apiClient.fetchAssets(body)
+			const data = await apiClient.getDataAsset(body)
 			commit('setData', data)
 			commit('setCurrentPage', state.currentPage + 1)
 			commit('setTotalPages', data.total)
@@ -108,42 +121,29 @@ const actions = {
 	async fetchDataPrevPage({ commit, state }) {
 		commit('setLoading', true)
 		commit('setError', null)
+
+		const { searchQuery, selectedOwnerFilters, selectedStatusFilters, selectedAuthorFilters, currentPage, pageSize } = state;
+		const arrayOwner = selectedOwnerFilters.map(filter => filter.id);
+		const arrayAuthor = selectedAuthorFilters.map(filter => filter.id);
+		const statusId = selectedStatusFilters.map(filter => filter.id);
 		const body = {
-			page: state.currentPage - 1,
-			pageSize: state.pageSize
-		}
+			page: currentPage - 1,
+			pageSize: pageSize,
+			ownerSort: arrayOwner?.length ? arrayOwner : null,
+			authorSort: arrayAuthor?.length ? arrayAuthor : null,
+			statusSort: statusId?.length ? statusId : null,
+			query: searchQuery
+		};
 		try {
-			const data = await apiClient.fetchAssets(body)
+			const data = await apiClient.getDataAsset(body)
 			commit('setData', data)
 			commit('setCurrentPage', state.currentPage - 1)
-			commit('setTotalPages', data.totalPages)
+			commit('setTotalPages', data.total)
 		} catch (error) {
 			showError(error)
 			commit('setError', error.message)
 		} finally {
 			commit('setLoading', false)
-		}
-	},
-
-	async searchFullTextAsset({ state, commit }) {
-		commit('setLoading', true);
-		commit('setError', null);
-		try {
-			const { searchQuery, selectedOwnerFilters, selectedStatusFilters, selectedAuthorFilters } = state;
-			const arrayOwner = selectedOwnerFilters.map(filter => filter.id);
-			const arrayAuthor = selectedAuthorFilters.map(filter => filter.id);
-			const statusId = selectedStatusFilters.map(filter => filter.id);
-
-			const body = {
-				searchQuery, arrayOwner, statusId, arrayAuthor
-			};
-			const data = await apiClient.searchFullTextAsset(body);
-			commit('setData', data);
-		} catch (error) {
-			showError(error);
-			commit('setError', error.message);
-		} finally {
-			commit('setLoading', false);
 		}
 	},
 
