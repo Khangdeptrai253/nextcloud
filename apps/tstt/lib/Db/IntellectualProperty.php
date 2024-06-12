@@ -7,10 +7,10 @@ class IntellectualProperty extends IntellectualPropertyEntity {
     /** @var string */
     protected $nameProp;
     /** @var string */
-    protected $copyright;
+    protected $copyrightId;
     /** @var string */
-    protected $owner;
-    /** @var int */
+    protected $ownerId;
+    /** @var string */
     protected $status;
     /** @var string */
     protected $version;
@@ -34,16 +34,14 @@ class IntellectualProperty extends IntellectualPropertyEntity {
     protected $createdByName;
     /** @var string */
     protected $updatedByName;
-    /** @var string */
-    protected $deletedByName;
 
     public function __construct()
     {
         $this->addType('id', 'int');
         $this->addType('nameProp', 'string');
-        $this->addType('copyright', 'string');
-        $this->addType('owner', 'string');
-        $this->addType('status', 'int');
+        $this->addType('copyrightId', 'string');
+        $this->addType('ownerId', 'string');
+        $this->addType('status', 'string');
         $this->addType('version', 'string');
         $this->addType('createdAt', 'int');
         $this->addType('updatedAt', 'int');
@@ -55,7 +53,5 @@ class IntellectualProperty extends IntellectualPropertyEntity {
         $this->addType('ownerDisplayname', 'string');
         $this->addType('createdByName', 'string');
         $this->addType('updatedByName', 'string');
-        $this->addType('deletedByName', 'string');
     }
-    
 }

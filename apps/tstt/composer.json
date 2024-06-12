@@ -10,7 +10,8 @@
 	],
 	"autoload": {
 		"psr-4": {
-			"OCA\\Tstt\\": "lib/"
+			"OCA\\Tstt\\": "lib/",
+			"OCA\\Tstt\\Type\\": "lib/type/"
 		}
 	},
 	"scripts": {

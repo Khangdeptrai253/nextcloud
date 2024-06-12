@@ -56,6 +56,8 @@
 /apps/*/node_modules
 /apps/tstt/vendor
 /apps/tstt/js
+/apps/tstt/composer.lock
+/apps/tstt/package-lock.json
 
 # ignore themes except the example and the README
 /themes/*

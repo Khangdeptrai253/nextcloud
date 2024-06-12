@@ -19,9 +19,10 @@ class IntellectualPropertyService {
      * @return IntellectualProperty[]|array
      * @throws \OCP\DB\Exception
      */
-    public function findAll($q, int $page, int $pageSize, array $ownerSort = null, array $authorSort = null, array $statusSort = null): array
+    public function findAll($query, int $page, int $pageSize, array $ownerSort = [], array $authorSort = [], array $statusSort = []): array
     {
-        $intellectualProperty = $this->intellectualPropertyMapper->findAll($q, $page, $pageSize, $ownerSort, $authorSort, $statusSort);
+        $intellectualProperty = $this->intellectualPropertyMapper->findAll($query, $page, $pageSize, $ownerSort, $authorSort, $statusSort);
+        
         return $intellectualProperty;
     }
 
@@ -32,6 +33,7 @@ class IntellectualPropertyService {
     public function findById(int $id)
     {
         $intellectualProperty = $this->intellectualPropertyMapper->findById($id);
+        
         return $intellectualProperty;
     }
 
@@ -44,8 +46,8 @@ class IntellectualPropertyService {
     {
         $newProperty = new IntellectualProperty();
         $newProperty->setNameProp($property['nameProp']);
-        $newProperty->setCopyright($property['copyright']);
-        $newProperty->setOwner($property['owner']);
+        $newProperty->setCopyrightId($property['copyrightId']);
+        $newProperty->setOwnerId($property['ownerId']);
         $newProperty->setStatus($property['status']);
         $newProperty->setVersion($property['version']);
         $newProperty->setCreatedAt($property['createdAt']);
@@ -54,10 +56,9 @@ class IntellectualPropertyService {
         $newProperty->setUpdatedBy($property['createdBy']);
         $newProperty->setDeletedAt($property['deletedAt']);
         $newProperty->setDeletedBy($property['deletedBy']);
-
-        $result = $this->intellectualPropertyMapper->insert($newProperty);
+        $intellectualProperty = $this->intellectualPropertyMapper->insert($newProperty);
         
-        return $result;
+        return $intellectualProperty;
     }
 
     /**
@@ -68,18 +69,16 @@ class IntellectualPropertyService {
     public function update(array $property)
     {
         $updateProperty = $this->intellectualPropertyMapper->findById($property['id']);
-
         $updateProperty->setNameProp($property['nameProp']);
-        $updateProperty->setCopyright($property['copyright']);
-        $updateProperty->setOwner($property['owner']);
+        $updateProperty->setCopyrightId($property['copyrightId']);
+        $updateProperty->setOwnerId($property['ownerId']);
         $updateProperty->setStatus($property['status']);
         $updateProperty->setVersion($property['version']);
         $updateProperty->setUpdatedAt($property['updatedAt']);
         $updateProperty->setUpdatedBy($property['updatedBy']);
-
-        $result = $this->intellectualPropertyMapper->update($updateProperty);
+        $intellectualProperty = $this->intellectualPropertyMapper->update($updateProperty);
         
-        return $result;
+        return $intellectualProperty;
     }
 
     /**
@@ -90,15 +89,10 @@ class IntellectualPropertyService {
     public function delete(array $property)
     {
         $updateProperty = $this->intellectualPropertyMapper->findById($property['id']);
-
         $updateProperty->setDeletedAt($property['deletedAt']);
         $updateProperty->setDeletedBy($property['deletedBy']);
-
         $result = $this->intellectualPropertyMapper->update($updateProperty);
         
         return $result;
     }
-
-
 }
-

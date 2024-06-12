@@ -28,11 +28,12 @@ return [
 		
 		// IntellectualPropertyRoute
 		['name' => 'intellectual_property#index', 'url' => '/index-intellectual-property', 'verb' => 'GET'],
-		['name' => 'intellectual_property#indexById', 'url' => '/index-intellectual-property/{id}', 'verb' => 'GET'],
+		['name' => 'intellectual_property#findById', 'url' => '/index-intellectual-property/{id}', 'verb' => 'GET'],
 		['name' => 'intellectual_property#create', 'url' => '/create-intellectual-property', 'verb' => 'POST'],
 		['name' => 'intellectual_property#update', 'url' => '/update-intellectual-property', 'verb' => 'PUT'],
 		['name' => 'intellectual_property#delete', 'url' => '/delete-intellectual-property', 'verb' => 'PUT'],
 
-		
+		// GroupRoute
+		['name' => 'group#getGroupUserByGroupId', 'url' => '/get-group-user-detail/{gid}', 'verb' => 'GET'],
 	],
 ];

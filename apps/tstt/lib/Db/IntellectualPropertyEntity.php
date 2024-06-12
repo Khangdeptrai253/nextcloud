@@ -22,6 +22,7 @@ class IntellectualPropertyEntity extends Entity implements \JsonSerializable {
 				}
 			}
 		}
+		
 		return $json;
 	}
 }

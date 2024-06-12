@@ -7,6 +7,7 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use OCA\Tstt\Db\StatusEnum;
 
 class Version1000Date20240606100521 extends SimpleMigrationStep {
 	/**
@@ -26,22 +27,23 @@ class Version1000Date20240606100521 extends SimpleMigrationStep {
 
             $table->addColumn('id', 'integer', [
                 'autoincrement' => true,
-                'notnull' => true,
+                'notnull' => true
             ]);
             $table->addColumn('name_prop', 'string', [
                 'notnull' => true,
-                'length' => 200,
+                'length' => 200
             ]);
-            $table->addColumn('copyright', 'string', [
+            $table->addColumn('copyright_id', 'string', [
                 'notnull' => true,
                 'length' => 200
             ]);
-            $table->addColumn('owner', 'string', [
+            $table->addColumn('owner_id', 'string', [
                 'notnull' => true,
                 'length' => 200
             ]);
-            $table->addColumn('status', 'integer', [
-                'notnull' => true
+            $table->addColumn('status', StatusEnum::ENUM, [
+                'notnull' => true,
+                'values' => [StatusEnum::ACTIVE, StatusEnum::INACTIVE, StatusEnum::OUTOFDATE]
             ]);
             $table->addColumn('version', 'string', [
                 'notnull' => true,
@@ -70,6 +72,9 @@ class Version1000Date20240606100521 extends SimpleMigrationStep {
             ]);
 
             $table->setPrimaryKey(['id']);
+            $table->addIndex(['name_prop'], 'name_prop_fulltext', [
+                'type' => 'fulltext'
+            ]);
         }
         return $schema;
     }
