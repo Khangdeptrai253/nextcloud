@@ -1,163 +1,138 @@
-# Nextcloud Server ☁
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
-[![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
-[![Design](https://contribute.design/api/shield/nextcloud/server)](https://contribute.design/nextcloud/server)
+# DKSwork
+## Pre-Deployment Checklist
+### Requirement Analysis
+### Environment Preparation
+1. Set up development, testing, and production environments.
+* Operating System (64-bit)
+Ubuntu 22.04 LTS (recommended)
+Ubuntu 20.04 LTS
+* Webserver
+Apache 2.4
+nginx
+* Php Runtime
+PHP 8.2
+2. Ensure necessary hardware and software are available
+* Minimum of 128MB RAM per process, and we recommend a minimum of 512MB RAM per process.
+* CPU Architecture and OS: A 64-bit CPU, OS and PHP is required for DKSwork to run well.
+### Version Control
+DKSWork: https://git.dkviet.com/an.nguyen/nextcloud -b main
+5. Node version 18+
+### Database Preparation
+1. Database
+* MySQL 8.0+ or MariaDB 10.3/10.5/10.6 (recommended)/10.11
+* Oracle Database 11g (only as part of an enterprise subscription)
+* PostgreSQL 12/13/14/15/16
+### Dependency Management
+1. List all dependencies
+* autosize: ^6.0.1,
+* backbone: ^1.4.1,
+* blueimp-md5: ^2.19.0,
+* browserslist-useragent-regexp: ^4.0.0,
+* camelcase: ^6.3.0,
+* cancelable-promise: ^4.3.1,
+* clipboard: ^2.0.11,
+* colord: ^2.9.3,
+* core-js: ^3.24.0,
+* davclient.js: github:owncloud/davclient.js.git#0.2.2,
+* debounce: ^1.2.1,
+* dompurify: ^2.3.6,
+* escape-html: ^1.0.3,
+* focus-trap: ^7.4.0,
+* focus-visible: ^5.2.0,
+* handlebars: ^4.7.7,
+* ical.js: ^1.4.0,
+* is-svg: ^5.0.0,
+* jquery: ~3.6,
+* jquery-migrate: ~3.4,
+* jquery-ui: ^1.13.2,
+* jquery-ui-dist: ^1.13.2,
+* libphonenumber-js: ^1.10.26,
+* lodash: ^4.17.21,
+* marked: ^4.3.0,
+* moment: ^2.29.4,
+* moment-timezone: ^0.5.43,
+* natural-orderby: ^3.0.2,
+* nextcloud-vue-collections: ^0.10.0,
+* node-vibrant: ^3.1.6,
+* p-limit: ^4.0.0,
+* p-queue: ^7.3.0,
+* path: ^0.12.7,
+* pinia: ^2.0.30,
+* query-string: ^8.1.0,
+* regenerator-runtime: ^0.13.9,
+* select2: 3.5.1,
+* snap.js: ^2.0.9,
+* strengthify: github:nextcloud/strengthify#0.5.9,
+* throttle-debounce: ^5.0.0,
+* underscore: 1.13.6,
+* url-search-params-polyfill: ^8.1.1,
+* v-click-outside: ^3.2.0,
+* v-tooltip: ^2.1.3,
+* vue: ^2.7.14,
+* vue-click-outside: ^1.1.0,
+* vue-cropperjs: ^4.2.0,
+* vue-frag: ^1.4.2,
+* vue-infinite-loading: ^2.4.5,
+* vue-localstorage: ^0.6.2,
+* vue-material-design-icons: ^5.0.0,
+* vue-multiselect: ^2.1.6,
+* vue-router: ^3.6.5,
+* vue-virtual-scroller: ^1.1.2,
+* vuedraggable: ^2.24.3,
+* vuex: ^3.6.2,
+* vuex-router-sync: ^5.0.0,
+* webdav: ^5.0.0
+## Deployment Checklist
+### Code Review and Testing
+---
+### Configuration Management 
+All config(database, debug mode....) in config.php
+### Build Process
+1. git clone https://git.dkviet.com/an.nguyen/nextcloud. -b main
+2. cd DKSwork
+3. npm i && npm run build
+4. composer i
+5. git submodule update --init
+### Deployment Execution
+1. requirement Apache 2.4, database is mysql or mariadb and node js 18+ on ubuntu 20.04 or 22.04
+2. create user database and database on server
+3. create dkswork.conf at /etc/apache2/sites-available/ directory.
+4. past the config text at dkswork.conf
+* <VirtualHost *:80>
+        DocumentRoot "/var/www/dkswork"
+        ServerName [your domain]
 
-**A safe home for all your data.**
+        ErrorLog ${APACHE_LOG_DIR}/dkswork.error
+        CustomLog ${APACHE_LOG_DIR}/dkswork.access combined
 
-![](https://raw.githubusercontent.com/nextcloud/screenshots/master/nextcloud-hub-files-25-preview.png)
+        <Directory /var/www/dkswork/>
+            Require all granted
+            Options FollowSymlinks MultiViews
+            AllowOverride All
 
-## Why is this so awesome? 🤩
+           <IfModule mod_dav.c>
+               Dav off
+           </IfModule>
 
-* 📁 **Access your Data** You can store your files, contacts, calendars, and more on a server of your choosing.
-* 🔄 **Sync your Data** You keep your files, contacts, calendars, and more synchronized amongst your devices.
-* 🙌 **Share your Data** …by giving others access to the stuff you want them to see or to collaborate with.
-* 🚀 **Expandable with hundreds of Apps** ...like [Calendar](https://github.com/nextcloud/calendar), [Contacts](https://github.com/nextcloud/contacts), [Mail](https://github.com/nextcloud/mail), [Video Chat](https://github.com/nextcloud/spreed) and all those you can discover in our [App Store](https://apps.nextcloud.com)
-* 🔒 **Security** with our encryption mechanisms, [HackerOne bounty program](https://hackerone.com/nextcloud) and two-factor authentication.
+        SetEnv HOME /var/www/dkswork
+        SetEnv HTTP_HOME /var/www/dkswork
+        Satisfy Any
 
-Do you want to learn more about how you can use Nextcloud to access, share and protect your files, calendars, contacts, communication & more at home and in your organization? [**Learn about all our Features**](https://dkviet.com/athome/).
+       </Directory>
 
-## Get your Nextcloud 🚚
-
-- ☑️ [**Simply sign up**](https://dkviet.com/signup/) at one of our providers either through our website or through the apps directly.
-- 🖥 [**Install** a server by yourself](https://dkviet.com/install/#instructions-server) on your hardware or by using one of our ready to use **appliances**
-- 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://dkviet.com/devices/)
-- 🏢 Find a [service **provider**](https://dkviet.com/providers/) who hosts Nextcloud for you or your company
-
-Enterprise? Public Sector or Education user? You may want to have a look into [**Nextcloud Enterprise**](https://dkviet.com/enterprise/) provided by Nextcloud GmbH.
-
-## Get in touch 💬
-
-* [📋 Forum](https://help.nextcloud.com)
-* [👥 Facebook](https://www.facebook.com/nextclouders)
-* [🐣 Twitter](https://twitter.com/Nextclouders)
-* [🐘 Mastodon](https://mastodon.xyz/@nextcloud)
-
-You can also [get support for Nextcloud](https://dkviet.com/support)!
-
-
-## Join the team 👪
-
-There are many ways to contribute, of which development is only one! Find out [how to get involved](https://dkviet.com/contribute/), including as a translator, designer, tester, helping others, and much more! 😍
-
-
-### Development setup 👩‍💻
-
-1. 🚀 [Set up your local development environment](https://docs.nextcloud.com/server/latest/developer_manual/getting_started/devenv.html)
-2. 🐛 [Pick a good first issue](https://github.com/nextcloud/server/labels/good%20first%20issue)
-3. 👩‍🔧 Create a branch and make your changes. Remember to sign off your commits using `git commit -sm "Your commit message"`
-4. ⬆ Create a [pull request](https://opensource.guide/how-to-contribute/#opening-a-pull-request) and `@mention` the people from the issue to review
-5. 👍 Fix things that come up during a review
-6. 🎉 Wait for it to get merged!
-
-Third-party components are handled as git submodules which have to be initialized first. So aside from the regular git checkout invoking `git submodule update --init` or a similar command is needed, for details see Git documentation.
-
-Several apps that are included by default in regular releases such as [First run wizard](https://github.com/nextcloud/firstrunwizard) or [Activity](https://github.com/nextcloud/activity) are missing in `master` and have to be installed manually by cloning them into the `apps` subfolder.
-
-Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
-
-### Working with front-end code 🏗
-
-#### Building Vue components and scripts
-
-We are moving more and more toward using Vue.js in the front-end, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
-
-```bash
-# install dependencies
-make dev-setup
-
-# build for development
-make build-js
-
-# build for development and watch edits
-make watch-js
-
-# build for production with minification
-make build-js-production
-```
-
-#### Building styles
-
-Styles are written in SCSS and compiled to css.
-
-```bash
-# install dependencies
-make dev-setup
-
-# compile style sheets
-npm run sass
-
-# compile style sheets and watch edits
-npm run sass:watch
-```
-
-#### Committing changes
-
-**When making changes, also commit the compiled files!**
-
-We still use Handlebars templates in some places in Files and Settings. We will replace these step-by-step with Vue.js, but in the meantime, you need to compile them separately.
-
-If you don’t have Handlebars installed yet, you can do it with this terminal command:
-```bash
-sudo npm install -g handlebars
-```
-
-Then inside the root folder of your local Nextcloud development installation, run this command in the terminal every time you changed a `.handlebars` file to compile it:
-```bash
-./build/compile-handlebars-templates.sh
-```
-
-Before checking in JS changes, make sure to also build for production:
-```bash
-make build-js-production
-```
-Then add the compiled files for committing.
-
-To save some time, to only rebuild for a specific app, use the following and replace the module with the app name:
-```bash
-MODULE=user_status make build-js-production
-```
-
-Please note that if you used `make build-js` or `make watch-js` before, you'll notice that a lot of files were marked as changed, so might need to clear the workspace first.
-
-### Working with back-end code 🏗
-
-When changing back-end PHP code, in general, no additional steps are needed before checking in.
-
-However, if new files were created, you will need to run the following command to update the autoloader files:
-```bash
-build/autoloaderchecker.sh
-```
-
-After that, please also include the autoloader file changes in your commits.
-
-### Tools we use 🛠
-
-- [👀 BrowserStack](https://browserstack.com) for cross-browser testing
-- [🌊 WAVE](https://wave.webaim.org/extension/) for accessibility testing
-- [🚨 Lighthouse](https://developers.google.com/web/tools/lighthouse/) for testing performance, accessibility, and more
-
-#### Helpful bots at github :robot:
-
-- Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
-
-## Contribution guidelines 📜
-
-All contributions to this repository from June 16, 2016, and onward are considered to be
-licensed under the AGPLv3 or any later version.
-
-Nextcloud doesn't require a CLA (Contributor License Agreement).
-The copyright belongs to all the individual contributors. Therefore we recommend
-that every contributor adds the following line to the header of a file if they
-changed it substantially:
-
-```
-@copyright Copyright (c) <year>, <your name> (<your email address>)
-```
-
-Please read the [Code of Conduct](https://dkviet.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
-
-Please review the [guidelines for contributing](.github/CONTRIBUTING.md) to this repository.
-
-More information how to contribute: [https://dkviet.com/contribute/](https://dkviet.com/contribute/)
+  </VirtualHost>
+5. start apache
+6. sudo chown www-data:www-data /var/www/dkswork/ -R
+6. cd /var/www/
+7. git clone https://git.dkviet.com/an.nguyen/nextcloud. -b main 
+8. sudo a2ensite dkswork.conf 
+9. sudo a2enmod rewrite headers env dir mime setenvif ssl
+10. sudo systemctl restart apache2
+11. Install and Enable PHP Modules
+-- sudo apt install imagemagick php-imagick libapache2-mod-php8.2 php8.2-common php8.2-mysql php8.2-fpm php8.2-gd php8.2-json php8.2-curl php8.2-zip php8.2-xml php8.2-mbstring php8.2-bz2 php8.2-intl php8.2-bcmath php8.2-gmp
+12. sudo systemctl reload apache2
+13. this site available at [your domain]
+### Account 
+1. admin
+username: Administrator
+password: Administrator
