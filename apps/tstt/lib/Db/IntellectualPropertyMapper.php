@@ -96,8 +96,16 @@ class IntellectualPropertyMapper extends QBMapper {
 
     private function applySearchQuery($qb, $query)
     {
-        $qb->andWhere($qb->createFunction('MATCH (ip.name_prop) AGAINST (:query IN NATURAL LANGUAGE MODE)'))
-            ->setParameter('query', $query);
+        if (strlen($query) < 3) {
+            $qb->andWhere(
+                $qb->expr()->like($qb->createFunction('LOWER(ip.name_prop)'), $qb->expr()->literal('%' . strtolower($query) . '%'))
+            );
+        } else {
+            $qb->andWhere(
+                $qb->createFunction('MATCH (ip.name_prop) AGAINST (:query IN NATURAL LANGUAGE MODE)'))
+                    ->setParameter('query', strtolower($query)
+            );
+        }
     }
 
     private function applySortConditions($qb, array $ownerSort, array $authorSort, array $statusSort)
