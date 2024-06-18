@@ -56,7 +56,7 @@
 					</NcButton>
 				</div>
 			</table>
-			<div v-else>
+			<div v-else class="result-not-found">
 				<h2>
 					There is no result for this case
 				</h2>
@@ -301,6 +301,10 @@ export default {
 	border-left: 10px solid transparent;
 	border-right: 10px solid transparent;
 	border-bottom: 10px solid white;
+}
+
+.result-not-found > h2 {
+	font-size: 30px;
 }
 
 @media (max-width: 600px) {

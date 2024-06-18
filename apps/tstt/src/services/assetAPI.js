@@ -15,9 +15,9 @@ export class AssetApi {
 		const params = {
 			page: keyword.page,
 			pageSize: keyword.pageSize,
-			ownerSort: keyword.ownerSort,
-			authorSort: keyword.authorSort,
-			statusSort: keyword.statusSort,
+			ownerListSort: keyword.ownerSort,
+			authorListSort: keyword.authorSort,
+			statusListSort: keyword.statusSort,
 			query: keyword.query,
 		}
 		const response = await axios.get(endpoint, { params })

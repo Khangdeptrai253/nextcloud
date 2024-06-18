@@ -27,7 +27,7 @@
 						<div class="form-group">
 							<label for="copyrightId">{{ t('files', 'Author') }}</label>
 							<select v-model="editedItem.copyrightId" class="createProp" required>
-								<option v-for="option in authorDataCompute" :key="option.id" :value="option.id">
+								<option v-for="option in authorData" :key="option.id" :value="option.id">
 									{{ option.displayName }}
 								</option>
 							</select>
@@ -35,7 +35,7 @@
 						<div class="form-group">
 							<label for="ownerId">{{ t('files', 'Owner') }}:</label>
 							<select v-model="editedItem.ownerId" class="createProp" required>
-								<option v-for="option in ownerDataCompute" :key="option.id" :value="option.id">
+								<option v-for="option in ownerData" :key="option.id" :value="option.id">
 									{{ option.displayName }}
 								</option>
 							</select>
@@ -94,35 +94,19 @@ export default {
 			editedItem: {},
 		}
 	},
-	mounted() {
-		this.getStatusData()
-		this.editedItem = {
-			...this.item,
-			status: this.statusData.find(status => status.status === this.item.status)?.id,
-		}
-	},
 	computed: {
 		...mapState([
 			'authorData',
 			'ownerData',
 			'statusData',
 		]),
-		authorDataCompute() {
-			return Object.keys(this.authorData).map(key => {
-				return {
-					id: this.authorData[key].uid,
-					displayName: this.authorData[key].displayname,
-				}
-			})
-		},
-		ownerDataCompute() {
-			return Object.keys(this.ownerData).map(key => {
-				return {
-					id: this.ownerData[key].uid,
-					displayName: this.ownerData[key].displayname,
-				}
-			})
-		},
+	},
+	mounted() {
+		this.getStatusData()
+		this.editedItem = {
+			...this.item,
+			status: this.statusData.find(status => status.status === this.item.status)?.id,
+		}
 	},
 	methods: {
 		...mapActions(['editItem', 'getAuthorData', 'getOwnerData', 'getStatusData']),

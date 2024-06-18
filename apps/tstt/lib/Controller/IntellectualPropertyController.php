@@ -20,8 +20,8 @@ class IntellectualPropertyController extends Controller {
      * @NoCSRFRequired
      * @return DataResponse
      */
-	public function index($query, int $page, int $pageSize, array $ownerSort = [], array $authorSort = [], array $statusSort = []): DataResponse {
-        $intellectualProperty = $this->intellectualPropertyService->findAll($query, $page, $pageSize, $ownerSort, $authorSort, $statusSort);
+	public function index($query, int $page, int $pageSize, array $ownerListSort = [], array $authorListSort = [], array $statusListSort = []): DataResponse {
+        $intellectualProperty = $this->intellectualPropertyService->findAll($query, $page, $pageSize, $ownerListSort, $authorListSort, $statusListSort);
 		
         return new DataResponse($intellectualProperty);
 	}

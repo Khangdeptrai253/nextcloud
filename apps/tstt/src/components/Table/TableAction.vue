@@ -1,4 +1,4 @@
-<template #icon>
+<template v-slot:icon>
 	<component :is="modalComponent" v-if="modalComponent" :item="item">
 		<template #default />
 	</component>

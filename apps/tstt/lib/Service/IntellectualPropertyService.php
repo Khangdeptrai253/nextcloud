@@ -19,9 +19,9 @@ class IntellectualPropertyService {
      * @return IntellectualProperty[]|array
      * @throws \OCP\DB\Exception
      */
-    public function findAll($query, int $page, int $pageSize, array $ownerSort = [], array $authorSort = [], array $statusSort = []): array
+    public function findAll($query, int $page, int $pageSize, array $ownerListSort = [], array $authorListSort = [], array $statusListSort = []): array
     {
-        $intellectualProperty = $this->intellectualPropertyMapper->findAll($query, $page, $pageSize, $ownerSort, $authorSort, $statusSort);
+        $intellectualProperty = $this->intellectualPropertyMapper->findAll($query, $page, $pageSize, $ownerListSort, $authorListSort, $statusListSort);
         
         return $intellectualProperty;
     }
@@ -54,8 +54,6 @@ class IntellectualPropertyService {
         $newProperty->setCreatedBy($property['createdBy']);
         $newProperty->setUpdatedAt($property['createdAt']);
         $newProperty->setUpdatedBy($property['createdBy']);
-        $newProperty->setDeletedAt($property['deletedAt']);
-        $newProperty->setDeletedBy($property['deletedBy']);
         $intellectualProperty = $this->intellectualPropertyMapper->insert($newProperty);
         
         return $intellectualProperty;
@@ -68,6 +66,16 @@ class IntellectualPropertyService {
      */
     public function update(array $property)
     {
+        $validate = $this->intellectualPropertyMapper->isDelete($property['id']);
+
+        if($validate == 1) {
+            $msg = [
+                    'status' => 'error',
+                    'message' => 'This item has been deleted'
+                ];
+
+            return $msg;
+        }
         $updateProperty = $this->intellectualPropertyMapper->findById($property['id']);
         $updateProperty->setNameProp($property['nameProp']);
         $updateProperty->setCopyrightId($property['copyrightId']);
@@ -88,11 +96,30 @@ class IntellectualPropertyService {
      */
     public function delete(array $property)
     {
-        $updateProperty = $this->intellectualPropertyMapper->findById($property['id']);
-        $updateProperty->setDeletedAt($property['deletedAt']);
-        $updateProperty->setDeletedBy($property['deletedBy']);
-        $result = $this->intellectualPropertyMapper->update($updateProperty);
+        $validate = $this->intellectualPropertyMapper->isDelete($property['id']);
+
+        if($validate == 1) {
+            $msg = [
+                    'status' => 'error',
+                    'message' => 'This item has been deleted'
+                ];
+
+            return $msg;
+        }
+
+        if($validate == 0) {
+            $msg = [
+                    'status' => 'error',
+                    'message' => 'This item has been deleted pernament out of database'
+                ];
+
+            return $msg;
+        }
+        $deleteProperty = $this->intellectualPropertyMapper->findById($property['id']);
+        $deleteProperty->setDeletedAt($property['deletedAt']);
+        $deleteProperty->setDeletedBy($property['deletedBy']);
+        $intellectualProperty = $this->intellectualPropertyMapper->update($deleteProperty);
         
-        return $result;
+        return $intellectualProperty;
     }
 }

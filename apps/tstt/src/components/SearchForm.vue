@@ -9,8 +9,8 @@
 			</template>
 		</NcButton>
 		<div class="search-form">
-			<input v-model="searchQuery" type="search" @keypress.enter="submitSearch">
-			<NcButton v-if="searchQuery || selectedOwnerFilters.length || selectedAuthorFilters.length ||selectedStatusFilters.length"
+			<input v-model="searchQuery" @keypress.enter="submitSearch">
+			<NcButton v-if="searchQuery || selectedOwnerFilters.length || selectedAuthorFilters.length || selectedStatusFilters.length"
 				type="secondary"
 				aria-label="Clear Search"
 				@click="clearSearchAndFilter">
@@ -87,7 +87,7 @@ export default {
 		},
 		async clearSearchAndFilter() {
 			try {
-				this.searchQuery = ''
+				this.searchQuery = null
 				await this.clearAll()
 			} catch (error) {
 				this.error = 'Error searching data'

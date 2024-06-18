@@ -27,7 +27,7 @@
 						<div class="form-group">
 							<label for="copyrightId">{{ t('files', 'Author') }}</label>
 							<select v-model="newAsset.copyrightId" class="createProp" required>
-								<option v-for="option in authorDataCompute" :key="option.id" :value="option.id">
+								<option v-for="option in authorData" :key="option.id" :value="option.id">
 									{{ option.displayName }}
 								</option>
 							</select>
@@ -35,7 +35,7 @@
 						<div class="form-group">
 							<label for="ownerId">{{ t('files', 'Owner') }}</label>
 							<select v-model="newAsset.ownerId" class="createProp" required>
-								<option v-for="option in ownerDataCompute" :key="option.id" :value="option.id">
+								<option v-for="option in ownerData" :key="option.id" :value="option.id">
 									{{ option.displayName }}
 								</option>
 							</select>
@@ -101,33 +101,17 @@ export default {
 			},
 		}
 	},
-	async mounted() {
-		await this.getAuthorData()
-		await this.getOwnerData()
-		await this.getStatusData()
-	},
 	computed: {
 		...mapState([
 			'authorData',
 			'ownerData',
 			'statusData',
 		]),
-		authorDataCompute() {
-			return Object.keys(this.authorData).map(key => {
-				return {
-					id: this.authorData[key].uid,
-					displayName: this.authorData[key].displayname,
-				}
-			})
-		},
-		ownerDataCompute() {
-			return Object.keys(this.ownerData).map(key => {
-				return {
-					id: this.ownerData[key].uid,
-					displayName: this.ownerData[key].displayname,
-				}
-			})
-		},
+	},
+	async mounted() {
+		await this.getAuthorData()
+		await this.getOwnerData()
+		await this.getStatusData()
 	},
 	methods: {
 		...mapActions(['addItem', 'getAuthorData', 'getOwnerData', 'getStatusData']),

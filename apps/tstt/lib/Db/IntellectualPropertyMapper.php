@@ -14,15 +14,20 @@ class IntellectualPropertyMapper extends QBMapper {
     public function __construct(IDBConnection $db)
     {
         parent::__construct($db, 'intellectual_property', IntellectualProperty::class);
+        $this->searchCase = null;
     }
 
     /**
      * @return IntellectualProperty[]|array
      * @throws \OCP\DB\Exception
      */
-    public function findAll($query, int $page, int $pageSize, array $ownerSort = [], array $authorSort = [], array $statusSort = []): array
+    public function findAll($query, int $page, int $pageSize, array $ownerListSort = [], array $authorListSort = [], array $statusListSort = []): array
     {
-        $this->determineSearchCase($query, $ownerSort, $authorSort, $statusSort);
+        if (is_null($query) || $query === '') {
+            $this->searchCase = (!$ownerListSort && !$authorListSort && !$statusListSort) ? 'default' : 'searchSort';
+        } else {
+            $this->searchCase = (!$ownerListSort && !$authorListSort && !$statusListSort) ? 'searchQuery' : 'searchAll';
+        }
 
         $offset = ($page - 1) * $pageSize;
         $qb = $this->db->getQueryBuilder();
@@ -37,8 +42,8 @@ class IntellectualPropertyMapper extends QBMapper {
         }
 
         if ($this->searchCase === 'searchSort' || $this->searchCase === 'searchAll') {
-            $this->applySortConditions($qb, $ownerSort, $authorSort, $statusSort);
-            $this->applySortConditions($count, $ownerSort, $authorSort, $statusSort);
+            $this->applySortConditions($qb, $ownerListSort, $authorListSort, $statusListSort);
+            $this->applySortConditions($count, $ownerListSort, $authorListSort, $statusListSort);
         }
 
         $dataRes = $this->findEntities($qb);
@@ -53,19 +58,32 @@ class IntellectualPropertyMapper extends QBMapper {
         $qb->select('*')
             ->from($this->tableName)
             ->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-            ->andWhere($qb->expr()->isNull('deleted_by'))
-            ->andWhere($qb->expr()->isNull('deleted_at'));
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('deleted_by'),
+                    $qb->expr()->isNull('deleted_at')
+                )
+            );
+        
+        $intellectualProperty = $this->findEntity($qb);
 
-        return $this->findEntity($qb);
+        return $intellectualProperty;
     }
 
-    private function determineSearchCase($query, array $ownerSort, array $authorSort, array $statusSort)
-    {
-        if (is_null($query) || $query === '') {
-            $this->searchCase = (!$ownerSort && !$authorSort && !$statusSort) ? 'default' : 'searchSort';
-        } else {
-            $this->searchCase = (!$ownerSort && !$authorSort && !$statusSort) ? 'searchQuery' : 'searchAll';
-        }
+    public function isDelete(int $id) {
+        $qb = $this->db->getQueryBuilder();
+
+        $qb->select($qb->createFunction('COUNT(id)'))
+            ->from($this->tableName)
+            ->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->isNotNull('deleted_by'),
+                    $qb->expr()->isNotNull('deleted_at')
+                )
+            );
+        
+        return (int) $qb->executeQuery()->fetchOne();
     }
 
     private function initializeQueryBuilder($qb, $offset, $pageSize)
@@ -108,21 +126,21 @@ class IntellectualPropertyMapper extends QBMapper {
         }
     }
 
-    private function applySortConditions($qb, array $ownerSort, array $authorSort, array $statusSort)
+    private function applySortConditions($qb, array $ownerListSort, array $authorListSort, array $statusListSort)
     {
-        if ($ownerSort) {
-            $ownerConditions = array_map(fn($owner) => $qb->expr()->eq('ip.owner_id', $qb->createNamedParameter($owner)), $ownerSort);
+        if ($ownerListSort) {
+            $ownerConditions = array_map(fn($owner) => $qb->expr()->eq('ip.owner_id', $qb->createNamedParameter($owner)), $ownerListSort);
             $qb->andWhere($qb->expr()->orX(...$ownerConditions));
         }
-        if ($authorSort) {
-            $authorConditions = array_map(fn($author) => $qb->expr()->eq('ip.copyright_id', $qb->createNamedParameter($author)), $authorSort);
+        if ($authorListSort) {
+            $authorConditions = array_map(fn($author) => $qb->expr()->eq('ip.copyright_id', $qb->createNamedParameter($author)), $authorListSort);
             $qb->andWhere($qb->expr()->orX(...$authorConditions));
         }
-        if ($statusSort) {
+        if ($statusListSort) {
             $statusConditions = array_map(function($status) use ($qb) {
                 $statusString = is_numeric($status) ? StatusEnum::getEnumValue($status) : $status;
                 return $qb->expr()->eq('ip.status', $qb->createNamedParameter($statusString));
-            }, $statusSort);
+            }, $statusListSort);
             $qb->andWhere($qb->expr()->orX(...$statusConditions));
         }
     }

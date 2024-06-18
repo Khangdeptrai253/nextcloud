@@ -11,6 +11,7 @@ use OCA\Tstt\Db\StatusEnum;
 
 class Version1000Date20240606100521 extends SimpleMigrationStep {
 	/**
+     * command to run: ./occ migrations:execute tstt 1000Date20240606100521
      * @param IOutput $output
      * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
      * @param array $options
@@ -56,7 +57,8 @@ class Version1000Date20240606100521 extends SimpleMigrationStep {
                 'notnull' => false
             ]);
             $table->addColumn('deleted_at', 'bigint', [
-                'notnull' => false
+                'notnull' => false,
+                'default' => null
             ]);
             $table->addColumn('created_by', 'string', [
                 'notnull' => false,
@@ -68,12 +70,22 @@ class Version1000Date20240606100521 extends SimpleMigrationStep {
             ]);
             $table->addColumn('deleted_by', 'string', [
                 'notnull' => false,
+                'default' => null,
                 'length' => 200
             ]);
 
             $table->setPrimaryKey(['id']);
             $table->addIndex(['name_prop'], 'name_prop_fulltext', [
                 'type' => 'fulltext'
+            ]);
+            $table->addIndex(['copyright_id'], 'copyright_id_index', [
+                'type' => 'index'
+            ]);
+            $table->addIndex(['owner_id'], 'owner_id_index', [
+                'type' => 'index'
+            ]);
+            $table->addIndex(['status'], 'status_index', [
+                'type' => 'index'
             ]);
         }
         return $schema;

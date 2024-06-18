@@ -10,6 +10,7 @@ use OCP\Migration\SimpleMigrationStep;
 
 class Version1000Date20240610035119 extends SimpleMigrationStep {
     /**
+     * command to run: ./occ migrations:execute tstt 1000Date20240610035119
 	 * @param IOutput $output
 	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options

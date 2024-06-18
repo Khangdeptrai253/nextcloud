@@ -175,6 +175,11 @@ const actions = {
 				updatedBy: getCurrentUser().uid,
 			}
 			const response = await apiClient.editAsset(property)
+
+			if (response.status === 'error') {
+				showError(response)
+				console.error('Error editing item:', response.message)
+			}
 			context.commit('updateItem', response)
 			await context.dispatch('fetchAssetData')
 		} catch (error) {
@@ -190,7 +195,11 @@ const actions = {
 				deletedAt: Date.now(),
 				deletedBy: getCurrentUser().uid,
 			}
-			await apiClient.deleteAsset(property)
+			const response = await apiClient.deleteAsset(property)
+			if (response.status === 'error') {
+				showError(response)
+				console.error('Error editing item:', response.message)
+			}
 			await context.dispatch('fetchAssetData')
 		} catch (error) {
 			showError(error)
@@ -205,10 +214,6 @@ const actions = {
 				...item,
 				createdAt: Date.now(),
 				createdBy: getCurrentUser().uid,
-				deletedAt: null,
-				deletedBy: null,
-				updatedAt: null,
-				updatedBy: null,
 			}
 			const response = await apiClient.createAsset(body)
 			context.commit('createAsset', response.data)
@@ -225,7 +230,8 @@ const actions = {
 		context.commit('setLoading', true)
 		try {
 			const response = await apiClient.getAuthor()
-			context.commit('setAuthorData', response)
+			const authorData = computeData(response)
+			context.commit('setAuthorData', authorData)
 		} catch (error) {
 			showError(error)
 			context.commit('setError', error.message)
@@ -239,7 +245,8 @@ const actions = {
 		context.commit('setLoading', true)
 		try {
 			const response = await apiClient.getOwner()
-			context.commit('setOwnerData', response)
+			const ownerData = computeData(response)
+			context.commit('setOwnerData', ownerData)
 		} catch (error) {
 			showError(error)
 			context.commit('setError', error.message)
@@ -257,6 +264,15 @@ const actions = {
 		]
 		context.commit('setStatusData', statusData)
 	},
+}
+
+function computeData(response) {
+	return Object.keys(response).map(key => {
+		return {
+			id: response[key].uid,
+			displayName: response[key].displayname,
+		}
+	})
 }
 
 const store = new Vuex.Store({

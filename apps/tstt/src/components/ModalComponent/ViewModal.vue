@@ -33,7 +33,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr style="	max-width: 200px;
+								<tr style="max-width: 200px;
 											word-wrap: break-word;
 											word-break: break-all;
 											white-space: normal;">

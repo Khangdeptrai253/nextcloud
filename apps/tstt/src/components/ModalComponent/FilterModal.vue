@@ -28,7 +28,7 @@
 									:close-on-select="false"
 									:searchable="true"
 									:placeholder="t('files', 'Select option')"
-									:options="authorDataCompute"
+									:options="authorData"
 									:multiple="true"
 									label="displayName"
 									track-by="id" />
@@ -41,7 +41,7 @@
 									:close-on-select="false"
 									:searchable="true"
 									:placeholder="t('files', 'Select option')"
-									:options="ownerDataCompute"
+									:options="ownerData"
 									:multiple="true"
 									label="displayName"
 									track-by="id" />
@@ -97,22 +97,6 @@ export default {
 	},
 	computed: {
 		...mapState(['selectedOwnerFilters', 'selectedStatusFilters', 'selectedAuthorFilters', 'authorData', 'ownerData', 'statusData']),
-		authorDataCompute() {
-			return Object.keys(this.authorData).map(key => {
-				return {
-					id: this.authorData[key].uid,
-					displayName: this.authorData[key].displayname,
-				}
-			})
-		},
-		ownerDataCompute() {
-			return Object.keys(this.ownerData).map(key => {
-				return {
-					id: this.ownerData[key].uid,
-					displayName: this.ownerData[key].displayname,
-				}
-			})
-		},
 		selectedOwners: {
 			get() {
 				return this.selectedOwnerFilters

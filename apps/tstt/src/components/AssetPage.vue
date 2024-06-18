@@ -35,9 +35,6 @@ export default {
 	name: 'AssetPage',
 	components: {
 		TableAsset,
-		ViewModal,
-		DeleteModal,
-		EditModal,
 		SearchForm,
 		FilterModal,
 		DownloadForm,
@@ -72,13 +69,6 @@ export default {
 			error: 'error',
 		}),
 	},
-	methods: {
-		...mapActions({
-			fetchData: 'fetchAssetData',
-			fetchDataNextPage: 'fetchDataNextPage',
-			fetchDataPrevPage: 'fetchDataPrevPage',
-		}),
-	},
 	async mounted() {
 		try {
 			await this.fetchData()
@@ -86,6 +76,13 @@ export default {
 			showError(error)
 			console.error(error)
 		}
+	},
+	methods: {
+		...mapActions({
+			fetchData: 'fetchAssetData',
+			fetchDataNextPage: 'fetchDataNextPage',
+			fetchDataPrevPage: 'fetchDataPrevPage',
+		}),
 	},
 }
 </script>
