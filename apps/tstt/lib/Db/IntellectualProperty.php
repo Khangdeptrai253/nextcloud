@@ -1,9 +1,10 @@
 <?php
 namespace OCA\Tstt\Db;
 
-use OCA\Tstt\Db\IntellectualPropertyEntity;
+use JsonSerializable;
+use OCP\AppFramework\Db\Entity;
 
-class IntellectualProperty extends IntellectualPropertyEntity {
+class IntellectualProperty extends Entity implements JsonSerializable {
     /** @var string */
     protected $nameProp;
     /** @var string */
@@ -53,5 +54,25 @@ class IntellectualProperty extends IntellectualPropertyEntity {
         $this->addType('ownerDisplayname', 'string');
         $this->addType('createdByName', 'string');
         $this->addType('updatedByName', 'string');
+    }
+    
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'nameProp' => $this->nameProp,
+            'copyrightId' => $this->copyrightId,
+            'ownerId' => $this->ownerId,
+            'status' => $this->status,
+            'version' => $this->version,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+            'deletedAt' => $this->deletedAt,
+            'updatedBy' => $this->updatedBy,
+            'deletedBy' => $this->deletedBy,
+            'copyrightDisplayname' => $this->copyrightDisplayname,
+            'ownerDisplayname' => $this->ownerDisplayname,
+            'createdByName' => $this->createdByName,
+            'updatedByName' => $this->updatedByName
+        ];
     }
 }

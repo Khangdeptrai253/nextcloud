@@ -5,6 +5,7 @@ const path = require('path')
 
 webpackConfig.entry = {
 	main: { import: path.join(__dirname, 'src', 'main.js'), filename: 'main.js' },
+	sidebartab: { import: path.join(__dirname, 'src', 'sidebartab.js'), filename: 'sidebartab.js' },
 }
 
 webpackConfig.plugins.push(
