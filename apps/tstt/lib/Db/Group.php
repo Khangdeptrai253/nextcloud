@@ -1,9 +1,10 @@
 <?php
 namespace OCA\Tstt\Db;
 
-use OCA\Tstt\Db\IntellectualPropertyEntity;
+use JsonSerializable;
+use OCP\AppFramework\Db\Entity;
 
-class Group extends IntellectualPropertyEntity {
+class Group extends Entity implements JsonSerializable {
     /** @var string */
     protected $gid;
     /** @var string */
@@ -15,5 +16,13 @@ class Group extends IntellectualPropertyEntity {
         $this->addType('gid', 'string');
         $this->addType('uid', 'string');
         $this->addType('displayname', 'string');
+    }
+
+    public function jsonSerialize() {
+        return [
+            'gid' => $this->gid,
+            'uid' => $this->uid,
+            'displayname' => $this->displayname
+        ];
     }
 }
