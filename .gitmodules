@@ -1,6 +1,6 @@
 [submodule "3rdparty"]
 	path = 3rdparty
-	url = https://github.com/nextcloud/3rdparty.git
+	url = https://git.dkviet.com/an.nguyen/3rdparty.git
 [submodule "app/viewer"]
 	path = app/viewer
 	url = https://git.dkviet.com/an.nguyen/viewer.git
@@ -55,3 +55,9 @@
 [submodule "apps/duplicatefinder"]
 	path = apps/duplicatefinder
 	url = https://git.dkviet.com/an.nguyen/duplicatefinder.git
+[submodule "apps/sorts"]
+	path = apps/sorts
+	url = https://git.dkviet.com/an.nguyen/sorts.git
+[submodule "apps/workflow_script"]
+	path = apps/workflow_script
+	url = https://git.dkviet.com/an.nguyen/workflow_script.git

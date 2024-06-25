@@ -1,0 +1,47 @@
+{
+  "name": "tstt",
+  "version": "1.0.0",
+  "license": "AGPL-3.0-or-later",
+  "engines": {
+    "node": "^20.0.0",
+    "npm": "^10.0.0"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production webpack --config webpack.js --progress",
+    "dev": "NODE_ENV=development webpack --config webpack.js --progress",
+    "watch": "NODE_ENV=development webpack --config webpack.js --progress --watch",
+    "lint": "eslint src",
+    "lint:fix": "eslint --ext .js,.vue src --fix",
+    "stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css"
+  },
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
+  ],
+  "dependencies": {
+    "@nextcloud/auth": "^2.0.0",
+    "@nextcloud/axios": "^1.6.0",
+    "@nextcloud/dialogs": "^3.1.2",
+    "@nextcloud/l10n": "^1.4.1",
+    "@nextcloud/router": "^2.1.1",
+    "@nextcloud/vue": "^7.11.4",
+    "force": "^0.0.3",
+    "jquery": "^3.7.1",
+    "lodash": "^4.17.21",
+    "portal-vue": "^2.1.7",
+    "vue": "^2.7.14",
+    "vue-click-outside": "^1.1.0",
+    "vue-material-design-icons": "^5.0.0",
+    "vue-multiselect": "^2.1.9",
+    "vue-router": "^3.6.5",
+    "vue-select": "^3.20.3",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@nextcloud/browserslist-config": "^3.0.1",
+    "@nextcloud/eslint-config": "^8.3.0",
+    "@nextcloud/stylelint-config": "^2.4.0",
+    "@nextcloud/webpack-vue-config": "^6.0.1",
+    "eslint-webpack-plugin": "^4.1.0",
+    "stylelint-webpack-plugin": "^5.0.0"
+  }
+}

@@ -26,7 +26,7 @@
 		:aria-label="t('settings', 'User\'s table')"
 		class="user-list-grid"
 		@scroll.passive="onScroll">
-		<NcModal v-if="showConfig.showNewUserForm" size="small" @close="closeModal">
+		<NcModal v-if="showConfig.showNewUserForm" @close="closeModal">
 			<form id="new-user"
 				:disabled="loading.all"
 				class="modal__content"
@@ -678,5 +678,15 @@ export default {
 		 * to be set to 0 to prevent that ("pointer-events: none" does not
 		 * prevent it). */
 		width: 0;
+	}
+</style>
+<style lang="scss">
+	#new-user {
+		padding: 50px;
+		ul {
+			border: solid 1px #b6b6b6;
+			width: 99%;
+			margin: 0 auto;
+		}
 	}
 </style>
