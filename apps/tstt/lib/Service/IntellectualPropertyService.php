@@ -66,9 +66,8 @@ class IntellectualPropertyService {
      */
     public function update(array $property)
     {
-        $validate = $this->intellectualPropertyMapper->isDelete($property['id']);
-
-        if($validate == 1) {
+        $validate = $this->intellectualPropertyMapper->isDeleted($property['id']);
+        if ($validate) {
             $msg = [
                     'status' => 'error',
                     'message' => 'This item has been deleted'
@@ -96,21 +95,11 @@ class IntellectualPropertyService {
      */
     public function delete(array $property)
     {
-        $validate = $this->intellectualPropertyMapper->isDelete($property['id']);
-
-        if($validate == 1) {
+        $validate = $this->intellectualPropertyMapper->isDeleted($property['id']);
+        if($validate) {
             $msg = [
                     'status' => 'error',
                     'message' => 'This item has been deleted'
-                ];
-
-            return $msg;
-        }
-
-        if($validate == 0) {
-            $msg = [
-                    'status' => 'error',
-                    'message' => 'This item has been deleted pernament out of database'
                 ];
 
             return $msg;
@@ -122,4 +111,6 @@ class IntellectualPropertyService {
         
         return $intellectualProperty;
     }
+
+    
 }

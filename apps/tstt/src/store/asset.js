@@ -266,6 +266,10 @@ const actions = {
 	},
 }
 
+/**
+ *
+ * @param response
+ */
 function computeData(response) {
 	return Object.keys(response).map(key => {
 		return {

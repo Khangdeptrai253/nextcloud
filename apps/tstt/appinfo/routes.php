@@ -35,5 +35,12 @@ return [
 
 		// GroupRoute
 		['name' => 'group#getGroupUserByGroupId', 'url' => '/get-group-user-detail/{gid}', 'verb' => 'GET'],
+
+		// FilePropertyRoute
+		['name' => 'file_property#create', 'url' => '/create-file-property', 'verb' => 'POST'],
+		['name' => 'file_property#findByObjectId', 'url' => '/index-file-property/{id}', 'verb' => 'GET'],
+		['name' => 'file_property#delete', 'url' => '/delete-file-property/{objectId}', 'verb' => 'DELETE'],
+		['name' => 'file_property#getAllFileInFolder', 'url' => '/list-files-in-folder', 'verb' => 'PUT'],
+
 	],
 ];

@@ -221,7 +221,7 @@ class ConnectionFactory {
 
 		// set default table creation options
 		$connectionParams['defaultTableOptions'] = [
-			'collate' => 'utf8_bin',
+			'collate' => 'utf8mb4_unicode_ci',
 			'tablePrefix' => $connectionParams['tablePrefix']
 		];
 
