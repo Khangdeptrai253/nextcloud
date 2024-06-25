@@ -31,9 +31,9 @@ class FilePropertyService {
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-    public function getAllFileInFolder(array $fileinfo)
+    public function getAllFileInFolder(string $filepath, string $filename, string $uid)
     {
-        $fileProperty = $this->filePropertyMapper->getAllFileInFolder($fileinfo);
+        $fileProperty = $this->filePropertyMapper->getAllFileInFolder($filepath, $filename, $uid);
         
         return $fileProperty;
     }

@@ -18,11 +18,8 @@
 				</template>
 			</v-select>
 			<div>
-				<button @click="addFileProperty">
-					Add
-				</button>
 				<button @click="addFolderProperty">
-					Add to folder
+					Add
 				</button>
 				<button @click="deleteFileProperty">
 					Delete
@@ -114,25 +111,27 @@ export default {
 				await this.getFileProperty()
 			}
 		},
-		async addFileProperty() {
+		async addFileProperty(oid) {
 			const url = generateUrl('/apps/tstt/create-file-property')
 			const file = {
-				objectId: this.fileInfo_.id,
+				objectId: oid,
 				itId: this.selected,
 			}
 			await axios.post(url, { file })
 			showSuccess(this.t('customproperties', 'New Intellectual Property has been added to this file!'))
-			this.getFileProperty()
 		},
 		async addFolderProperty() {
-			const fileinfo = {
+			const url = generateUrl('/apps/tstt/list-files-in-folder')
+			const params = {
 				uid: getCurrentUser().uid,
 				filepath: this.$root.fileInfo.path,
 				filename: this.$root.fileInfo.name,
 			}
-			const url = generateUrl('/apps/tstt/list-files-in-folder')
-			const file = Object.entries(this.fileInfo_)
-			const res = await axios.put(url, { fileinfo })
+			const res = await axios.get(url, { params })
+			for (const fileList of res.data) {
+				await this.addFileProperty(fileList.fileid)
+			}
+			this.getFileProperty()
 		},
 		async deleteFileProperty() {
 			const objectId = this.fileInfo_.id
