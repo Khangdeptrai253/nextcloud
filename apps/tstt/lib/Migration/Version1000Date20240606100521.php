@@ -25,7 +25,9 @@ class Version1000Date20240606100521 extends SimpleMigrationStep {
 
         if (!$schema->hasTable('intellectual_property')) {
             $table = $schema->createTable('intellectual_property');
-
+            $table->addOption('collate', 'utf8mb4_unicode_ci');
+            $table->addOption('charset', 'utf8mb4');
+            
             $table->addColumn('id', 'integer', [
                 'autoincrement' => true,
                 'notnull' => true

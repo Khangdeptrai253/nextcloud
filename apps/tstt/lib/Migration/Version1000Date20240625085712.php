@@ -22,6 +22,8 @@ class Version1000Date20240625085712 extends SimpleMigrationStep {
 
         if (!$schema->hasTable('file_property')) {
             $table = $schema->createTable('file_property');
+            $table->addOption('collate', 'utf8mb4_unicode_ci');
+            $table->addOption('charset', 'utf8mb4');
 
             $table->addColumn('id', 'integer', [
                 'autoincrement' => true,
