@@ -7,7 +7,9 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
-use OCA\Tstt\Db\StatusEnum;
+// use OCA\Tstt\Db\StatusEnum;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\Types\StatusEnum;
 
 class Version1000Date20240606100521 extends SimpleMigrationStep {
 	/**
@@ -44,7 +46,7 @@ class Version1000Date20240606100521 extends SimpleMigrationStep {
                 'notnull' => true,
                 'length' => 200
             ]);
-            $table->addColumn('status', StatusEnum::ENUM, [
+            $table->addColumn('status', Types::ENUM, [
                 'notnull' => true,
                 'values' => [StatusEnum::ACTIVE, StatusEnum::INACTIVE, StatusEnum::OUTOFDATE]
             ]);
