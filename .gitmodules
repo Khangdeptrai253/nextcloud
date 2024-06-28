@@ -61,3 +61,6 @@
 [submodule "apps/workflow_script"]
 	path = apps/workflow_script
 	url = https://git.dkviet.com/an.nguyen/workflow_script.git
+[submodule "apps/epubviewer"]
+	path = apps/epubviewer
+	url = https://git.dkviet.com/vinhhung1/epubviewer.git
