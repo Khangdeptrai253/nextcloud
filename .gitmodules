@@ -64,3 +64,6 @@
 [submodule "apps/epubviewer"]
 	path = apps/epubviewer
 	url = https://git.dkviet.com/vinhhung1/epubviewer.git
+[submodule "apps/fulltextsearch_elasticsearch"]
+	path = apps/fulltextsearch_elasticsearch
+	url = https://git.dkviet.com/an.nguyen/fulltextsearch_elasticsearch.git

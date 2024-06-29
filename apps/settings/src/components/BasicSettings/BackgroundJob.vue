@@ -21,7 +21,7 @@
 -->
 
 <template>
-	<!-- <NcSettingsSection :title="t('settings', 'Background jobs')"
+	<NcSettingsSection :title="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 	>
 		<template v-if="lastCron !== 0">
@@ -80,7 +80,7 @@
 				linkend: '</a>',
 			}) }}
 		</em>
-	</NcSettingsSection> -->
+	</NcSettingsSection>
 </template>
 
 <script>
@@ -127,7 +127,7 @@ export default {
 		cronLabel() {
 			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes. Recommended for all instances.')
 			if (this.cliBasedCronPossible) {
-				desc += ' ' + t('settings', 'The cron.php needs to be executed by the system user "{user}".', { user: this.cliBasedCronUser })
+				desc += ' ' + t('settings', 'The cron.php needs to be executed by the system user')
 			}
 			return desc
 		},
