@@ -11,7 +11,7 @@ Turning the feature off removes shared files and folders on the server for all s
 	</description>
 	<version>1.19.0</version>
 	<licence>agpl</licence>
-	<author>DKViet/author>
+	<author>DKViet</author>
 	<namespace>Files_Sharing</namespace>
 	<types>
 		<filesystem/>
