@@ -7,7 +7,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-    - uses: kujov/gitlab-sync@2.0.0
+    - uses: kwangchucheng/git-repo-sync@v0.1.0
       with:
         # Such as https://github.com/wangchucheng/git-repo-sync.git
         target-url: ${{ secrets.TARGET_URL }}
