@@ -1,4 +1,4 @@
-name: Sync Repo to GitLab
+name: GitlabSync
 
 on:
   push
